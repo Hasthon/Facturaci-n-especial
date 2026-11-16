@@ -17,7 +17,7 @@ import {
 import { useAuth } from '@/context/auth-context';
 import { useTheme } from '@/context/theme-context';
 import { getInitials } from '@/lib/utils';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import {
   MOCK_PROFORMAS,
   MOCK_EXCEPCIONES_TARIFARIAS,
@@ -25,7 +25,7 @@ import {
   MOCK_CLIENTS,
 } from '@/lib/mock-data';
 
-export function Sidebar() {
+function SidebarContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentTab = searchParams.get('tab') || 'dashboard';
@@ -236,5 +236,13 @@ export function Sidebar() {
         </div>
       </div>
     </aside>
+  );
+}
+
+export function Sidebar() {
+  return (
+    <Suspense fallback={<aside className="w-[250px] h-screen bg-[#110D26] border-r border-purple-900/15 fixed top-0 left-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.06)]" />}>
+      <SidebarContent />
+    </Suspense>
   );
 }

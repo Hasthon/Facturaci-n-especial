@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Topbar } from '@/components/layout/topbar';
@@ -24,7 +24,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className={`flex min-h-screen bg-gradient-to-br ${theme.mainBgGradient} overflow-x-hidden`}>
-      <Sidebar />
+      <Suspense fallback={<aside className="w-[250px] h-screen bg-[#110D26] border-r border-purple-900/15 fixed top-0 left-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.06)]" />}>
+        <Sidebar />
+      </Suspense>
       <div className="ml-[250px] flex-1 flex flex-col min-h-screen min-w-0 max-w-[calc(100vw-250px)] overflow-x-hidden">
         <Topbar />
         <main className="p-5 md:p-6 flex-1 min-w-0 overflow-x-hidden">{children}</main>

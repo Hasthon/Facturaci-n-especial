@@ -41,7 +41,7 @@ import { formatCurrency } from '@/lib/utils';
 import { useAuth } from '@/context/auth-context';
 import { Tooltip } from '@/components/ui/tooltip';
 
-type DashboardTab = 'comercial' | 'ejecutivos' | 'analistas' | 'clientes' | 'proformas_supervision';
+type DashboardTab = 'comercial' | 'ejecutivos' | 'analistas' | 'clientes';
 type JefeKpiFilterType = 'todos' | 'aprobadas' | 'revision' | 'rechazadas' | 'facturadas';
 
 export function JefeDashboard() {
@@ -520,18 +520,6 @@ export function JefeDashboard() {
         >
           <Building2 className="w-4 h-4" />
           <span>KPIs por Cliente ({MOCK_CLIENTS.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('proformas_supervision')}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-            activeTab === 'proformas_supervision'
-              ? 'bg-purple-600 text-white shadow-xs'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-          }`}
-        >
-          <FileText className="w-4 h-4" />
-          <span>Proformas Supervisadas ({dynamicFilteredProformas.length})</span>
         </button>
       </div>
 
@@ -1578,101 +1566,6 @@ export function JefeDashboard() {
                       >
                         {client.estado}
                       </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* PESTAÑA 4: PROFORMAS SUPERVISADAS (Bandeja Rápida de Supervisión)        */}
-      {/* ========================================================================= */}
-      {activeTab === 'proformas_supervision' && (
-        <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 overflow-hidden shadow-xs">
-          <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between">
-            <h3 className="text-base font-bold text-gray-900 dark:text-white">
-              Listado de Proformas Bajo Supervisión de Jefatura
-            </h3>
-            <Link
-              href="/aprobaciones"
-              className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
-            >
-              <span>Ir a Bandeja de Aprobaciones V2</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="w-full overflow-hidden">
-            <table className="w-full table-fixed text-left border-collapse text-xs">
-              <colgroup>
-                <col className="w-[11%]" />
-                <col className="w-[22%]" />
-                <col className="w-[13%]" />
-                <col className="w-[10%]" />
-                <col className="w-[6%]" />
-                <col className="w-[12%]" />
-                <col className="w-[14%]" />
-                <col className="w-[12%]" />
-              </colgroup>
-              <thead>
-                <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[10px] font-bold text-gray-600 dark:text-gray-400">
-                  <th className="py-2.5 px-3">Proforma ID</th>
-                  <th className="py-2.5 px-2">Cliente / razón social</th>
-                  <th className="py-2.5 px-2">Ejecutivo</th>
-                  <th className="py-2.5 px-2 text-right">Monto</th>
-                  <th className="py-2.5 px-1 text-center">Versión</th>
-                  <th className="py-2.5 px-1 text-center">Supervisión V°B°</th>
-                  <th className="py-2.5 px-1 text-center">Estado comercial</th>
-                  <th className="py-2.5 px-3 text-right">Acción</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-gray-700 dark:text-gray-300">
-                {dynamicFilteredProformas.map((p) => (
-                  <tr key={p.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
-                    <td className="py-2.5 px-3 font-mono font-bold text-purple-700 dark:text-purple-300 truncate">
-                      {p.id}
-                    </td>
-                    <td className="py-2.5 px-2 truncate">
-                      <div className="font-bold text-gray-900 dark:text-white truncate">{p.cliente}</div>
-                      <span className="text-[10px] text-gray-500 font-mono block truncate">RUT: {p.rut}</span>
-                    </td>
-                    <td className="py-2.5 px-2 font-medium truncate">
-                      {p.ejecutivoNombre || 'Ana Valenzuela'}
-                    </td>
-                    <td className="py-2.5 px-2 text-right font-mono font-bold text-gray-900 dark:text-white truncate">
-                      {p.montoFormatted}
-                    </td>
-                    <td className="py-2.5 px-1 text-center font-mono font-bold text-purple-700">
-                      {p.versionActual || 'v1'}
-                    </td>
-                    <td className="py-2.5 px-1 text-center">
-                      <span
-                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap inline-block ${
-                          p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación'
-                            ? 'bg-amber-100 text-amber-900 animate-pulse'
-                            : p.estadoSupervision === 'Autorizada'
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : 'bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300'
-                        }`}
-                      >
-                        {p.estadoSupervision === 'Pendiente_Autorizacion' ? 'Pendiente V°B°' : p.estadoSupervision === 'Autorizada' ? 'Autorizada' : 'No requiere'}
-                      </span>
-                    </td>
-                    <td className="py-2.5 px-1 text-center">
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-800 dark:bg-slate-800 dark:text-gray-200 whitespace-nowrap inline-block">
-                        {p.estado}
-                      </span>
-                    </td>
-                    <td className="py-2.5 px-3 text-right">
-                      <Link
-                        href="/aprobaciones"
-                        className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 text-purple-700 dark:text-purple-300 font-semibold text-[11px] rounded-lg border border-purple-200 dark:border-purple-800/60 whitespace-nowrap inline-flex items-center gap-1 transition-colors"
-                      >
-                        Ver Detalle V2
-                      </Link>
                     </td>
                   </tr>
                 ))}
