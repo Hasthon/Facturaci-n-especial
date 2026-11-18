@@ -66,18 +66,22 @@ export function JefeDashboard() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Cantidad de filtros activos
+  // Cantidad de filtros activos según la pestaña actual
   const activeFiltersCount = useMemo(() => {
     let count = 0;
     if (filters.periodo !== 'mes') count++;
-    if (filters.ejecutivoId !== 'todos') count++;
+    if (activeTab === 'comercial' || activeTab === 'ejecutivos' || activeTab === 'analistas') {
+      if (filters.ejecutivoId !== 'todos') count++;
+    }
     if (filters.clienteId && filters.clienteId !== 'todos') count++;
-    if (filters.estadoProforma !== 'todos') count++;
-    if (filters.version !== 'todos') count++;
-    if (filters.motivoRechazo !== 'todos') count++;
-    if (searchTerm.trim() !== '') count++;
+    if (activeTab === 'comercial') {
+      if (filters.estadoProforma !== 'todos') count++;
+      if (filters.version !== 'todos') count++;
+      if (filters.motivoRechazo !== 'todos') count++;
+      if (searchTerm.trim() !== '') count++;
+    }
     return count;
-  }, [filters, searchTerm]);
+  }, [filters, searchTerm, activeTab]);
 
   // Proformas base filtradas por el período seleccionado en el selector superior
   const periodoFilteredProformas = useMemo(() => {
@@ -349,6 +353,24 @@ export function JefeDashboard() {
     });
   }, [filters.periodo]);
 
+  // Datos filtrados de Ejecutivos según el Período, Ejecutivo y Cliente seleccionados
+  const filteredEjecutivosData = useMemo(() => {
+    return ejecutivosData.filter((exe) => {
+      // Filtro por ejecutivo
+      if (filters.ejecutivoId !== 'todos' && exe.id !== filters.ejecutivoId) {
+        return false;
+      }
+      // Filtro por cliente: se muestra si el ejecutivo atiende al cliente seleccionado
+      if (filters.clienteId && filters.clienteId !== 'todos') {
+        const client = MOCK_CLIENTS.find((c) => c.id === filters.clienteId);
+        if (client && client.ejecutivoId !== exe.id) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [ejecutivosData, filters.ejecutivoId, filters.clienteId]);
+
   // Datos dinámicos de Clientes según el Período seleccionado
   const clientesData = useMemo(() => {
     return MOCK_CLIENTS.map((client) => {
@@ -438,6 +460,16 @@ export function JefeDashboard() {
     });
   }, [filters.periodo]);
 
+  // Datos filtrados de Clientes según el Período y Cliente seleccionados
+  const filteredClientesData = useMemo(() => {
+    return clientesData.filter((client) => {
+      if (filters.clienteId && filters.clienteId !== 'todos' && client.id !== filters.clienteId) {
+        return false;
+      }
+      return true;
+    });
+  }, [clientesData, filters.clienteId]);
+
   const resetFilters = () => {
     setFilters({
       periodo: 'mes',
@@ -487,7 +519,7 @@ export function JefeDashboard() {
             }`}
         >
           <Users className="w-4 h-4" />
-          <span>KPIs por Ejecutivo ({MOCK_EXECUTIVES.length})</span>
+          <span>KPIs por Ejecutivo ({filteredEjecutivosData.length})</span>
         </button>
 
         <button
@@ -498,141 +530,142 @@ export function JefeDashboard() {
             }`}
         >
           <Building2 className="w-4 h-4" />
-          <span>KPIs por Cliente ({MOCK_CLIENTS.length})</span>
+          <span>KPIs por Cliente ({filteredClientesData.length})</span>
         </button>
       </div>
 
       {/* ========================================================================= */}
-      {/* PESTAÑA 1: DASHBOARD COMERCIAL GENERAL (Punto 5 Requerimiento Jira)        */}
+      {/* CARD DE FILTROS DINÁMICA (Visible en las 3 pestañas y adaptada a cada una)*/}
       {/* ========================================================================= */}
-      {activeTab === 'comercial' && (
-        <div className="space-y-6">
-          {/* ========================================================================= */}
-          {/* CARD DE FILTROS DESPLEGABLE Y CONTRAÍBLE (Sobre los KPIs y bajo pestañas) */}
-          {/* ========================================================================= */}
-          <div className="bg-white dark:bg-slate-900 border border-purple-200/90 dark:border-purple-900/50 rounded-2xl px-3.5 sm:px-4 py-2 sm:py-2.5 shadow-xs transition-all duration-300">
-            {/* Header del Card de Filtros (Siempre visible) */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-              {/* Título con su icono */}
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0 shadow-2xs">
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-purple-600" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-gray-900 dark:text-white">
-                    Filtros
-                  </span>
-                  {activeFiltersCount > 0 && (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 shadow-2xs">
-                      {activeFiltersCount} activo{activeFiltersCount > 1 ? 's' : ''}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Número de proformas encontradas + Botón de filtros */}
-              <div className="flex items-center gap-2 shrink-0 flex-wrap">
-                <span className="text-xs text-purple-800 dark:text-purple-300 font-bold bg-purple-50 dark:bg-purple-950/50 px-2.5 py-1 rounded-lg border border-purple-100 dark:border-purple-900/50">
-                  {dynamicFilteredProformas.length} proformas encontradas
-                </span>
-
-                <button
-                  type="button"
-                  disabled={activeFiltersCount === 0}
-                  onClick={resetFilters}
-                  title={activeFiltersCount > 0 ? 'Restablecer todos los filtros' : 'No hay filtros activos para limpiar'}
-                  className={`px-2.5 py-1 text-xs font-bold rounded-lg border flex items-center gap-1 transition-all shadow-2xs ${activeFiltersCount > 0
-                    ? 'bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-900 border-purple-200/80 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 dark:text-purple-300 dark:border-purple-800/60 cursor-pointer active:scale-95'
-                    : 'bg-gray-50 dark:bg-slate-800/40 text-gray-400 dark:text-gray-600 border-gray-200/70 dark:border-white/5 cursor-not-allowed opacity-60'
-                    }`}
-                >
-                  <RotateCcw className={`w-3 h-3 ${activeFiltersCount > 0 ? 'text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-600'}`} />
-                  <span>Limpiar</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
-                  className={`px-3 py-1 text-xs rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 border shadow-xs ${isFilterPanelOpen
-                    ? 'bg-purple-600 text-white border-purple-600 shadow-purple-600/20'
-                    : 'bg-purple-50/80 hover:bg-purple-100 dark:bg-slate-800 text-purple-900 dark:text-purple-200 border-purple-200 dark:border-white/10'
-                    }`}
-                  title={isFilterPanelOpen ? 'Contraer filtros' : 'Desplegar filtros'}
-                >
-                  <Filter className="w-3.5 h-3.5" />
-                  <span>Filtros</span>
-                  {isFilterPanelOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                </button>
-              </div>
+      <div className="bg-white dark:bg-slate-900 border border-purple-200/90 dark:border-purple-900/50 rounded-2xl px-3.5 sm:px-4 py-2 sm:py-2.5 shadow-xs transition-all duration-300">
+        {/* Header del Card de Filtros (Siempre visible) */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          {/* Título con su icono */}
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0 shadow-2xs">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-purple-600" />
             </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-gray-900 dark:text-white">
+                Filtros
+              </span>
+              {activeFiltersCount > 0 && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 shadow-2xs">
+                  {activeFiltersCount} activo{activeFiltersCount > 1 ? 's' : ''}
+                </span>
+              )}
+            </div>
+          </div>
 
-            {/* Chips cuando está contraído pero hay filtros activos */}
-            {!isFilterPanelOpen && activeFiltersCount > 0 && (
-              <div className="pt-2.5 mt-2.5 border-t border-purple-100 dark:border-white/10 flex items-center gap-1.5 flex-wrap text-xs animate-in fade-in duration-150">
-                <span className="text-[11px] font-bold text-gray-500">Filtros activos:</span>
-                {filters.periodo !== 'mes' && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                    Período: {filters.periodo}
-                    <button type="button" onClick={() => setFilters(p => ({ ...p, periodo: 'mes' }))} className="hover:text-purple-950 cursor-pointer">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-                {filters.ejecutivoId !== 'todos' && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                    Ejecutivo: {MOCK_EXECUTIVES.find(e => e.id === filters.ejecutivoId)?.nombre || filters.ejecutivoId}
-                    <button type="button" onClick={() => setFilters(p => ({ ...p, ejecutivoId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-                {filters.clienteId && filters.clienteId !== 'todos' && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                    Cliente: {MOCK_CLIENTS.find(c => c.id === filters.clienteId)?.razonSocial || filters.clienteId}
-                    <button type="button" onClick={() => setFilters(p => ({ ...p, clienteId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-                {filters.estadoProforma !== 'todos' && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                    Estado: {filters.estadoProforma}
-                    <button type="button" onClick={() => setFilters(p => ({ ...p, estadoProforma: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-                {filters.version !== 'todos' && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                    Versión: {filters.version}
-                    <button type="button" onClick={() => setFilters(p => ({ ...p, version: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-                {filters.motivoRechazo !== 'todos' && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                    Motivo: {filters.motivoRechazo}
-                    <button type="button" onClick={() => setFilters(p => ({ ...p, motivoRechazo: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-                {searchTerm.trim() !== '' && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                    Búsqueda: &ldquo;{searchTerm}&rdquo;
-                    <button type="button" onClick={() => setSearchTerm('')} className="hover:text-purple-950 cursor-pointer">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-              </div>
+          {/* Número de proformas/elementos encontrados + Botón de filtros */}
+          <div className="flex items-center gap-2 shrink-0 flex-wrap">
+            <span className="text-xs text-purple-800 dark:text-purple-300 font-bold bg-purple-50 dark:bg-purple-950/50 px-2.5 py-1 rounded-lg border border-purple-100 dark:border-purple-900/50">
+              {activeTab === 'ejecutivos' || activeTab === 'analistas'
+                ? `${filteredEjecutivosData.length} ejecutivo${filteredEjecutivosData.length === 1 ? '' : 's'} encontrado${filteredEjecutivosData.length === 1 ? '' : 's'}`
+                : activeTab === 'clientes'
+                  ? `${filteredClientesData.length} cliente${filteredClientesData.length === 1 ? '' : 's'} encontrado${filteredClientesData.length === 1 ? '' : 's'}`
+                  : `${dynamicFilteredProformas.length} proformas encontradas`}
+            </span>
+
+            <button
+              type="button"
+              disabled={activeFiltersCount === 0}
+              onClick={resetFilters}
+              title={activeFiltersCount > 0 ? 'Restablecer todos los filtros' : 'No hay filtros activos para limpiar'}
+              className={`px-2.5 py-1 text-xs font-bold rounded-lg border flex items-center gap-1 transition-all shadow-2xs ${activeFiltersCount > 0
+                ? 'bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-900 border-purple-200/80 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 dark:text-purple-300 dark:border-purple-800/60 cursor-pointer active:scale-95'
+                : 'bg-gray-50 dark:bg-slate-800/40 text-gray-400 dark:text-gray-600 border-gray-200/70 dark:border-white/5 cursor-not-allowed opacity-60'
+                }`}
+            >
+              <RotateCcw className={`w-3 h-3 ${activeFiltersCount > 0 ? 'text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-600'}`} />
+              <span>Limpiar</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
+              className={`px-3 py-1 text-xs rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 border shadow-xs ${isFilterPanelOpen
+                ? 'bg-purple-600 text-white border-purple-600 shadow-purple-600/20'
+                : 'bg-purple-50/80 hover:bg-purple-100 dark:bg-slate-800 text-purple-900 dark:text-purple-200 border-purple-200 dark:border-white/10'
+                }`}
+              title={isFilterPanelOpen ? 'Contraer filtros' : 'Desplegar filtros'}
+            >
+              <Filter className="w-3.5 h-3.5" />
+              <span>Filtros</span>
+              {isFilterPanelOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Chips cuando está contraído pero hay filtros activos */}
+        {!isFilterPanelOpen && activeFiltersCount > 0 && (
+          <div className="pt-2.5 mt-2.5 border-t border-purple-100 dark:border-white/10 flex items-center gap-1.5 flex-wrap text-xs animate-in fade-in duration-150">
+            <span className="text-[11px] font-bold text-gray-500">Filtros activos:</span>
+            {filters.periodo !== 'mes' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                Período: {filters.periodo}
+                <button type="button" onClick={() => setFilters(p => ({ ...p, periodo: 'mes' }))} className="hover:text-purple-950 cursor-pointer">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
             )}
+            {(activeTab === 'comercial' || activeTab === 'ejecutivos' || activeTab === 'analistas') && filters.ejecutivoId !== 'todos' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                Ejecutivo: {MOCK_EXECUTIVES.find(e => e.id === filters.ejecutivoId)?.nombre || filters.ejecutivoId}
+                <button type="button" onClick={() => setFilters(p => ({ ...p, ejecutivoId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {filters.clienteId && filters.clienteId !== 'todos' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                Cliente: {MOCK_CLIENTS.find(c => c.id === filters.clienteId)?.razonSocial || filters.clienteId}
+                <button type="button" onClick={() => setFilters(p => ({ ...p, clienteId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {activeTab === 'comercial' && filters.estadoProforma !== 'todos' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                Estado: {filters.estadoProforma}
+                <button type="button" onClick={() => setFilters(p => ({ ...p, estadoProforma: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {activeTab === 'comercial' && filters.version !== 'todos' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                Versión: {filters.version}
+                <button type="button" onClick={() => setFilters(p => ({ ...p, version: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {activeTab === 'comercial' && filters.motivoRechazo !== 'todos' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                Motivo: {filters.motivoRechazo}
+                <button type="button" onClick={() => setFilters(p => ({ ...p, motivoRechazo: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+            {activeTab === 'comercial' && searchTerm.trim() !== '' && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                Búsqueda: &ldquo;{searchTerm}&rdquo;
+                <button type="button" onClick={() => setSearchTerm('')} className="hover:text-purple-950 cursor-pointer">
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            )}
+          </div>
+        )}
 
-            {/* Contenido desplegable con efecto sutil */}
-            {isFilterPanelOpen && (
-              <div className="pt-3 mt-2.5 border-t border-purple-100 dark:border-white/10 space-y-3 animate-in fade-in zoom-in-98 duration-200">
-                {/* Grid de Filtros */}
+        {/* Contenido desplegable con efecto sutil */}
+        {isFilterPanelOpen && (
+          <div className="pt-3 mt-2.5 border-t border-purple-100 dark:border-white/10 space-y-3 animate-in fade-in zoom-in-98 duration-200">
+            {/* Caso 1: Dashboard Comercial (Todos los filtros + búsqueda) */}
+            {activeTab === 'comercial' && (
+              <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
                   {/* 1. Periodo */}
                   <div className="space-y-1">
@@ -773,10 +806,127 @@ export function JefeDashboard() {
                     </button>
                   )}
                 </div>
+              </>
+            )}
+
+            {/* Caso 2: KPIs por Ejecutivo (Solo periodo, cliente y ejecutivo) */}
+            {(activeTab === 'ejecutivos' || activeTab === 'analistas') && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                {/* 1. Periodo */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Calendar className="w-3 h-3 text-purple-600" />
+                    <span>Período</span>
+                  </label>
+                  <select
+                    value={filters.periodo}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
+                  >
+                    <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
+                    <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
+                    <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
+                    <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                    <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                  </select>
+                </div>
+
+                {/* 2. Cliente */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Building2 className="w-3 h-3 text-purple-600" />
+                    <span>Cliente</span>
+                  </label>
+                  <select
+                    value={filters.clienteId || 'todos'}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                  >
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
+                    {MOCK_CLIENTS.map((cli) => (
+                      <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
+                        {cli.razonSocial}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 3. Ejecutivo */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Users className="w-3 h-3 text-purple-600" />
+                    <span>Ejecutivo</span>
+                  </label>
+                  <select
+                    value={filters.ejecutivoId}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, ejecutivoId: e.target.value }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                  >
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los ejecutivos</option>
+                    {MOCK_EXECUTIVES.map((exe) => (
+                      <option key={exe.id} value={exe.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
+                        {exe.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* Caso 3: KPIs por Cliente (Solo periodo y cliente) */}
+            {activeTab === 'clientes' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs max-w-2xl">
+                {/* 1. Periodo */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Calendar className="w-3 h-3 text-purple-600" />
+                    <span>Período</span>
+                  </label>
+                  <select
+                    value={filters.periodo}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
+                  >
+                    <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
+                    <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
+                    <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
+                    <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                    <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                  </select>
+                </div>
+
+                {/* 2. Cliente */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Building2 className="w-3 h-3 text-purple-600" />
+                    <span>Cliente</span>
+                  </label>
+                  <select
+                    value={filters.clienteId || 'todos'}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                  >
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
+                    {MOCK_CLIENTS.map((cli) => (
+                      <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
+                        {cli.razonSocial}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             )}
           </div>
+        )}
+      </div>
 
+      {/* ========================================================================= */}
+      {/* PESTAÑA 1: DASHBOARD COMERCIAL GENERAL (Punto 5 Requerimiento Jira)        */}
+      {/* ========================================================================= */}
+      {activeTab === 'comercial' && (
+        <div className="space-y-6">
           {/* 1. Tarjetas Principales de KPIs Interactivas */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
             {/* KPI 1: Totales */}
@@ -787,7 +937,7 @@ export function JefeDashboard() {
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setKpiFilter('todos'); }}
               title="Haz clic para ver la vista general del dashboard"
               className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${kpiFilter === 'todos'
-                ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 ring-2 ring-purple-600/30 shadow-md scale-[1.02]'
+                ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 ring-2 ring-purple-600/30 shadow-md'
                 : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-purple-300 dark:hover:border-purple-600/40 hover:shadow-sm'
                 }`}
             >
@@ -1340,7 +1490,14 @@ export function JefeDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-gray-700 dark:text-gray-300">
-                {ejecutivosData.map((exe) => (
+                {filteredEjecutivosData.length === 0 ? (
+                  <tr>
+                    <td colSpan={14} className="py-8 text-center text-gray-500 dark:text-gray-400 font-medium">
+                      No se encontraron ejecutivos con los filtros seleccionados.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredEjecutivosData.map((exe) => (
                   <tr key={exe.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
                     {/* Ejecutivo: Nombre y correo debajo */}
                     <td className="py-3 px-3 font-medium">
@@ -1419,7 +1576,7 @@ export function JefeDashboard() {
                       {exe.cantidadReprocesos}
                     </td>
                   </tr>
-                ))}
+                )))}
               </tbody>
             </table>
           </div>
@@ -1473,7 +1630,14 @@ export function JefeDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-gray-700 dark:text-gray-300">
-                {clientesData.map((client) => (
+                {filteredClientesData.length === 0 ? (
+                  <tr>
+                    <td colSpan={11} className="py-8 text-center text-gray-500 dark:text-gray-400 font-medium">
+                      No se encontraron clientes con los filtros seleccionados.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredClientesData.map((client) => (
                   <tr key={client.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
                     {/* Cliente */}
                     <td className="py-2.5 px-3 font-bold text-gray-900 dark:text-white">
@@ -1542,7 +1706,7 @@ export function JefeDashboard() {
                       </span>
                     </td>
                   </tr>
-                ))}
+                )))}
               </tbody>
             </table>
           </div>
