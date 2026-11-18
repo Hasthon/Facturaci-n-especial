@@ -69,26 +69,6 @@ import {
 } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
 
-// Icono personalizado: Ojo sobre un documento para la acción Revisar V2 / Ver detalle diff
-function FileEyeIcon({ className = 'w-4 h-4' }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <polyline points="14 2 14 8 20 8" />
-      <path d="M7 14.5s2-3 5-3 5 3 5 3-2 3-5 3-5-3-5-3z" />
-      <circle cx="12" cy="14.5" r="1.2" fill="currentColor" />
-    </svg>
-  );
-}
-
 type KpiFilterType = 'todos' | 'aprobadas' | 'revision' | 'rechazadas' | 'facturadas';
 
 const INITIAL_GLOBAL_FILTERS: GlobalPricingFiltersState = {
@@ -3821,7 +3801,7 @@ export function PricingDashboard() {
                                       aria-label="Ver detalle / diff"
                                       className="p-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 transition-all cursor-pointer inline-flex items-center justify-center hover:scale-110 active:scale-95 shadow-2xs"
                                     >
-                                      <FileEyeIcon className="w-4 h-4" />
+                                      <FileText className="w-4 h-4" />
                                     </button>
                                   </div>
                                 </td>
