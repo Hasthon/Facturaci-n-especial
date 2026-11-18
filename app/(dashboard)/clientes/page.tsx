@@ -473,13 +473,12 @@ export default function ClientesPage() {
           <div className="w-full overflow-hidden">
             <table className="w-full table-fixed text-left border-collapse text-xs">
               <colgroup>
-                <col className="w-[19%]" />
-                <col className="w-[19%]" />
-                <col className="w-[17%]" />
-                <col className="w-[17%]" />
+                <col className="w-[26%]" />
+                <col className="w-[24%]" />
                 <col className="w-[18%]" />
-                <col className="w-[5%]" />
-                <col className="w-[5%]" />
+                <col className="w-[20%]" />
+                <col className="w-[6%]" />
+                <col className="w-[6%]" />
               </colgroup>
               <thead>
                 <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[11px] font-bold text-gray-600 dark:text-gray-400">
@@ -487,7 +486,6 @@ export default function ClientesPage() {
                   <th className="py-3.5 px-3">Rut & giro</th>
                   <th className="py-3.5 px-3">Cuenta corriente</th>
                   <th className="py-3.5 px-3">Ejecutivo responsable</th>
-                  <th className="py-3.5 px-3">Condición comercial</th>
                   <th className="py-3.5 px-2 text-center">Estado</th>
                   <th className="py-3.5 px-2 text-center">Acción</th>
                 </tr>
@@ -495,7 +493,7 @@ export default function ClientesPage() {
               <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-xs text-gray-700 dark:text-gray-300">
                 {paginatedClients.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-10 text-gray-500">
+                    <td colSpan={6} className="text-center py-10 text-gray-500">
                       No se encontraron clientes con los filtros seleccionados.
                     </td>
                   </tr>
@@ -566,16 +564,6 @@ export default function ClientesPage() {
                             >
                               <RefreshCw className="w-3 h-3" />
                             </button>
-                          </div>
-                        </td>
-
-                        {/* Condiciones Comerciales */}
-                        <td className="py-3.5 px-3 truncate">
-                          <div className="text-[11px] font-medium text-gray-900 dark:text-gray-200 truncate">
-                            {client.condicionesComerciales.tipo}
-                          </div>
-                          <div className="text-[10px] text-purple-600 dark:text-purple-400 font-semibold truncate">
-                            {client.condicionesComerciales.descuentoAcordado}
                           </div>
                         </td>
 
