@@ -69,6 +69,26 @@ import {
 } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
 
+// Icono personalizado: Ojo sobre un documento para la acción Revisar V2 / Ver detalle diff
+function FileEyeIcon({ className = 'w-4 h-4' }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <path d="M7 14.5s2-3 5-3 5 3 5 3-2 3-5 3-5-3-5-3z" />
+      <circle cx="12" cy="14.5" r="1.2" fill="currentColor" />
+    </svg>
+  );
+}
+
 type KpiFilterType = 'todos' | 'aprobadas' | 'revision' | 'rechazadas' | 'facturadas';
 
 const INITIAL_GLOBAL_FILTERS: GlobalPricingFiltersState = {
@@ -1973,12 +1993,16 @@ export function PricingDashboard() {
                               </span>
                             </td>
                             <td className="py-2.5 px-3 text-right truncate">
-                              <button
-                                onClick={() => setSelectedProformaDiff(p)}
-                                className="px-2 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-800 dark:bg-purple-950 dark:hover:bg-purple-900 dark:text-purple-300 text-[10px] font-bold transition-all cursor-pointer whitespace-nowrap"
-                              >
-                                Ver
-                              </button>
+                              <div className="flex items-center justify-end">
+                                <button
+                                  onClick={() => setSelectedProformaDiff(p)}
+                                  title="Ver comparación de versiones y detalle"
+                                  aria-label="Ver detalle"
+                                  className="p-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-800 dark:bg-purple-950 dark:hover:bg-purple-900 dark:text-purple-300 transition-all cursor-pointer inline-flex items-center justify-center hover:scale-110 active:scale-95 shadow-2xs"
+                                >
+                                  <Eye className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -2348,13 +2372,16 @@ export function PricingDashboard() {
                               </span>
                             </td>
                             <td className="py-2.5 px-3 text-right truncate">
-                              <button
-                                onClick={() => setSelectedProformaDiff(p)}
-                                className="px-2 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 text-[10px] font-bold transition-all cursor-pointer whitespace-nowrap shadow-2xs"
-                                title="Ver comparación de versiones y detalle"
-                              >
-                                Ver
-                              </button>
+                              <div className="flex items-center justify-end">
+                                <button
+                                  onClick={() => setSelectedProformaDiff(p)}
+                                  className="p-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 transition-all cursor-pointer inline-flex items-center justify-center hover:scale-110 active:scale-95 shadow-2xs"
+                                  title="Ver comparación de versiones y detalle"
+                                  aria-label="Ver detalle"
+                                >
+                                  <Eye className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))
@@ -2667,16 +2694,19 @@ export function PricingDashboard() {
                             </td>
 
                             <td className="py-2.5 px-2 text-right truncate">
-                              <button
-                                onClick={() => {
-                                  setSelectedClientDetail(cli);
-                                  router.push('/?tab=clientes');
-                                }}
-                                className="px-2 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 text-[10px] font-bold transition-all cursor-pointer whitespace-nowrap shadow-2xs"
-                                title="Ver ficha técnica, tarifas y acuerdos de este cliente"
-                              >
-                                Ver
-                              </button>
+                              <div className="flex items-center justify-end">
+                                <button
+                                  onClick={() => {
+                                    setSelectedClientDetail(cli);
+                                    router.push('/?tab=clientes');
+                                  }}
+                                  className="p-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 transition-all cursor-pointer inline-flex items-center justify-center hover:scale-110 active:scale-95 shadow-2xs"
+                                  title="Ver ficha técnica, tarifas y acuerdos de este cliente"
+                                  aria-label="Ver ficha técnica"
+                                >
+                                  <FileText className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         );
@@ -2957,10 +2987,11 @@ export function PricingDashboard() {
                             <div className="inline-flex items-center gap-1 justify-end">
                               <button
                                 onClick={() => setSelectedKamModal(kam)}
-                                className="px-2 py-1 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 text-[10px] font-bold transition-all cursor-pointer whitespace-nowrap shadow-2xs"
+                                className="p-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 transition-all cursor-pointer inline-flex items-center justify-center hover:scale-110 active:scale-95 shadow-2xs"
                                 title="Ver análisis 360° del KAM e incidencias"
+                                aria-label="Ver análisis KAM"
                               >
-                                Ver
+                                <Eye className="w-3.5 h-3.5" />
                               </button>
                               <button
                                 onClick={() => {
@@ -3780,12 +3811,16 @@ export function PricingDashboard() {
                                   </span>
                                 </td>
                                 <td className="py-2.5 px-3 text-right whitespace-nowrap">
-                                  <button
-                                    onClick={() => setSelectedProformaDiff(pf)}
-                                    className="px-3 py-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 text-xs font-bold transition-all cursor-pointer whitespace-nowrap shadow-2xs"
-                                  >
-                                    Ver detalle / diff
-                                  </button>
+                                  <div className="flex items-center justify-end">
+                                    <button
+                                      onClick={() => setSelectedProformaDiff(pf)}
+                                      title="Ver detalle y comparador diff de la proforma"
+                                      aria-label="Ver detalle / diff"
+                                      className="p-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 dark:bg-purple-950 dark:hover:bg-purple-900 text-purple-800 dark:text-purple-300 transition-all cursor-pointer inline-flex items-center justify-center hover:scale-110 active:scale-95 shadow-2xs"
+                                    >
+                                      <FileEyeIcon className="w-4 h-4" />
+                                    </button>
+                                  </div>
                                 </td>
                               </tr>
                             ))}
