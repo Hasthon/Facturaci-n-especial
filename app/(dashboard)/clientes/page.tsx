@@ -25,6 +25,7 @@ import {
   UserPlus,
   RefreshCw,
   Pencil,
+  Calendar,
   Plus,
   Check,
   X,
@@ -55,7 +56,23 @@ export default function ClientesPage() {
   // Modal para Asignar / Reasignar Ejecutivo
   const [reassignModalClient, setReassignModalClient] = useState<Client | null>(null);
   const [targetExecutiveId, setTargetExecutiveId] = useState<string>('');
-  const [reassignReason, setReassignReason] = useState<string>('');
+  const [assignmentStartDate, setAssignmentStartDate] = useState<string>('');
+  const [hasDefinedPeriod, setHasDefinedPeriod] = useState<boolean>(false);
+  const [assignmentEndDate, setAssignmentEndDate] = useState<string>('');
+
+  const openReassignModal = (client: Client) => {
+    setReassignModalClient(client);
+    setTargetExecutiveId(client.ejecutivoId || '');
+    const today = new Date().toISOString().split('T')[0];
+    setAssignmentStartDate(today);
+    setHasDefinedPeriod(false);
+    setAssignmentEndDate('');
+  };
+
+  const isEndDateInvalid = useMemo(() => {
+    if (!hasDefinedPeriod || !assignmentEndDate || !assignmentStartDate) return false;
+    return assignmentEndDate <= assignmentStartDate;
+  }, [hasDefinedPeriod, assignmentEndDate, assignmentStartDate]);
 
   // Modal para Cambiar Cuenta Corriente Activa
   const [accountModalClient, setAccountModalClient] = useState<Client | null>(null);
@@ -120,7 +137,8 @@ export default function ClientesPage() {
   // Manejador de asignación / reasignación
   const handleConfirmAssignment = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reassignModalClient || !targetExecutiveId) return;
+    if (!reassignModalClient || !targetExecutiveId || !assignmentStartDate) return;
+    if (hasDefinedPeriod && (!assignmentEndDate || isEndDateInvalid)) return;
 
     const targetExe = executives.find((exe) => exe.id === targetExecutiveId);
     if (!targetExe) return;
@@ -129,14 +147,16 @@ export default function ClientesPage() {
     const clientName = reassignModalClient.razonSocial;
     const nowStr = new Date().toLocaleString('es-CL');
 
+    const detalleModificacion = hasDefinedPeriod && assignmentEndDate
+      ? `Asignación a ${targetExe.nombre}. Período definido: del ${assignmentStartDate} al ${assignmentEndDate}`
+      : `Asignación a ${targetExe.nombre}. Período: desde el ${assignmentStartDate} (Indefinido)`;
+
     const nuevaModificacion: HistorialModificacionCliente = {
       id: `hm-${Date.now()}`,
       fecha: nowStr,
       usuario: user?.name || 'Carlos Muñoz (Jefatura)',
       tipoModificacion: 'Asignación Ejecutivo',
-      detalle: reassignReason.trim()
-        ? `Reasignación a ${targetExe.nombre}. Motivo: ${reassignReason}`
-        : `Asignación de ejecutivo responsable: ${targetExe.nombre}`,
+      detalle: detalleModificacion,
       valorAnterior: previousExeName,
       valorNuevo: targetExe.nombre,
     };
@@ -186,7 +206,7 @@ export default function ClientesPage() {
       objetoAfectado: `${clientName} (${reassignModalClient.rut})`,
       estadoAnterior: `Ejecutivo: ${previousExeName}`,
       estadoNuevo: `Ejecutivo: ${targetExe.nombre}`,
-      motivoObservaciones: reassignReason || 'Asignación directa desde panel de jefatura.',
+      motivoObservaciones: detalleModificacion,
       ip: '10.0.2.12',
     });
 
@@ -199,7 +219,9 @@ export default function ClientesPage() {
 
     setReassignModalClient(null);
     setTargetExecutiveId('');
-    setReassignReason('');
+    setAssignmentStartDate('');
+    setHasDefinedPeriod(false);
+    setAssignmentEndDate('');
   };
 
   // Manejador de cambio de cuenta corriente activa
@@ -299,8 +321,8 @@ export default function ClientesPage() {
             </div>
           </div>
           <div className={`text-right px-3 py-1.5 rounded-xl border ${unassignedClients.length > 0
-              ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-200 dark:border-amber-900/50 animate-pulse'
-              : 'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-white/10'
+            ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-200 dark:border-amber-900/50 animate-pulse'
+            : 'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-white/10'
             }`}>
             <div className="text-[11px] font-bold text-amber-800 dark:text-amber-400">Sin Ejecutivo</div>
             <div className="text-lg font-bold text-amber-700 dark:text-amber-300">{unassignedClients.length}</div>
@@ -343,8 +365,8 @@ export default function ClientesPage() {
             <button
               onClick={() => setActiveTab('todos')}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'todos'
-                  ? 'bg-white dark:bg-slate-700 text-purple-900 dark:text-white shadow-xs'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+                ? 'bg-white dark:bg-slate-700 text-purple-900 dark:text-white shadow-xs'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
             >
               Todos ({clients.length})
@@ -352,8 +374,8 @@ export default function ClientesPage() {
             <button
               onClick={() => setActiveTab('asignados')}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'asignados'
-                  ? 'bg-white dark:bg-slate-700 text-purple-900 dark:text-white shadow-xs'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+                ? 'bg-white dark:bg-slate-700 text-purple-900 dark:text-white shadow-xs'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
             >
               Asignados ({clients.filter((c) => c.ejecutivoId).length})
@@ -361,8 +383,8 @@ export default function ClientesPage() {
             <button
               onClick={() => setActiveTab('sin_asignar')}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'sin_asignar'
-                  ? 'bg-amber-500 text-white shadow-xs'
-                  : 'text-amber-700 dark:text-amber-400 hover:bg-amber-100/50'
+                ? 'bg-amber-500 text-white shadow-xs'
+                : 'text-amber-700 dark:text-amber-400 hover:bg-amber-100/50'
                 }`}
             >
               Sin Asignar ({unassignedClients.length})
@@ -370,8 +392,8 @@ export default function ClientesPage() {
             <button
               onClick={() => setActiveTab('inactivos')}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'inactivos'
-                  ? 'bg-white dark:bg-slate-700 text-purple-900 dark:text-white shadow-xs'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+                ? 'bg-white dark:bg-slate-700 text-purple-900 dark:text-white shadow-xs'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
             >
               Inactivos ({clients.filter((c) => c.estado === 'Inactivo').length})
@@ -499,11 +521,7 @@ export default function ClientesPage() {
                           )}
                           <button
                             type="button"
-                            onClick={() => {
-                              setReassignModalClient(client);
-                              setTargetExecutiveId(client.ejecutivoId || '');
-                              setReassignReason('');
-                            }}
+                            onClick={() => openReassignModal(client)}
                             className="p-1 rounded-lg border border-purple-200/80 dark:border-white/10 hover:bg-purple-100/70 dark:hover:bg-purple-950/70 text-purple-700 dark:text-purple-300 transition-all cursor-pointer shrink-0 shadow-2xs"
                             title={client.ejecutivoId ? 'Editar / reasignar ejecutivo' : 'Asignar ejecutivo responsable'}
                           >
@@ -516,8 +534,8 @@ export default function ClientesPage() {
                       <td className="py-3.5 px-2 text-center">
                         <span
                           className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${client.estado === 'Activo'
-                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                              : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
+                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                            : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
                             }`}
                         >
                           {client.estado}
@@ -567,8 +585,8 @@ export default function ClientesPage() {
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className={`px-2.5 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all ${currentPage === 1
-                    ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
-                    : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
+                  ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
+                  : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
                   }`}
                 title="Página anterior"
               >
@@ -586,8 +604,8 @@ export default function ClientesPage() {
                       type="button"
                       onClick={() => setCurrentPage(page)}
                       className={`w-7 h-7 text-xs rounded-lg font-bold flex items-center justify-center transition-all ${isActive
-                          ? 'bg-purple-600 text-white shadow-xs'
-                          : 'border border-purple-200/80 dark:border-white/10 text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 cursor-pointer shadow-2xs'
+                        ? 'bg-purple-600 text-white shadow-xs'
+                        : 'border border-purple-200/80 dark:border-white/10 text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 cursor-pointer shadow-2xs'
                         }`}
                       title={`Ir a página ${page}`}
                     >
@@ -603,8 +621,8 @@ export default function ClientesPage() {
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className={`px-2.5 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all ${currentPage === totalPages
-                    ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
-                    : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
+                  ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
+                  : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
                   }`}
                 title="Página siguiente"
               >
@@ -676,18 +694,70 @@ export default function ClientesPage() {
                 </select>
               </div>
 
-              {/* Motivo de la asignación/cambio */}
-              <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Motivo de asignación / reasignación (Trazabilidad auditoría):
-                </label>
-                <textarea
-                  value={reassignReason}
-                  onChange={(e) => setReassignReason(e.target.value)}
-                  placeholder="Ej: Balanceo de carga de cartera por alta temporada, especialización de rubro retail, solicitud de cliente..."
-                  rows={3}
-                  className="w-full p-3 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none resize-none"
-                />
+              {/* Período de asignación */}
+              <div className="space-y-3 p-3.5 bg-gray-50/80 dark:bg-slate-800/40 rounded-xl border border-gray-200/80 dark:border-white/5">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-gray-800 dark:text-gray-200">
+                  <Calendar className="w-3.5 h-3.5 text-purple-600" />
+                  <span>Período de asignación:</span>
+                </div>
+
+                {/* Fecha inicial */}
+                <div className="space-y-1">
+                  <label className="block text-[11px] font-semibold text-gray-600 dark:text-gray-400">
+                    Fecha inicial: *
+                  </label>
+                  <input
+                    type="date"
+                    value={assignmentStartDate}
+                    onChange={(e) => setAssignmentStartDate(e.target.value)}
+                    required
+                    className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none cursor-pointer"
+                  />
+                </div>
+
+                {/* Checkbox Período Definido */}
+                <div className="pt-1">
+                  <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={hasDefinedPeriod}
+                      onChange={(e) => {
+                        setHasDefinedPeriod(e.target.checked);
+                        if (!e.target.checked) setAssignmentEndDate('');
+                      }}
+                      className="w-4 h-4 text-purple-600 rounded border-gray-300 dark:border-slate-700 focus:ring-purple-500 cursor-pointer accent-purple-600"
+                    />
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                      Período definido
+                    </span>
+                  </label>
+                </div>
+
+                {/* Fecha final condicional */}
+                {hasDefinedPeriod && (
+                  <div className="space-y-1 pt-1 border-t border-gray-200/60 dark:border-white/5">
+                    <label className="block text-[11px] font-semibold text-gray-600 dark:text-gray-400">
+                      Fecha final: *
+                    </label>
+                    <input
+                      type="date"
+                      value={assignmentEndDate}
+                      min={assignmentStartDate || undefined}
+                      onChange={(e) => setAssignmentEndDate(e.target.value)}
+                      required={hasDefinedPeriod}
+                      className={`w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border rounded-xl text-gray-800 dark:text-gray-200 outline-none transition-all cursor-pointer ${isEndDateInvalid
+                          ? 'border-rose-500 focus:ring-2 focus:ring-rose-500/20'
+                          : 'border-gray-200 dark:border-white/10 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10'
+                        }`}
+                    />
+                    {isEndDateInvalid && (
+                      <p className="text-[11px] font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1 mt-1">
+                        <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                        <span>La fecha final debe ser posterior a la fecha inicial.</span>
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Botones de acción */}
@@ -701,7 +771,11 @@ export default function ClientesPage() {
                 </button>
                 <button
                   type="submit"
-                  disabled={!targetExecutiveId}
+                  disabled={
+                    !targetExecutiveId ||
+                    !assignmentStartDate ||
+                    (hasDefinedPeriod && (!assignmentEndDate || isEndDateInvalid))
+                  }
                   className="px-4 py-2 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                 >
                   <Check className="w-4 h-4" />
@@ -732,8 +806,8 @@ export default function ClientesPage() {
                     </h2>
                     <span
                       className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${selectedClientDetail.estado === 'Activo'
-                          ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                          : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
+                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                        : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
                         }`}
                     >
                       {selectedClientDetail.estado}
@@ -834,11 +908,7 @@ export default function ClientesPage() {
                     Ejecutivo
                   </div>
                   <button
-                    onClick={() => {
-                      setReassignModalClient(selectedClientDetail);
-                      setTargetExecutiveId(selectedClientDetail.ejecutivoId || '');
-                      setReassignReason('');
-                    }}
+                    onClick={() => openReassignModal(selectedClientDetail)}
                     className="text-[11px] text-purple-600 font-bold hover:underline cursor-pointer"
                   >
                     Cambiar
@@ -1038,8 +1108,8 @@ export default function ClientesPage() {
                         key={acc.id}
                         onClick={() => setSelectedAccountId(acc.id)}
                         className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${isSelected
-                            ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-500 dark:border-purple-500 shadow-xs ring-1 ring-purple-500'
-                            : 'bg-white dark:bg-slate-800/80 border-gray-200 dark:border-white/10 hover:border-purple-300'
+                          ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-500 dark:border-purple-500 shadow-xs ring-1 ring-purple-500'
+                          : 'bg-white dark:bg-slate-800/80 border-gray-200 dark:border-white/10 hover:border-purple-300'
                           }`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
