@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Users,
@@ -15,6 +15,7 @@ import {
   Clock,
   CheckCircle2,
   AlertTriangle,
+  ChevronLeft,
   ChevronRight,
   ExternalLink,
   Shield,
@@ -99,6 +100,32 @@ export default function ClientesPage() {
       return true;
     });
   }, [clients, activeTab, viewMode, selectedExecutiveFilter, searchTerm]);
+
+  // Paginación de clientes (10 líneas por página)
+  const ITEMS_PER_PAGE = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Reiniciar a la página 1 cuando cambian los filtros o la búsqueda
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, activeTab, selectedExecutiveFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredClients.length / ITEMS_PER_PAGE));
+
+  // Asegurar que currentPage no exceda totalPages si se reduce la lista filtrada
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
+
+  const paginatedClients = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredClients.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredClients, currentPage]);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredClients.length);
 
   // Manejador de asignación / reasignación
   const handleConfirmAssignment = (e: React.FormEvent) => {
@@ -466,14 +493,14 @@ export default function ClientesPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-xs text-gray-700 dark:text-gray-300">
-                {filteredClients.length === 0 ? (
+                {paginatedClients.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="text-center py-10 text-gray-500">
                       No se encontraron clientes con los filtros seleccionados.
                     </td>
                   </tr>
                 ) : (
-                  filteredClients.map((client) => {
+                  paginatedClients.map((client) => {
                     const isUnassigned = !client.ejecutivoId;
                     return (
                       <tr
@@ -602,6 +629,81 @@ export default function ClientesPage() {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* COMPAGINADOR / PAGINACIÓN (10 líneas por página) */}
+          <div className="px-4 py-3 border-t border-purple-100 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 bg-purple-50/20 dark:bg-purple-950/10">
+            {/* Texto informativo */}
+            <div className="text-xs text-gray-600 dark:text-gray-400">
+              {filteredClients.length > 0 ? (
+                <span>
+                  Mostrando <span className="font-bold text-gray-900 dark:text-white">{startIndex + 1}</span> a{' '}
+                  <span className="font-bold text-gray-900 dark:text-white">{endIndex}</span> de{' '}
+                  <span className="font-bold text-purple-700 dark:text-purple-300">{filteredClients.length}</span> clientes
+                </span>
+              ) : (
+                <span>0 clientes encontrados</span>
+              )}
+            </div>
+
+            {/* Controles de paginación */}
+            {totalPages > 1 && (
+              <div className="flex items-center gap-1.5">
+                {/* Botón Anterior */}
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all ${
+                    currentPage === 1
+                      ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
+                      : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
+                  }`}
+                  title="Página anterior"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <span>Anterior</span>
+                </button>
+
+                {/* Números de página */}
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                    const isActive = page === currentPage;
+                    return (
+                      <button
+                        key={page}
+                        type="button"
+                        onClick={() => setCurrentPage(page)}
+                        className={`w-7 h-7 text-xs rounded-lg font-bold flex items-center justify-center transition-all ${
+                          isActive
+                            ? 'bg-purple-600 text-white shadow-xs'
+                            : 'border border-purple-200/80 dark:border-white/10 text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 cursor-pointer shadow-2xs'
+                        }`}
+                        title={`Ir a página ${page}`}
+                      >
+                        {page}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Botón Siguiente */}
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all ${
+                    currentPage === totalPages
+                      ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
+                      : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
+                  }`}
+                  title="Página siguiente"
+                >
+                  <span>Siguiente</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
