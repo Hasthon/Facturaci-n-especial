@@ -24,6 +24,7 @@ import {
   Tag,
   UserPlus,
   RefreshCw,
+  Pencil,
   Plus,
   Check,
   X,
@@ -560,9 +561,9 @@ export default function ClientesPage() {
                                 setReassignReason('');
                               }}
                               className="p-1 rounded-lg border border-purple-200/80 dark:border-white/10 hover:bg-purple-100/70 dark:hover:bg-purple-950/70 text-purple-700 dark:text-purple-300 transition-all cursor-pointer shrink-0 shadow-2xs"
-                              title={client.ejecutivoId ? 'Cambiar / reasignar ejecutivo' : 'Asignar ejecutivo responsable'}
+                              title={client.ejecutivoId ? 'Editar / reasignar ejecutivo' : 'Asignar ejecutivo responsable'}
                             >
-                              <RefreshCw className="w-3 h-3" />
+                              <Pencil className="w-3 h-3" />
                             </button>
                           </div>
                         </td>
@@ -771,9 +772,9 @@ export default function ClientesPage() {
                                 setReassignReason('');
                               }}
                               className="p-1 rounded-md border border-purple-200/80 dark:border-white/10 hover:bg-purple-100 dark:hover:bg-purple-950/70 text-purple-700 dark:text-purple-300 transition-colors cursor-pointer shrink-0 shadow-2xs"
-                              title="Cambiar / reasignar ejecutivo"
+                              title="Editar / reasignar ejecutivo"
                             >
-                              <RefreshCw className="w-3 h-3" />
+                              <Pencil className="w-3 h-3" />
                             </button>
                           </div>
                         ))
