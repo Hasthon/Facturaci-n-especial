@@ -1183,8 +1183,9 @@ export function JefeDashboard() {
             </div>
           )}
 
-          {/* 3. TABLA DINÁMICA DE RESULTADOS DE LOS FILTROS */}
-          <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100/90 dark:border-white/10 overflow-hidden shadow-xs">
+          {/* 3. TABLA DINÁMICA DE RESULTADOS DE LOS FILTROS (Visible solo cuando el KPI seleccionado es 'todos' / Total Proformas) */}
+          {kpiFilter === 'todos' && (
+            <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100/90 dark:border-white/10 overflow-hidden shadow-xs animate-in fade-in duration-200">
             <div className="p-4 border-b border-gray-100 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-purple-50/30 dark:bg-purple-950/10">
               <div>
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -1306,8 +1307,9 @@ export function JefeDashboard() {
               </table>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+    )}
 
       {/* ========================================================================= */}
       {/* PESTAÑA 2: KPIS POR EJECUTIVO (Punto 6 Requerimiento Jira)                 */}
