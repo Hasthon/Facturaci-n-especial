@@ -39,7 +39,7 @@ import { MOCK_CLIENTS, MOCK_EXECUTIVES, MOCK_AUDIT } from '@/lib/mock-data';
 import { Client, Executive, HistorialModificacionCliente } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
 
-type FilterTab = 'todos' | 'asignados' | 'sin_asignar' | 'inactivos';
+type FilterTab = 'asignados' | 'sin_asignar' | 'inactivos';
 
 export default function ClientesPage() {
   const { user } = useAuth();
@@ -48,7 +48,7 @@ export default function ClientesPage() {
   const [clients, setClients] = useState<Client[]>(MOCK_CLIENTS);
   const [executives, setExecutives] = useState<Executive[]>(MOCK_EXECUTIVES);
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState<FilterTab>('todos');
+  const [activeTab, setActiveTab] = useState<FilterTab>('asignados');
 
   // Modal / Drawer de Ficha 360° del cliente
   const [selectedClientDetail, setSelectedClientDetail] = useState<Client | null>(null);
@@ -362,15 +362,6 @@ export default function ClientesPage() {
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
           {/* Tabs de Filtro Rápido */}
           <div className="flex items-center gap-1.5 p-1 bg-gray-100/80 dark:bg-slate-800/80 rounded-xl">
-            <button
-              onClick={() => setActiveTab('todos')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'todos'
-                ? 'bg-white dark:bg-slate-700 text-purple-900 dark:text-white shadow-xs'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-                }`}
-            >
-              Todos ({clients.length})
-            </button>
             <button
               onClick={() => setActiveTab('asignados')}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'asignados'
