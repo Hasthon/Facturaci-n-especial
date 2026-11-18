@@ -456,33 +456,14 @@ export function JefeDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Header (Misma estructura y diseño que perfil Ejecutivo) */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-h1 font-bold text-gray-900 dark:text-gray-100">
-            Hola, {user?.name?.split(' ')[0] || 'Carlos'} 👋
-          </h1>
-          <p className="text-caption text-gray-600 dark:text-gray-400">
-            Rol: <span className="font-semibold text-purple-700 dark:text-purple-400">Jefatura de Facturación</span> · Supervisión centralizada, control de ejecutivos y clientes
-          </p>
-        </div>
-
-        {/* Selector de Período Rápido */}
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-caption font-semibold text-gray-600 dark:text-gray-400">Período:</span>
-          <select
-            value={filters.periodo}
-            onChange={(e) => setFilters({ ...filters, periodo: e.target.value as DashboardFiltersState['periodo'] })}
-            className="px-3.5 py-2 text-caption bg-white dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-600 dark:text-gray-300 shadow-xs outline-none cursor-pointer"
-          >
-            <option value="hoy">Hoy</option>
-            <option value="semana">Esta Semana</option>
-            <option value="mes">Este Mes (Septiembre 2026)</option>
-            <option value="trimestre">Tercer Trimestre (Q3)</option>
-            <option value="ano">Año 2026</option>
-            <option value="todos">Todo el Historial</option>
-          </select>
-        </div>
+      {/* Header */}
+      <div>
+        <h1 className="text-h1 font-bold text-gray-900 dark:text-gray-100">
+          Hola, {user?.name?.split(' ')[0] || 'Carlos'} 👋
+        </h1>
+        <p className="text-caption text-gray-600 dark:text-gray-400">
+          Rol: <span className="font-semibold text-purple-700 dark:text-purple-400">Jefatura de Facturación</span> · Supervisión centralizada, control de ejecutivos y clientes
+        </p>
       </div>
 
       {/* Pestañas de Vistas del Dashboard */}

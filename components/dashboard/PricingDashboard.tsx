@@ -881,32 +881,13 @@ export function PricingDashboard() {
       {currentSection === 'dashboard' && (
         <div className="space-y-6 animate-in fade-in duration-150">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-h1 font-bold text-gray-900 dark:text-gray-100">
-                Hola, {user?.name?.split(' ')[0] || 'Rodrigo'} 👋
-              </h1>
-              <p className="text-caption text-gray-600 dark:text-gray-400">
-                Rol: <span className="font-semibold text-purple-700 dark:text-purple-400">Encargado de Pricing</span> · Supervisión tarifaria, gestión de excepciones y control de KAMs
-              </p>
-            </div>
-
-            {/* Selector de Período Rápido */}
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-caption font-semibold text-gray-600 dark:text-gray-400">Período:</span>
-              <select
-                value={filters.periodo}
-                onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
-                className="px-3.5 py-2 text-caption bg-white dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-600 dark:text-gray-300 shadow-xs outline-none cursor-pointer"
-              >
-                <option value="hoy">Hoy</option>
-                <option value="semana">Esta Semana</option>
-                <option value="mes">Este Mes (Septiembre 2026)</option>
-                <option value="trimestre">Tercer Trimestre (Q3)</option>
-                <option value="ano">Año 2026</option>
-                <option value="todos">Todo el Historial</option>
-              </select>
-            </div>
+          <div>
+            <h1 className="text-h1 font-bold text-gray-900 dark:text-gray-100">
+              Hola, {user?.name?.split(' ')[0] || 'Rodrigo'} 👋
+            </h1>
+            <p className="text-caption text-gray-600 dark:text-gray-400">
+              Rol: <span className="font-semibold text-purple-700 dark:text-purple-400">Encargado de Pricing</span> · Supervisión tarifaria, gestión de excepciones y control de KAMs
+            </p>
           </div>
 
           {/* ========================================================================= */}
