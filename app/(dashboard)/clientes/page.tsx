@@ -531,33 +531,13 @@ export default function ClientesPage() {
                           </div>
                         </td>
 
-                        {/* Cuenta Corriente con número de cuentas disponibles y botón de cambio */}
+                        {/* Cuentas disponibles */}
                         <td className="py-3.5 px-3">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <div className="min-w-0 truncate max-w-[calc(100%-28px)]">
-                              <div className="flex items-center gap-1 text-[11px] font-mono font-semibold text-gray-800 dark:text-gray-200 truncate">
-                                <CreditCard className="w-3.5 h-3.5 text-purple-500 shrink-0" />
-                                <span className="truncate">{client.cuentaCorriente.numero}</span>
-                              </div>
-                              <span className="text-[10px] text-gray-500 block truncate font-medium">
-                                {client.cuentasCorrientes && client.cuentasCorrientes.length > 1
-                                  ? `${client.cuentasCorrientes.length} cuentas disponibles`
-                                  : '1 cuenta disponible'}
-                              </span>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setAccountModalClient(client);
-                                setSelectedAccountId(client.cuentaCorriente.id);
-                                setAccountChangeReason('');
-                              }}
-                              className="p-1 rounded-lg border border-purple-200/80 dark:border-white/10 hover:bg-purple-100/70 dark:hover:bg-purple-950/70 text-purple-700 dark:text-purple-300 transition-all cursor-pointer shrink-0 shadow-2xs"
-                              title="Cambiar / seleccionar entre cuentas disponibles"
-                            >
-                              <RefreshCw className="w-3 h-3" />
-                            </button>
-                          </div>
+                          <span className="text-xs font-medium text-gray-800 dark:text-gray-200 block truncate">
+                            {client.cuentasCorrientes && client.cuentasCorrientes.length > 1
+                              ? `${client.cuentasCorrientes.length} cuentas disponibles`
+                              : '1 cuenta disponible'}
+                          </span>
                         </td>
 
                         {/* Ejecutivo Responsable con icono de cambio / actualización a la derecha y fuera del recuadro */}
