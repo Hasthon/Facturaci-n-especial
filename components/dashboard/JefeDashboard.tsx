@@ -194,30 +194,30 @@ export function JefeDashboard() {
       filters.periodo === 'hoy'
         ? '0.8'
         : filters.periodo === 'semana'
-        ? '1.2'
-        : filters.periodo === 'mes'
-        ? '1.4'
-        : '1.6';
+          ? '1.2'
+          : filters.periodo === 'mes'
+            ? '1.4'
+            : '1.6';
 
     const tiempoAprob =
       filters.periodo === 'hoy'
         ? '1.1'
         : filters.periodo === 'semana'
-        ? '1.8'
-        : filters.periodo === 'mes'
-        ? '2.2'
-        : filters.periodo === 'trimestre'
-        ? '2.4'
-        : '2.5';
+          ? '1.8'
+          : filters.periodo === 'mes'
+            ? '2.2'
+            : filters.periodo === 'trimestre'
+              ? '2.4'
+              : '2.5';
 
     const promedioVers =
       filters.periodo === 'hoy'
         ? '1.1 v'
         : filters.periodo === 'semana'
-        ? '1.2 v'
-        : filters.periodo === 'mes'
-        ? '1.3 v'
-        : '1.4 v';
+          ? '1.2 v'
+          : filters.periodo === 'mes'
+            ? '1.3 v'
+            : '1.4 v';
 
     return {
       total: list.length,
@@ -489,11 +489,10 @@ export function JefeDashboard() {
       <div className="flex p-1 bg-gray-100/80 dark:bg-slate-800/80 rounded-2xl w-fit">
         <button
           onClick={() => setActiveTab('comercial')}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-            activeTab === 'comercial'
-              ? 'bg-purple-600 text-white shadow-xs'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-          }`}
+          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'comercial'
+            ? 'bg-purple-600 text-white shadow-xs'
+            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+            }`}
         >
           <TrendingUp className="w-4 h-4" />
           <span>Dashboard Comercial</span>
@@ -501,11 +500,10 @@ export function JefeDashboard() {
 
         <button
           onClick={() => setActiveTab('ejecutivos')}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-            activeTab === 'ejecutivos' || activeTab === 'analistas'
-              ? 'bg-purple-600 text-white shadow-xs'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-          }`}
+          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'ejecutivos' || activeTab === 'analistas'
+            ? 'bg-purple-600 text-white shadow-xs'
+            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+            }`}
         >
           <Users className="w-4 h-4" />
           <span>KPIs por Ejecutivo ({MOCK_EXECUTIVES.length})</span>
@@ -513,11 +511,10 @@ export function JefeDashboard() {
 
         <button
           onClick={() => setActiveTab('clientes')}
-          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-            activeTab === 'clientes'
-              ? 'bg-purple-600 text-white shadow-xs'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-          }`}
+          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'clientes'
+            ? 'bg-purple-600 text-white shadow-xs'
+            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+            }`}
         >
           <Building2 className="w-4 h-4" />
           <span>KPIs por Cliente ({MOCK_CLIENTS.length})</span>
@@ -563,11 +560,10 @@ export function JefeDashboard() {
                   disabled={activeFiltersCount === 0}
                   onClick={resetFilters}
                   title={activeFiltersCount > 0 ? 'Restablecer todos los filtros' : 'No hay filtros activos para limpiar'}
-                  className={`px-2.5 py-1 text-xs font-bold rounded-lg border flex items-center gap-1 transition-all shadow-2xs ${
-                    activeFiltersCount > 0
-                      ? 'bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-900 border-purple-200/80 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 dark:text-purple-300 dark:border-purple-800/60 cursor-pointer active:scale-95'
-                      : 'bg-gray-50 dark:bg-slate-800/40 text-gray-400 dark:text-gray-600 border-gray-200/70 dark:border-white/5 cursor-not-allowed opacity-60'
-                  }`}
+                  className={`px-2.5 py-1 text-xs font-bold rounded-lg border flex items-center gap-1 transition-all shadow-2xs ${activeFiltersCount > 0
+                    ? 'bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-900 border-purple-200/80 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 dark:text-purple-300 dark:border-purple-800/60 cursor-pointer active:scale-95'
+                    : 'bg-gray-50 dark:bg-slate-800/40 text-gray-400 dark:text-gray-600 border-gray-200/70 dark:border-white/5 cursor-not-allowed opacity-60'
+                    }`}
                 >
                   <RotateCcw className={`w-3 h-3 ${activeFiltersCount > 0 ? 'text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-600'}`} />
                   <span>Limpiar</span>
@@ -576,11 +572,10 @@ export function JefeDashboard() {
                 <button
                   type="button"
                   onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
-                  className={`px-3 py-1 text-xs rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 border shadow-xs ${
-                    isFilterPanelOpen
-                      ? 'bg-purple-600 text-white border-purple-600 shadow-purple-600/20'
-                      : 'bg-purple-50/80 hover:bg-purple-100 dark:bg-slate-800 text-purple-900 dark:text-purple-200 border-purple-200 dark:border-white/10'
-                  }`}
+                  className={`px-3 py-1 text-xs rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 border shadow-xs ${isFilterPanelOpen
+                    ? 'bg-purple-600 text-white border-purple-600 shadow-purple-600/20'
+                    : 'bg-purple-50/80 hover:bg-purple-100 dark:bg-slate-800 text-purple-900 dark:text-purple-200 border-purple-200 dark:border-white/10'
+                    }`}
                   title={isFilterPanelOpen ? 'Contraer filtros' : 'Desplegar filtros'}
                 >
                   <Filter className="w-3.5 h-3.5" />
@@ -810,31 +805,28 @@ export function JefeDashboard() {
               onClick={() => setKpiFilter('todos')}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setKpiFilter('todos'); }}
               title="Haz clic para ver la vista general del dashboard"
-              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
-                kpiFilter === 'todos'
-                  ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 ring-2 ring-purple-600/30 shadow-md scale-[1.02]'
-                  : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-purple-300 dark:hover:border-purple-600/40 hover:shadow-sm'
-              }`}
+              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${kpiFilter === 'todos'
+                ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 ring-2 ring-purple-600/30 shadow-md scale-[1.02]'
+                : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-purple-300 dark:hover:border-purple-600/40 hover:shadow-sm'
+                }`}
             >
               <div className="flex items-start justify-between gap-1 mb-1">
                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200 leading-tight">
                   Total Proformas
                 </span>
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
-                  kpiFilter === 'todos'
-                    ? 'bg-purple-600 text-white shadow-2xs'
-                    : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-white/5'
-                }`}>
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${kpiFilter === 'todos'
+                  ? 'bg-purple-600 text-white shadow-2xs'
+                  : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-white/5'
+                  }`}>
                   {kpiFilter === 'todos' && <Check className="w-2.5 h-2.5" />}
                   {kpiFilter === 'todos' ? 'Activo' : 'General'}
                 </span>
               </div>
               <div className="flex items-center gap-2.5 my-2">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                  kpiFilter === 'todos'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300'
-                }`}>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${kpiFilter === 'todos'
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300'
+                  }`}>
                   <FileText className="w-5 h-5" />
                 </div>
                 <div className="text-2xl lg:text-3xl font-black text-gray-900 dark:text-white leading-none">
@@ -853,31 +845,27 @@ export function JefeDashboard() {
               onClick={() => setKpiFilter((prev) => (prev === 'aprobadas' ? 'todos' : 'aprobadas'))}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setKpiFilter((prev) => (prev === 'aprobadas' ? 'todos' : 'aprobadas')); }}
               title={kpiFilter === 'aprobadas' ? 'Haz clic para quitar filtro' : 'Haz clic para listar solo proformas aprobadas'}
-              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
-                kpiFilter === 'aprobadas'
-                  ? 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-600 ring-2 ring-emerald-600/30 shadow-md scale-[1.02]'
-                  : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-emerald-300 dark:hover:border-emerald-600/40 hover:shadow-sm'
-              }`}
+              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${kpiFilter === 'aprobadas'
+                ? 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-600 ring-2 ring-emerald-600/30 shadow-md'
+                : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-emerald-300 dark:hover:border-emerald-600/40 hover:shadow-sm'
+                }`}
             >
               <div className="flex items-start justify-between gap-1 mb-1">
                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200 leading-tight">
                   Aprobadas
                 </span>
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
-                  kpiFilter === 'aprobadas'
-                    ? 'bg-emerald-600 text-white shadow-2xs'
-                    : 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60'
-                }`}>
-                  {kpiFilter === 'aprobadas' && <Check className="w-2.5 h-2.5" />}
-                  {kpiFilter === 'aprobadas' ? 'Filtrando' : 'Listas'}
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${kpiFilter === 'aprobadas'
+                  ? 'bg-emerald-600 text-white shadow-2xs'
+                  : 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60'
+                  }`}>
+                  Listas
                 </span>
               </div>
               <div className="flex items-center gap-2.5 my-2">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                  kpiFilter === 'aprobadas'
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300'
-                }`}>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${kpiFilter === 'aprobadas'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300'
+                  }`}>
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
                 <div className="text-2xl lg:text-3xl font-black text-emerald-600 dark:text-emerald-400 leading-none">
@@ -896,31 +884,27 @@ export function JefeDashboard() {
               onClick={() => setKpiFilter((prev) => (prev === 'revision' ? 'todos' : 'revision'))}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setKpiFilter((prev) => (prev === 'revision' ? 'todos' : 'revision')); }}
               title={kpiFilter === 'revision' ? 'Haz clic para quitar filtro' : 'Haz clic para listar pendientes de autorización'}
-              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
-                kpiFilter === 'revision'
-                  ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-600 ring-2 ring-amber-600/30 shadow-md scale-[1.02]'
-                  : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-600/40 hover:shadow-sm'
-              }`}
+              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${kpiFilter === 'revision'
+                ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-600 ring-2 ring-amber-600/30 shadow-md'
+                : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-600/40 hover:shadow-sm'
+                }`}
             >
               <div className="flex items-start justify-between gap-1 mb-1">
                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200 leading-tight">
                   Pendientes V°B°
                 </span>
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
-                  kpiFilter === 'revision'
-                    ? 'bg-amber-600 text-white shadow-2xs'
-                    : 'text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/60'
-                }`}>
-                  {kpiFilter === 'revision' && <Check className="w-2.5 h-2.5" />}
-                  {kpiFilter === 'revision' ? 'Filtrando' : 'Por V°B°'}
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${kpiFilter === 'revision'
+                  ? 'bg-amber-600 text-white shadow-2xs'
+                  : 'text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/60'
+                  }`}>
+                  Por V°B°
                 </span>
               </div>
               <div className="flex items-center gap-2.5 my-2">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                  kpiFilter === 'revision'
-                    ? 'bg-amber-600 text-white'
-                    : 'bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300'
-                }`}>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${kpiFilter === 'revision'
+                  ? 'bg-amber-600 text-white'
+                  : 'bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300'
+                  }`}>
                   <Hourglass className="w-5 h-5" />
                 </div>
                 <div className="text-2xl lg:text-3xl font-black text-amber-600 dark:text-amber-400 leading-none">
@@ -939,31 +923,27 @@ export function JefeDashboard() {
               onClick={() => setKpiFilter((prev) => (prev === 'rechazadas' ? 'todos' : 'rechazadas'))}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setKpiFilter((prev) => (prev === 'rechazadas' ? 'todos' : 'rechazadas')); }}
               title={kpiFilter === 'rechazadas' ? 'Haz clic para quitar filtro' : 'Haz clic para listar proformas rechazadas'}
-              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
-                kpiFilter === 'rechazadas'
-                  ? 'bg-rose-50/90 dark:bg-rose-950/40 border-rose-600 ring-2 ring-rose-600/30 shadow-md scale-[1.02]'
-                  : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-rose-300 dark:hover:border-rose-600/40 hover:shadow-sm'
-              }`}
+              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${kpiFilter === 'rechazadas'
+                ? 'bg-rose-50/90 dark:bg-rose-950/40 border-rose-600 ring-2 ring-rose-600/30 shadow-md'
+                : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-rose-300 dark:hover:border-rose-600/40 hover:shadow-sm'
+                }`}
             >
               <div className="flex items-start justify-between gap-1 mb-1">
                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200 leading-tight">
                   Rechazos
                 </span>
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
-                  kpiFilter === 'rechazadas'
-                    ? 'bg-rose-600 text-white shadow-2xs'
-                    : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/60'
-                }`}>
-                  {kpiFilter === 'rechazadas' && <Check className="w-2.5 h-2.5" />}
-                  {kpiFilter === 'rechazadas' ? 'Filtrando' : 'Rechazos'}
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${kpiFilter === 'rechazadas'
+                  ? 'bg-rose-600 text-white shadow-2xs'
+                  : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/60'
+                  }`}>
+                  Rechazos
                 </span>
               </div>
               <div className="flex items-center gap-2.5 my-2">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                  kpiFilter === 'rechazadas'
-                    ? 'bg-rose-600 text-white'
-                    : 'bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300'
-                }`}>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${kpiFilter === 'rechazadas'
+                  ? 'bg-rose-600 text-white'
+                  : 'bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300'
+                  }`}>
                   <RotateCcw className="w-5 h-5" />
                 </div>
                 <div className="text-2xl lg:text-3xl font-black text-rose-600 dark:text-rose-400 leading-none">
@@ -982,31 +962,27 @@ export function JefeDashboard() {
               onClick={() => setKpiFilter((prev) => (prev === 'facturadas' ? 'todos' : 'facturadas'))}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setKpiFilter((prev) => (prev === 'facturadas' ? 'todos' : 'facturadas')); }}
               title={kpiFilter === 'facturadas' ? 'Haz clic para quitar filtro' : 'Haz clic para listar proformas facturadas'}
-              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
-                kpiFilter === 'facturadas'
-                  ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 ring-2 ring-purple-600/30 shadow-md scale-[1.02]'
-                  : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-purple-300 dark:hover:border-purple-600/40 hover:shadow-sm'
-              }`}
+              className={`p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${kpiFilter === 'facturadas'
+                ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 ring-2 ring-purple-600/30 shadow-md'
+                : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-purple-300 dark:hover:border-purple-600/40 hover:shadow-sm'
+                }`}
             >
               <div className="flex items-start justify-between gap-1 mb-1">
                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200 leading-tight">
                   Facturadas SAP
                 </span>
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
-                  kpiFilter === 'facturadas'
-                    ? 'bg-purple-600 text-white shadow-2xs'
-                    : 'text-purple-700 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/60'
-                }`}>
-                  {kpiFilter === 'facturadas' && <Check className="w-2.5 h-2.5" />}
-                  {kpiFilter === 'facturadas' ? 'Filtrando' : 'En SAP'}
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${kpiFilter === 'facturadas'
+                  ? 'bg-purple-600 text-white shadow-2xs'
+                  : 'text-purple-700 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/60'
+                  }`}>
+                  En SAP
                 </span>
               </div>
               <div className="flex items-center gap-2.5 my-2">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                  kpiFilter === 'facturadas'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300'
-                }`}>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${kpiFilter === 'facturadas'
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300'
+                  }`}>
                   <Receipt className="w-5 h-5" />
                 </div>
                 <div className="text-2xl lg:text-3xl font-black text-purple-700 dark:text-purple-300 leading-none">
@@ -1061,15 +1037,14 @@ export function JefeDashboard() {
               <div className="p-4 border-b border-gray-100 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-purple-50/40 dark:bg-purple-950/20">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                      kpiFilter === 'aprobadas'
-                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                        : kpiFilter === 'revision'
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${kpiFilter === 'aprobadas'
+                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                      : kpiFilter === 'revision'
                         ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300'
                         : kpiFilter === 'rechazadas'
-                        ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300'
-                        : 'bg-purple-100 text-purple-800 dark:bg-purple-950/70 dark:text-purple-300'
-                    }`}>
+                          ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300'
+                          : 'bg-purple-100 text-purple-800 dark:bg-purple-950/70 dark:text-purple-300'
+                      }`}>
                       {kpiFilter === 'aprobadas' && '✅ Proformas Aprobadas / Facturadas'}
                       {kpiFilter === 'revision' && '⏳ Proformas Pendientes de Autorización V°B°'}
                       {kpiFilter === 'rechazadas' && '⚠️ Proformas en Rechazo / Derivadas a KAM'}
@@ -1127,13 +1102,12 @@ export function JefeDashboard() {
                           {p.versionActual || 'v1'}
                         </td>
                         <td className="py-2.5 px-1 text-center">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            p.estado.includes('Aprobada') || p.estado === 'Facturado'
-                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                              : p.estado === 'Pendiente de validación'
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${p.estado.includes('Aprobada') || p.estado === 'Facturado'
+                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                            : p.estado === 'Pendiente de validación'
                               ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300'
                               : 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300'
-                          }`}>
+                            }`}>
                             {p.estado}
                           </span>
                         </td>
@@ -1169,130 +1143,128 @@ export function JefeDashboard() {
           {/* 3. TABLA DINÁMICA DE RESULTADOS DE LOS FILTROS (Visible solo cuando el KPI seleccionado es 'todos' / Total Proformas) */}
           {kpiFilter === 'todos' && (
             <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100/90 dark:border-white/10 overflow-hidden shadow-xs animate-in fade-in duration-200">
-            <div className="p-4 border-b border-gray-100 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-purple-50/30 dark:bg-purple-950/10">
-              <div>
-                <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                  Resultados de Búsqueda y Filtros Dinámicos
-                </h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Listado sincronizado en tiempo real según los filtros y términos de búsqueda seleccionados arriba.
-                </p>
+              <div className="p-4 border-b border-gray-100 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-purple-50/30 dark:bg-purple-950/10">
+                <div>
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    Resultados de Búsqueda y Filtros Dinámicos
+                  </h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Listado sincronizado en tiempo real según los filtros y términos de búsqueda seleccionados arriba.
+                  </p>
+                </div>
+                <span className="text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-3 py-1 rounded-xl border border-purple-200/60 dark:border-purple-800/40 w-fit shrink-0">
+                  Mostrando {dynamicFilteredProformas.length} de {periodoFilteredProformas.length} proformas
+                </span>
               </div>
-              <span className="text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-3 py-1 rounded-xl border border-purple-200/60 dark:border-purple-800/40 w-fit shrink-0">
-                Mostrando {dynamicFilteredProformas.length} de {periodoFilteredProformas.length} proformas
-              </span>
-            </div>
 
-            <div className="w-full overflow-x-auto">
-              <table className="w-full min-w-[900px] text-left border-collapse text-xs">
-                <thead>
-                  <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[10px] font-bold text-gray-600 dark:text-gray-400">
-                    <th className="py-3 px-3">Proforma ID</th>
-                    <th className="py-3 px-2">Cliente / razón social</th>
-                    <th className="py-3 px-2">Ejecutivo responsable</th>
-                    <th className="py-3 px-2 text-right">Monto</th>
-                    <th className="py-3 px-1 text-center">Versión</th>
-                    <th className="py-3 px-1 text-center">Supervisión V°B°</th>
-                    <th className="py-3 px-1 text-center">Estado comercial</th>
-                    <th className="py-3 px-2">Motivo / alertas</th>
-                    <th className="py-3 px-3 text-right">Acción</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-gray-700 dark:text-gray-300">
-                  {dynamicFilteredProformas.length === 0 ? (
-                    <tr>
-                      <td colSpan={9} className="text-center py-12 text-gray-500 dark:text-gray-400">
-                        <div className="max-w-xs mx-auto space-y-2">
-                          <p className="font-semibold text-gray-800 dark:text-gray-200">
-                            No se encontraron proformas con los filtros seleccionados.
-                          </p>
-                          <p className="text-xs text-gray-400">
-                            Prueba ajustando los criterios de búsqueda o restableciendo los filtros.
-                          </p>
-                          <button
-                            onClick={resetFilters}
-                            className="mt-2 px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
-                          >
-                            Restablecer todos los filtros
-                          </button>
-                        </div>
-                      </td>
+              <div className="w-full overflow-x-auto">
+                <table className="w-full min-w-[900px] text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[10px] font-bold text-gray-600 dark:text-gray-400">
+                      <th className="py-3 px-3">Proforma ID</th>
+                      <th className="py-3 px-2">Cliente / razón social</th>
+                      <th className="py-3 px-2">Ejecutivo responsable</th>
+                      <th className="py-3 px-2 text-right">Monto</th>
+                      <th className="py-3 px-1 text-center">Versión</th>
+                      <th className="py-3 px-1 text-center">Supervisión V°B°</th>
+                      <th className="py-3 px-1 text-center">Estado comercial</th>
+                      <th className="py-3 px-2">Motivo / alertas</th>
+                      <th className="py-3 px-3 text-right">Acción</th>
                     </tr>
-                  ) : (
-                    dynamicFilteredProformas.map((p) => (
-                      <tr key={p.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
-                        <td className="py-3 px-3 font-mono font-bold text-purple-700 dark:text-purple-300">
-                          {p.id}
-                        </td>
-                        <td className="py-3 px-2">
-                          <div className="font-bold text-gray-900 dark:text-white leading-tight">{p.cliente}</div>
-                          <span className="text-[10px] text-gray-500 font-mono block">RUT: {p.rut}</span>
-                        </td>
-                        <td className="py-3 px-2 font-medium">
-                          {p.ejecutivoNombre || 'Ana Valenzuela'}
-                        </td>
-                        <td className="py-3 px-2 text-right font-mono font-bold text-gray-900 dark:text-white">
-                          {p.montoFormatted}
-                        </td>
-                        <td className="py-3 px-1 text-center font-mono font-bold text-purple-700 dark:text-purple-300">
-                          {p.versionActual || 'v1'}
-                        </td>
-                        <td className="py-3 px-1 text-center">
-                          <span
-                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación'
-                                ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300 animate-pulse'
-                                : p.estadoSupervision === 'Autorizada'
-                                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                                : 'bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300'
-                            }`}
-                          >
-                            {p.estadoSupervision || 'No requiere'}
-                          </span>
-                        </td>
-                        <td className="py-3 px-1 text-center">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            p.estado.includes('Aprobada') || p.estado === 'Facturado'
-                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                              : p.estado === 'Pendiente de validación'
-                              ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300'
-                              : 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300'
-                          }`}>
-                            {p.estado}
-                          </span>
-                        </td>
-                        <td className="py-3 px-2 text-[11px] text-gray-600 dark:text-gray-400 max-w-[200px]">
-                          <span className="truncate block">
-                            {p.motivoRechazoPrincipal || p.alertasElaboracion?.[0] || 'En proceso normal de supervisión.'}
-                          </span>
-                        </td>
-                        <td className="py-3 px-3 text-right">
-                          <div className="flex items-center justify-end">
-                            <Link
-                              href={p.versionActual === 'v2' || p.estadoSupervision === 'Pendiente_Autorizacion' ? '/aprobaciones' : '/proformas/editar'}
-                              title={p.versionActual === 'v2' || p.estadoSupervision === 'Pendiente_Autorizacion' ? 'Revisar V2' : 'Ver Detalle'}
-                              aria-label={p.versionActual === 'v2' || p.estadoSupervision === 'Pendiente_Autorizacion' ? 'Revisar V2' : 'Ver Detalle'}
-                              className="p-1.5 bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 text-purple-700 dark:text-purple-300 rounded-lg border border-purple-200 dark:border-purple-800/60 inline-flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-2xs cursor-pointer"
+                  </thead>
+                  <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-gray-700 dark:text-gray-300">
+                    {dynamicFilteredProformas.length === 0 ? (
+                      <tr>
+                        <td colSpan={9} className="text-center py-12 text-gray-500 dark:text-gray-400">
+                          <div className="max-w-xs mx-auto space-y-2">
+                            <p className="font-semibold text-gray-800 dark:text-gray-200">
+                              No se encontraron proformas con los filtros seleccionados.
+                            </p>
+                            <p className="text-xs text-gray-400">
+                              Prueba ajustando los criterios de búsqueda o restableciendo los filtros.
+                            </p>
+                            <button
+                              onClick={resetFilters}
+                              className="mt-2 px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
                             >
-                              {p.versionActual === 'v2' || p.estadoSupervision === 'Pendiente_Autorizacion' ? (
-                                <Eye className="w-4 h-4 text-purple-700 dark:text-purple-300" />
-                              ) : (
-                                <FileText className="w-4 h-4 text-purple-700 dark:text-purple-300" />
-                              )}
-                            </Link>
+                              Restablecer todos los filtros
+                            </button>
                           </div>
                         </td>
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+                    ) : (
+                      dynamicFilteredProformas.map((p) => (
+                        <tr key={p.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
+                          <td className="py-3 px-3 font-mono font-bold text-purple-700 dark:text-purple-300">
+                            {p.id}
+                          </td>
+                          <td className="py-3 px-2">
+                            <div className="font-bold text-gray-900 dark:text-white leading-tight">{p.cliente}</div>
+                            <span className="text-[10px] text-gray-500 font-mono block">RUT: {p.rut}</span>
+                          </td>
+                          <td className="py-3 px-2 font-medium">
+                            {p.ejecutivoNombre || 'Ana Valenzuela'}
+                          </td>
+                          <td className="py-3 px-2 text-right font-mono font-bold text-gray-900 dark:text-white">
+                            {p.montoFormatted}
+                          </td>
+                          <td className="py-3 px-1 text-center font-mono font-bold text-purple-700 dark:text-purple-300">
+                            {p.versionActual || 'v1'}
+                          </td>
+                          <td className="py-3 px-1 text-center">
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación'
+                                ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300 animate-pulse'
+                                : p.estadoSupervision === 'Autorizada'
+                                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                                  : 'bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300'
+                                }`}
+                            >
+                              {p.estadoSupervision || 'No requiere'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-1 text-center">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${p.estado.includes('Aprobada') || p.estado === 'Facturado'
+                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                              : p.estado === 'Pendiente de validación'
+                                ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300'
+                                : 'bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300'
+                              }`}>
+                              {p.estado}
+                            </span>
+                          </td>
+                          <td className="py-3 px-2 text-[11px] text-gray-600 dark:text-gray-400 max-w-[200px]">
+                            <span className="truncate block">
+                              {p.motivoRechazoPrincipal || p.alertasElaboracion?.[0] || 'En proceso normal de supervisión.'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3 text-right">
+                            <div className="flex items-center justify-end">
+                              <Link
+                                href={p.versionActual === 'v2' || p.estadoSupervision === 'Pendiente_Autorizacion' ? '/aprobaciones' : '/proformas/editar'}
+                                title={p.versionActual === 'v2' || p.estadoSupervision === 'Pendiente_Autorizacion' ? 'Revisar V2' : 'Ver Detalle'}
+                                aria-label={p.versionActual === 'v2' || p.estadoSupervision === 'Pendiente_Autorizacion' ? 'Revisar V2' : 'Ver Detalle'}
+                                className="p-1.5 bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 text-purple-700 dark:text-purple-300 rounded-lg border border-purple-200 dark:border-purple-800/60 inline-flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-2xs cursor-pointer"
+                              >
+                                {p.versionActual === 'v2' || p.estadoSupervision === 'Pendiente_Autorizacion' ? (
+                                  <Eye className="w-4 h-4 text-purple-700 dark:text-purple-300" />
+                                ) : (
+                                  <FileText className="w-4 h-4 text-purple-700 dark:text-purple-300" />
+                                )}
+                              </Link>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-    )}
+          )}
+        </div>
+      )}
 
       {/* ========================================================================= */}
       {/* PESTAÑA 2: KPIS POR EJECUTIVO (Punto 6 Requerimiento Jira)                 */}
@@ -1580,11 +1552,10 @@ export function JefeDashboard() {
                     </td>
                     <td className="py-2.5 px-1 text-center">
                       <span
-                        className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
-                          client.estado === 'Activo'
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : 'bg-gray-100 text-gray-600'
-                        }`}
+                        className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${client.estado === 'Activo'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-gray-100 text-gray-600'
+                          }`}
                       >
                         {client.estado}
                       </span>

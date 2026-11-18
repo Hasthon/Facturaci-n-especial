@@ -1642,13 +1642,12 @@ export function PricingDashboard() {
                     <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
                       Total Proformas
                     </span>
-                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${
                       kpiFilter === 'todos'
                         ? 'bg-purple-600 text-white shadow-2xs'
                         : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-white/5'
                     }`}>
-                      {kpiFilter === 'todos' && <Check className="w-2.5 h-2.5" />}
-                      {kpiFilter === 'todos' ? 'Activo' : 'General'}
+                      General
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5 my-2">
@@ -1677,7 +1676,7 @@ export function PricingDashboard() {
                   title={kpiFilter === 'aprobadas' ? 'Haz clic para quitar filtro' : 'Haz clic para listar solo proformas aprobadas'}
                   className={`p-3.5 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
                     kpiFilter === 'aprobadas'
-                      ? 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-600 ring-2 ring-emerald-600/30 shadow-md scale-[1.01]'
+                      ? 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-600 ring-2 ring-emerald-600/30 shadow-md'
                       : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-emerald-300 dark:hover:border-emerald-600/40 hover:shadow-xs'
                   }`}
                 >
@@ -1685,13 +1684,12 @@ export function PricingDashboard() {
                     <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
                       Aprobadas
                     </span>
-                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${
                       kpiFilter === 'aprobadas'
                         ? 'bg-emerald-600 text-white shadow-2xs'
                         : 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60'
                     }`}>
-                      {kpiFilter === 'aprobadas' && <Check className="w-2.5 h-2.5" />}
-                      {kpiFilter === 'aprobadas' ? 'Filtrando' : 'Listas'}
+                      Listas
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5 my-2">
@@ -1720,7 +1718,7 @@ export function PricingDashboard() {
                   title={kpiFilter === 'revision' ? 'Haz clic para quitar filtro' : 'Haz clic para listar pendientes de autorización'}
                   className={`p-3.5 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
                     kpiFilter === 'revision'
-                      ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-600 ring-2 ring-amber-600/30 shadow-md scale-[1.01]'
+                      ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-600 ring-2 ring-amber-600/30 shadow-md'
                       : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-600/40 hover:shadow-xs'
                   }`}
                 >
@@ -1728,13 +1726,12 @@ export function PricingDashboard() {
                     <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
                       Pendientes V°B°
                     </span>
-                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${
                       kpiFilter === 'revision'
                         ? 'bg-amber-600 text-white shadow-2xs'
                         : 'text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/60'
                     }`}>
-                      {kpiFilter === 'revision' && <Check className="w-2.5 h-2.5" />}
-                      {kpiFilter === 'revision' ? 'Filtrando' : 'Por V°B°'}
+                      Por V°B°
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5 my-2">
@@ -1763,7 +1760,7 @@ export function PricingDashboard() {
                   title={kpiFilter === 'rechazadas' ? 'Haz clic para quitar filtro' : 'Haz clic para listar proformas rechazadas'}
                   className={`p-3.5 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
                     kpiFilter === 'rechazadas'
-                      ? 'bg-rose-50/90 dark:bg-rose-950/40 border-rose-600 ring-2 ring-rose-600/30 shadow-md scale-[1.01]'
+                      ? 'bg-rose-50/90 dark:bg-rose-950/40 border-rose-600 ring-2 ring-rose-600/30 shadow-md'
                       : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-rose-300 dark:hover:border-rose-600/40 hover:shadow-xs'
                   }`}
                 >
@@ -1771,13 +1768,12 @@ export function PricingDashboard() {
                     <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
                       Rechazos
                     </span>
-                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${
                       kpiFilter === 'rechazadas'
                         ? 'bg-rose-600 text-white shadow-2xs'
                         : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950/60'
                     }`}>
-                      {kpiFilter === 'rechazadas' && <Check className="w-2.5 h-2.5" />}
-                      {kpiFilter === 'rechazadas' ? 'Filtrando' : 'Tarifa'}
+                      Tarifa
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5 my-2">
@@ -1806,7 +1802,7 @@ export function PricingDashboard() {
                   title={kpiFilter === 'facturadas' ? 'Haz clic para quitar filtro' : 'Haz clic para listar proformas facturadas'}
                   className={`p-3.5 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs ${
                     kpiFilter === 'facturadas'
-                      ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 ring-2 ring-purple-600/30 shadow-md scale-[1.01]'
+                      ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 ring-2 ring-purple-600/30 shadow-md'
                       : 'bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-purple-300 dark:hover:border-purple-600/40 hover:shadow-xs'
                   }`}
                 >
@@ -1814,13 +1810,12 @@ export function PricingDashboard() {
                     <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
                       Facturadas SAP
                     </span>
-                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${
                       kpiFilter === 'facturadas'
                         ? 'bg-purple-600 text-white shadow-2xs'
                         : 'text-purple-700 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/60'
                     }`}>
-                      {kpiFilter === 'facturadas' && <Check className="w-2.5 h-2.5" />}
-                      {kpiFilter === 'facturadas' ? 'Filtrando' : 'En SAP'}
+                      En SAP
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5 my-2">

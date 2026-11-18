@@ -431,13 +431,12 @@ function EjecutivoDashboardContent() {
             }`}>
               <FileText className="w-4 h-4" />
             </div>
-            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center gap-0.5 ${
+            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center justify-center ${
               kpiFilter === 'todos'
                 ? 'bg-purple-600 text-white font-extrabold shadow-2xs'
                 : 'text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-white/5'
             }`}>
-              {kpiFilter === 'todos' && <Check className="w-2.5 h-2.5" />}
-              {kpiFilter === 'todos' ? 'Activo' : 'General'}
+              General
             </span>
           </div>
           <div>
@@ -457,7 +456,7 @@ function EjecutivoDashboardContent() {
           title={kpiFilter === 'pendientes' ? 'Haz clic para quitar filtro' : 'Haz clic para filtrar solo pendientes'}
           className={`p-4 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between ${
             kpiFilter === 'pendientes'
-              ? 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-500 ring-2 ring-amber-500/30 shadow-md scale-[1.02]'
+              ? 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-500 ring-2 ring-amber-500/30 shadow-md'
               : 'bg-white dark:bg-slate-800 border-purple-900/10 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-600/40 hover:shadow-sm'
           }`}
         >
@@ -469,13 +468,12 @@ function EjecutivoDashboardContent() {
             }`}>
               <Hourglass className="w-4 h-4" />
             </div>
-            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center gap-0.5 ${
+            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center justify-center ${
               kpiFilter === 'pendientes'
                 ? 'bg-amber-600 text-white font-extrabold shadow-2xs'
                 : 'text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10'
             }`}>
-              {kpiFilter === 'pendientes' && <Check className="w-2.5 h-2.5" />}
-              {kpiFilter === 'pendientes' ? 'Filtrando' : 'En espera'}
+              En espera
             </span>
           </div>
           <div>
@@ -495,7 +493,7 @@ function EjecutivoDashboardContent() {
           title={kpiFilter === 'rechazadas' ? 'Haz clic para quitar filtro' : 'Haz clic para filtrar solo rechazadas (por re-emitir)'}
           className={`p-4 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between ${
             kpiFilter === 'rechazadas'
-              ? 'bg-orange-50/80 dark:bg-orange-950/40 border-orange-500 ring-2 ring-orange-500/30 shadow-md scale-[1.02]'
+              ? 'bg-orange-50/80 dark:bg-orange-950/40 border-orange-500 ring-2 ring-orange-500/30 shadow-md'
               : 'bg-white dark:bg-slate-800 border-purple-900/10 dark:border-white/10 hover:border-orange-300 dark:hover:border-orange-600/40 hover:shadow-sm'
           }`}
         >
@@ -507,13 +505,12 @@ function EjecutivoDashboardContent() {
             }`}>
               <RotateCcw className="w-4 h-4" />
             </div>
-            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center gap-0.5 ${
+            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center justify-center ${
               kpiFilter === 'rechazadas'
                 ? 'bg-orange-600 text-white font-extrabold shadow-2xs'
                 : 'text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-500/10'
             }`}>
-              {kpiFilter === 'rechazadas' && <Check className="w-2.5 h-2.5" />}
-              {kpiFilter === 'rechazadas' ? 'Filtrando' : 'Acción'}
+              Acción
             </span>
           </div>
           <div>
@@ -533,7 +530,7 @@ function EjecutivoDashboardContent() {
           title={kpiFilter === 'pricing' ? 'Haz clic para quitar filtro' : 'Haz clic para filtrar solo proformas en Pricing'}
           className={`p-4 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between ${
             kpiFilter === 'pricing'
-              ? 'bg-sky-50/80 dark:bg-sky-950/40 border-sky-500 ring-2 ring-sky-500/30 shadow-md scale-[1.02]'
+              ? 'bg-sky-50/80 dark:bg-sky-950/40 border-sky-500 ring-2 ring-sky-500/30 shadow-md'
               : 'bg-white dark:bg-slate-800 border-purple-900/10 dark:border-white/10 hover:border-sky-300 dark:hover:border-sky-600/40 hover:shadow-sm'
           }`}
         >
@@ -545,13 +542,12 @@ function EjecutivoDashboardContent() {
             }`}>
               <Zap className="w-4 h-4" />
             </div>
-            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center gap-0.5 ${
+            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center justify-center ${
               kpiFilter === 'pricing'
                 ? 'bg-sky-600 text-white font-extrabold shadow-2xs'
                 : 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10'
             }`}>
-              {kpiFilter === 'pricing' && <Check className="w-2.5 h-2.5" />}
-              {kpiFilter === 'pricing' ? 'Filtrando' : 'Tarifas'}
+              Tarifas
             </span>
           </div>
           <div>
@@ -571,7 +567,7 @@ function EjecutivoDashboardContent() {
           title={kpiFilter === 'aprobadas' ? 'Haz clic para quitar filtro' : 'Haz clic para filtrar solo aprobadas y facturadas'}
           className={`p-4 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between ${
             kpiFilter === 'aprobadas'
-              ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md scale-[1.02]'
+              ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-500 ring-2 ring-emerald-500/30 shadow-md'
               : 'bg-white dark:bg-slate-800 border-purple-900/10 dark:border-white/10 hover:border-emerald-300 dark:hover:border-emerald-600/40 hover:shadow-sm'
           }`}
         >
@@ -583,13 +579,12 @@ function EjecutivoDashboardContent() {
             }`}>
               <CheckCircle2 className="w-4 h-4" />
             </div>
-            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center gap-0.5 ${
+            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center justify-center ${
               kpiFilter === 'aprobadas'
                 ? 'bg-emerald-600 text-white font-extrabold shadow-2xs'
                 : 'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10'
             }`}>
-              {kpiFilter === 'aprobadas' && <Check className="w-2.5 h-2.5" />}
-              {kpiFilter === 'aprobadas' ? 'Filtrando' : 'Listas'}
+              Listas
             </span>
           </div>
           <div>
@@ -609,7 +604,7 @@ function EjecutivoDashboardContent() {
           title={kpiFilter === 'kam' ? 'Haz clic para quitar filtro' : 'Haz clic para filtrar solo derivadas al KAM'}
           className={`p-4 rounded-xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between ${
             kpiFilter === 'kam'
-              ? 'bg-rose-50/80 dark:bg-rose-950/40 border-rose-500 ring-2 ring-rose-500/30 shadow-md scale-[1.02]'
+              ? 'bg-rose-50/80 dark:bg-rose-950/40 border-rose-500 ring-2 ring-rose-500/30 shadow-md'
               : 'bg-white dark:bg-slate-800 border-purple-900/10 dark:border-white/10 hover:border-rose-300 dark:hover:border-rose-600/40 hover:shadow-sm'
           }`}
         >
@@ -621,13 +616,12 @@ function EjecutivoDashboardContent() {
             }`}>
               <ShieldAlert className="w-4 h-4" />
             </div>
-            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center gap-0.5 ${
+            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full transition-colors flex items-center justify-center ${
               kpiFilter === 'kam'
                 ? 'bg-rose-600 text-white font-extrabold shadow-2xs'
                 : 'text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10'
             }`}>
-              {kpiFilter === 'kam' && <Check className="w-2.5 h-2.5" />}
-              {kpiFilter === 'kam' ? 'Filtrando' : 'Escaladas'}
+              Escaladas
             </span>
           </div>
           <div>
