@@ -36,10 +36,45 @@ import {
 import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/context/toast-context';
 import { MOCK_CLIENTS, MOCK_EXECUTIVES, MOCK_AUDIT } from '@/lib/mock-data';
-import { Client, Executive, HistorialModificacionCliente } from '@/lib/types';
+import { Client, Executive, HistorialModificacionCliente, EstadoCliente } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
 
 type FilterTab = 'asignados' | 'sin_asignar' | 'inactivos';
+
+const renderEstadoBadge = (estado: EstadoCliente, mesesInactivo?: number) => {
+  if (estado === 'Activo') {
+    return (
+      <span
+        title="Activo: Operaciones y facturación vigente (menos de 2 meses inactivo)"
+        className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 border border-emerald-300/60 dark:border-emerald-800/50 shadow-2xs whitespace-nowrap cursor-help"
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+        Activo
+      </span>
+    );
+  }
+  if (estado === 'Próximo a vencer') {
+    return (
+      <span
+        title={`Próximo a vencer: Próximo a quedar inactivo (${mesesInactivo !== undefined ? `${mesesInactivo} meses inactivo` : 'próximo a cumplir 2 meses inactivo'})`}
+        className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300 border border-amber-300/60 dark:border-amber-800/50 shadow-2xs whitespace-nowrap cursor-help"
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+        Próximo a vencer
+      </span>
+    );
+  }
+  // Inactivo (color rojo, >= 2 meses inactivo)
+  return (
+    <span
+      title={`Inactivo: Cuenta con 2 o más meses inactiva (${mesesInactivo !== undefined ? `${mesesInactivo} meses inactivo` : '≥ 2 meses inactivo'})`}
+      className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/70 dark:text-rose-300 border border-rose-300/60 dark:border-rose-800/50 shadow-2xs whitespace-nowrap cursor-help"
+    >
+      <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
+      Inactivo
+    </span>
+  );
+};
 
 export default function ClientesPage() {
   const { user } = useAuth();
@@ -93,7 +128,7 @@ export default function ClientesPage() {
       if (activeTab === 'sin_asignar' && c.ejecutivoId) return false;
       if (activeTab === 'inactivos' && c.estado !== 'Inactivo') return false;
 
-      // Filtro por término de búsqueda (RUT, Razón Social, Nombre Fantasía, Cuenta Corriente, Ejecutivo)
+      // Filtro por término de búsqueda (RUT, Razón Social, Nombre Fantasía, Cuenta Corriente, Ejecutivo, Estado)
       if (searchTerm.trim()) {
         const term = searchTerm.toLowerCase();
         const matchRut = c.rut.toLowerCase().includes(term);
@@ -101,7 +136,8 @@ export default function ClientesPage() {
         const matchFantasia = c.nombreFantasia.toLowerCase().includes(term);
         const matchCta = c.cuentaCorriente.numero.toLowerCase().includes(term);
         const matchEjecutivo = c.ejecutivoNombre?.toLowerCase().includes(term);
-        return matchRut || matchRazon || matchFantasia || matchCta || matchEjecutivo;
+        const matchEstado = c.estado.toLowerCase().includes(term);
+        return matchRut || matchRazon || matchFantasia || matchCta || matchEjecutivo || matchEstado;
       }
 
       return true;
@@ -432,12 +468,12 @@ export default function ClientesPage() {
         <div className="w-full overflow-hidden">
           <table className="w-full table-fixed text-left border-collapse text-xs">
             <colgroup>
-              <col className="w-[26%]" />
-              <col className="w-[24%]" />
-              <col className="w-[18%]" />
-              <col className="w-[20%]" />
-              <col className="w-[6%]" />
-              <col className="w-[6%]" />
+              <col className="w-[25%]" />
+              <col className="w-[22%]" />
+              <col className="w-[16%]" />
+              <col className="w-[21%]" />
+              <col className="w-[11%]" />
+              <col className="w-[5%]" />
             </colgroup>
             <thead>
               <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[11px] font-bold text-gray-600 dark:text-gray-400">
@@ -523,14 +559,7 @@ export default function ClientesPage() {
 
                       {/* Estado */}
                       <td className="py-3.5 px-2 text-center">
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${client.estado === 'Activo'
-                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                            : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
-                            }`}
-                        >
-                          {client.estado}
-                        </span>
+                        {renderEstadoBadge(client.estado, client.mesesInactivo)}
                       </td>
 
                       {/* Acción */}
@@ -795,14 +824,7 @@ export default function ClientesPage() {
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                       {selectedClientDetail.razonSocial}
                     </h2>
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${selectedClientDetail.estado === 'Activo'
-                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                        : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
-                        }`}
-                    >
-                      {selectedClientDetail.estado}
-                    </span>
+                    {renderEstadoBadge(selectedClientDetail.estado, selectedClientDetail.mesesInactivo)}
                   </div>
                   <p className="text-xs text-gray-500 dark:text-gray-400 font-mono">
                     RUT: {selectedClientDetail.rut} • {selectedClientDetail.giro}

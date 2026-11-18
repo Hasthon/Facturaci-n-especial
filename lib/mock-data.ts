@@ -882,6 +882,7 @@ export const MOCK_CLIENTS: Client[] = [
     ejecutivoId: 'exe-2',
     ejecutivoNombre: 'Rodrigo Sepúlveda',
     estado: 'Activo',
+    mesesInactivo: 0,
     condicionesComerciales: {
       id: 'cond-2',
       tipo: 'Acuerdo marco corporativo',
@@ -1157,7 +1158,8 @@ export const MOCK_CLIENTS: Client[] = [
     ],
     ejecutivoId: 'exe-2',
     ejecutivoNombre: 'Rodrigo Sepúlveda',
-    estado: 'Activo',
+    estado: 'Próximo a vencer',
+    mesesInactivo: 1.8,
     condicionesComerciales: {
       id: 'cond-7',
       tipo: 'Descuento volumétrico',
@@ -1256,7 +1258,8 @@ export const MOCK_CLIENTS: Client[] = [
     ],
     ejecutivoId: undefined, // Sin ejecutivo asignado
     ejecutivoNombre: undefined,
-    estado: 'Activo',
+    estado: 'Próximo a vencer',
+    mesesInactivo: 1.9,
     condicionesComerciales: {
       id: 'cond-9',
       tipo: 'Tarifa estándar B2B',
@@ -1317,6 +1320,7 @@ export const MOCK_CLIENTS: Client[] = [
     ejecutivoId: undefined, // Sin ejecutivo asignado
     ejecutivoNombre: undefined,
     estado: 'Inactivo',
+    mesesInactivo: 2.5,
     condicionesComerciales: {
       id: 'cond-10',
       tipo: 'Tarifa general',
@@ -1381,6 +1385,7 @@ export const MOCK_CLIENTS: Client[] = [
     ejecutivoId: undefined, // Sin ejecutivo asignado
     ejecutivoNombre: undefined,
     estado: 'Activo',
+    mesesInactivo: 0,
     condicionesComerciales: {
       id: 'cond-11',
       tipo: 'Tarifa transporte temperatura controlada',

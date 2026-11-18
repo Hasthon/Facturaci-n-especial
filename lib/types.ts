@@ -213,6 +213,8 @@ export interface CuentaCorriente {
   alias?: string;
 }
 
+export type EstadoCliente = 'Activo' | 'Próximo a vencer' | 'Inactivo';
+
 export interface Client {
   id: string;
   rut: string;
@@ -232,7 +234,8 @@ export interface Client {
   kamId?: string;
   kamNombre?: string;
   tipoCliente?: string;
-  estado: 'Activo' | 'Inactivo';
+  estado: EstadoCliente;
+  mesesInactivo?: number; // Regla: <1 mes Activo (verde), prox a 2 meses Próximo a vencer (amarillo), >=2 meses Inactivo (rojo)
   condicionesComerciales: CondicionComercial;
   condicionesTarifarias?: CondicionTarifariaVigente[];
   proformasIds: string[];
