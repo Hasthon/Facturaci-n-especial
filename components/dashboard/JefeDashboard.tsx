@@ -45,6 +45,423 @@ import { Tooltip } from '@/components/ui/tooltip';
 type DashboardTab = 'comercial' | 'ejecutivos' | 'analistas' | 'clientes';
 type JefeKpiFilterType = 'todos' | 'aprobadas' | 'revision' | 'rechazadas' | 'facturadas';
 
+interface DashboardFiltersPanelProps {
+  tab: 'comercial' | 'ejecutivos' | 'clientes';
+  totalFoundText: string;
+  filters: DashboardFiltersState;
+  setFilters: React.Dispatch<React.SetStateAction<DashboardFiltersState>>;
+  searchTerm?: string;
+  setSearchTerm?: (term: string) => void;
+  activeFiltersCount: number;
+  resetFilters: () => void;
+  isFilterPanelOpen: boolean;
+  setIsFilterPanelOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function DashboardFiltersPanel({
+  tab,
+  totalFoundText,
+  filters,
+  setFilters,
+  searchTerm = '',
+  setSearchTerm,
+  activeFiltersCount,
+  resetFilters,
+  isFilterPanelOpen,
+  setIsFilterPanelOpen,
+}: DashboardFiltersPanelProps) {
+  return (
+    <div className="px-3.5 sm:px-4 py-3 sm:py-3.5 transition-all duration-300">
+      {/* Header del Panel de Filtros */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        {/* Título con su icono */}
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0 shadow-2xs">
+            <SlidersHorizontal className="w-3.5 h-3.5 text-purple-600" />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-gray-900 dark:text-white">
+              Filtros
+            </span>
+            {activeFiltersCount > 0 && (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 shadow-2xs">
+                {activeFiltersCount} activo{activeFiltersCount > 1 ? 's' : ''}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Número de proformas/elementos encontrados + Botones Limpiar y Filtros */}
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
+          <span className="text-xs text-purple-800 dark:text-purple-300 font-bold bg-purple-50 dark:bg-purple-950/50 px-2.5 py-1 rounded-lg border border-purple-100 dark:border-purple-900/50">
+            {totalFoundText}
+          </span>
+
+          <button
+            type="button"
+            disabled={activeFiltersCount === 0}
+            onClick={resetFilters}
+            title={activeFiltersCount > 0 ? 'Restablecer todos los filtros' : 'No hay filtros activos para limpiar'}
+            className={`px-2.5 py-1 text-xs font-bold rounded-lg border flex items-center gap-1 transition-all shadow-2xs ${activeFiltersCount > 0
+              ? 'bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-900 border-purple-200/80 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 dark:text-purple-300 dark:border-purple-800/60 cursor-pointer active:scale-95'
+              : 'bg-gray-50 dark:bg-slate-800/40 text-gray-400 dark:text-gray-600 border-gray-200/70 dark:border-white/5 cursor-not-allowed opacity-60'
+              }`}
+          >
+            <RotateCcw className={`w-3 h-3 ${activeFiltersCount > 0 ? 'text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-600'}`} />
+            <span>Limpiar</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsFilterPanelOpen((prev) => !prev)}
+            className={`px-3 py-1 text-xs rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 border shadow-xs ${isFilterPanelOpen
+              ? 'bg-purple-600 text-white border-purple-600 shadow-purple-600/20'
+              : 'bg-purple-50/80 hover:bg-purple-100 dark:bg-slate-800 text-purple-900 dark:text-purple-200 border-purple-200 dark:border-white/10'
+              }`}
+            title={isFilterPanelOpen ? 'Contraer filtros' : 'Desplegar filtros'}
+          >
+            <Filter className="w-3.5 h-3.5" />
+            <span>Filtros</span>
+            {isFilterPanelOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Chips cuando está contraído pero hay filtros activos */}
+      {!isFilterPanelOpen && activeFiltersCount > 0 && (
+        <div className="pt-2.5 mt-2.5 border-t border-purple-100 dark:border-white/10 flex items-center gap-1.5 flex-wrap text-xs animate-in fade-in duration-150">
+          <span className="text-[11px] font-bold text-gray-500">Filtros activos:</span>
+          {filters.periodo !== 'mes' && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+              Período: {filters.periodo}
+              <button type="button" onClick={() => setFilters(p => ({ ...p, periodo: 'mes' }))} className="hover:text-purple-950 cursor-pointer">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {tab === 'ejecutivos' && filters.clienteId && filters.clienteId !== 'todos' && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+              Cliente: {MOCK_CLIENTS.find(c => c.id === filters.clienteId)?.razonSocial || filters.clienteId}
+              <button type="button" onClick={() => setFilters(p => ({ ...p, clienteId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {(tab === 'comercial' || tab === 'ejecutivos') && filters.ejecutivoId !== 'todos' && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+              Ejecutivo: {MOCK_EXECUTIVES.find(e => e.id === filters.ejecutivoId)?.nombre || filters.ejecutivoId}
+              <button type="button" onClick={() => setFilters(p => ({ ...p, ejecutivoId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {tab !== 'ejecutivos' && filters.clienteId && filters.clienteId !== 'todos' && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+              Cliente: {MOCK_CLIENTS.find(c => c.id === filters.clienteId)?.razonSocial || filters.clienteId}
+              <button type="button" onClick={() => setFilters(p => ({ ...p, clienteId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {tab === 'comercial' && filters.estadoProforma !== 'todos' && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+              Estado: {filters.estadoProforma}
+              <button type="button" onClick={() => setFilters(p => ({ ...p, estadoProforma: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {tab === 'comercial' && filters.version !== 'todos' && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+              Versión: {filters.version}
+              <button type="button" onClick={() => setFilters(p => ({ ...p, version: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {tab === 'comercial' && filters.motivoRechazo !== 'todos' && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+              Motivo: {filters.motivoRechazo}
+              <button type="button" onClick={() => setFilters(p => ({ ...p, motivoRechazo: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {tab === 'comercial' && searchTerm && searchTerm.trim() !== '' && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+              Búsqueda: &ldquo;{searchTerm}&rdquo;
+              <button type="button" onClick={() => setSearchTerm && setSearchTerm('')} className="hover:text-purple-950 cursor-pointer">
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Contenido desplegable con inputs */}
+      {isFilterPanelOpen && (
+        <div className="pt-3 mt-2.5 border-t border-purple-100 dark:border-white/10 space-y-3 animate-in fade-in zoom-in-98 duration-200">
+          {/* Caso 1: Dashboard Comercial (6 selects + barra de búsqueda) */}
+          {tab === 'comercial' && (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+                {/* 1. Periodo */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Calendar className="w-3 h-3 text-purple-600" />
+                    <span>Período</span>
+                  </label>
+                  <select
+                    value={filters.periodo}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
+                  >
+                    <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
+                    <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
+                    <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
+                    <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                    <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                  </select>
+                </div>
+
+                {/* 2. Ejecutivo */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Users className="w-3 h-3 text-purple-600" />
+                    <span>Ejecutivo</span>
+                  </label>
+                  <select
+                    value={filters.ejecutivoId}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, ejecutivoId: e.target.value }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                  >
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los ejecutivos</option>
+                    {MOCK_EXECUTIVES.map((exe) => (
+                      <option key={exe.id} value={exe.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
+                        {exe.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 3. Cliente */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Building2 className="w-3 h-3 text-purple-600" />
+                    <span>Cliente</span>
+                  </label>
+                  <select
+                    value={filters.clienteId || 'todos'}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                  >
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
+                    {MOCK_CLIENTS.map((cli) => (
+                      <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
+                        {cli.razonSocial}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 4. Estado Proforma */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <FileText className="w-3 h-3 text-purple-600" />
+                    <span>Estado proforma</span>
+                  </label>
+                  <select
+                    value={filters.estadoProforma}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, estadoProforma: e.target.value }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                  >
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los estados</option>
+                    <option value="Pendiente" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Pendiente</option>
+                    <option value="Pendiente de validación" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Pendiente de validación V°B°</option>
+                    <option value="Aprobada por Cliente" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Aprobada por cliente</option>
+                    <option value="Facturado" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Facturado</option>
+                    <option value="Rechazada v1" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Rechazada v1</option>
+                    <option value="Derivada a KAM" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Derivada a KAM</option>
+                  </select>
+                </div>
+
+                {/* 5. Versión */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <Layers className="w-3 h-3 text-purple-600" />
+                    <span>Versión</span>
+                  </label>
+                  <select
+                    value={filters.version}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, version: e.target.value }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
+                  >
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todas las versiones</option>
+                    <option value="v1" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v1 (Original)</option>
+                    <option value="v2" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v2 (Ajustada)</option>
+                    <option value="v3" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v3 (Crítica)</option>
+                  </select>
+                </div>
+
+                {/* 6. Motivo de Rechazo */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                    <AlertTriangle className="w-3 h-3 text-purple-600" />
+                    <span>Motivo de rechazo</span>
+                  </label>
+                  <select
+                    value={filters.motivoRechazo}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, motivoRechazo: e.target.value }))}
+                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                  >
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los motivos</option>
+                    <option value="Diferencia en recubitaje / medidas de SKUs" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Diferencia en recubitaje</option>
+                    <option value="Inconsistencia en Tarifas / Descuentos negociados" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Inconsistencia en tarifas</option>
+                    <option value="Discrepancia comercial no resuelta en V3" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Discrepancia en V3</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Input Búsqueda en tiempo real */}
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
+                  placeholder="Buscar en tiempo real por RUT, Razón Social del Cliente, ID de Proforma o Ejecutivo..."
+                  className="w-full pl-9 pr-8 py-2 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-600 dark:text-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-normal focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 outline-none shadow-2xs"
+                />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchTerm && setSearchTerm('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5 rounded-full hover:bg-gray-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                    title="Borrar búsqueda"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* Caso 2: KPIs por Ejecutivo (Periodo, Cliente, Ejecutivo) */}
+          {tab === 'ejecutivos' && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              {/* 1. Periodo */}
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                  <Calendar className="w-3 h-3 text-purple-600" />
+                  <span>Período</span>
+                </label>
+                <select
+                  value={filters.periodo}
+                  onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
+                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
+                >
+                  <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
+                  <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
+                  <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
+                  <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                  <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
+                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                </select>
+              </div>
+
+              {/* 2. Cliente */}
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                  <Building2 className="w-3 h-3 text-purple-600" />
+                  <span>Cliente</span>
+                </label>
+                <select
+                  value={filters.clienteId || 'todos'}
+                  onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
+                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                >
+                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
+                  {MOCK_CLIENTS.map((cli) => (
+                    <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
+                      {cli.razonSocial}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 3. Ejecutivo */}
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                  <Users className="w-3 h-3 text-purple-600" />
+                  <span>Ejecutivo</span>
+                </label>
+                <select
+                  value={filters.ejecutivoId}
+                  onChange={(e) => setFilters((prev) => ({ ...prev, ejecutivoId: e.target.value }))}
+                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                >
+                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los ejecutivos</option>
+                  {MOCK_EXECUTIVES.map((exe) => (
+                    <option key={exe.id} value={exe.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
+                      {exe.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+
+          {/* Caso 3: KPIs por Cliente (Periodo, Cliente) */}
+          {tab === 'clientes' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs max-w-2xl">
+              {/* 1. Periodo */}
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                  <Calendar className="w-3 h-3 text-purple-600" />
+                  <span>Período</span>
+                </label>
+                <select
+                  value={filters.periodo}
+                  onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
+                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
+                >
+                  <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
+                  <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
+                  <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
+                  <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                  <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
+                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                </select>
+              </div>
+
+              {/* 2. Cliente */}
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                  <Building2 className="w-3 h-3 text-purple-600" />
+                  <span>Cliente</span>
+                </label>
+                <select
+                  value={filters.clienteId || 'todos'}
+                  onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
+                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
+                >
+                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
+                  {MOCK_CLIENTS.map((cli) => (
+                    <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
+                      {cli.razonSocial}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function JefeDashboard() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<DashboardTab>('comercial');
@@ -535,394 +952,6 @@ export function JefeDashboard() {
       </div>
 
       {/* ========================================================================= */}
-      {/* CARD DE FILTROS DINÁMICA (Visible en las 3 pestañas y adaptada a cada una)*/}
-      {/* ========================================================================= */}
-      <div className="bg-white dark:bg-slate-900 border border-purple-200/90 dark:border-purple-900/50 rounded-2xl px-3.5 sm:px-4 py-2 sm:py-2.5 shadow-xs transition-all duration-300">
-        {/* Header del Card de Filtros (Siempre visible) */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-          {/* Título con su icono */}
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0 shadow-2xs">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-purple-600" />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-gray-900 dark:text-white">
-                Filtros
-              </span>
-              {activeFiltersCount > 0 && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 shadow-2xs">
-                  {activeFiltersCount} activo{activeFiltersCount > 1 ? 's' : ''}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Número de proformas/elementos encontrados + Botón de filtros */}
-          <div className="flex items-center gap-2 shrink-0 flex-wrap">
-            <span className="text-xs text-purple-800 dark:text-purple-300 font-bold bg-purple-50 dark:bg-purple-950/50 px-2.5 py-1 rounded-lg border border-purple-100 dark:border-purple-900/50">
-              {activeTab === 'ejecutivos' || activeTab === 'analistas'
-                ? `${filteredEjecutivosData.length} ejecutivo${filteredEjecutivosData.length === 1 ? '' : 's'} encontrado${filteredEjecutivosData.length === 1 ? '' : 's'}`
-                : activeTab === 'clientes'
-                  ? `${filteredClientesData.length} cliente${filteredClientesData.length === 1 ? '' : 's'} encontrado${filteredClientesData.length === 1 ? '' : 's'}`
-                  : `${dynamicFilteredProformas.length} proformas encontradas`}
-            </span>
-
-            <button
-              type="button"
-              disabled={activeFiltersCount === 0}
-              onClick={resetFilters}
-              title={activeFiltersCount > 0 ? 'Restablecer todos los filtros' : 'No hay filtros activos para limpiar'}
-              className={`px-2.5 py-1 text-xs font-bold rounded-lg border flex items-center gap-1 transition-all shadow-2xs ${activeFiltersCount > 0
-                ? 'bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-900 border-purple-200/80 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 dark:text-purple-300 dark:border-purple-800/60 cursor-pointer active:scale-95'
-                : 'bg-gray-50 dark:bg-slate-800/40 text-gray-400 dark:text-gray-600 border-gray-200/70 dark:border-white/5 cursor-not-allowed opacity-60'
-                }`}
-            >
-              <RotateCcw className={`w-3 h-3 ${activeFiltersCount > 0 ? 'text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-600'}`} />
-              <span>Limpiar</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
-              className={`px-3 py-1 text-xs rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 border shadow-xs ${isFilterPanelOpen
-                ? 'bg-purple-600 text-white border-purple-600 shadow-purple-600/20'
-                : 'bg-purple-50/80 hover:bg-purple-100 dark:bg-slate-800 text-purple-900 dark:text-purple-200 border-purple-200 dark:border-white/10'
-                }`}
-              title={isFilterPanelOpen ? 'Contraer filtros' : 'Desplegar filtros'}
-            >
-              <Filter className="w-3.5 h-3.5" />
-              <span>Filtros</span>
-              {isFilterPanelOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Chips cuando está contraído pero hay filtros activos */}
-        {!isFilterPanelOpen && activeFiltersCount > 0 && (
-          <div className="pt-2.5 mt-2.5 border-t border-purple-100 dark:border-white/10 flex items-center gap-1.5 flex-wrap text-xs animate-in fade-in duration-150">
-            <span className="text-[11px] font-bold text-gray-500">Filtros activos:</span>
-            {filters.periodo !== 'mes' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                Período: {filters.periodo}
-                <button type="button" onClick={() => setFilters(p => ({ ...p, periodo: 'mes' }))} className="hover:text-purple-950 cursor-pointer">
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            )}
-            {(activeTab === 'comercial' || activeTab === 'ejecutivos' || activeTab === 'analistas') && filters.ejecutivoId !== 'todos' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                Ejecutivo: {MOCK_EXECUTIVES.find(e => e.id === filters.ejecutivoId)?.nombre || filters.ejecutivoId}
-                <button type="button" onClick={() => setFilters(p => ({ ...p, ejecutivoId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            )}
-            {filters.clienteId && filters.clienteId !== 'todos' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                Cliente: {MOCK_CLIENTS.find(c => c.id === filters.clienteId)?.razonSocial || filters.clienteId}
-                <button type="button" onClick={() => setFilters(p => ({ ...p, clienteId: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            )}
-            {activeTab === 'comercial' && filters.estadoProforma !== 'todos' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                Estado: {filters.estadoProforma}
-                <button type="button" onClick={() => setFilters(p => ({ ...p, estadoProforma: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            )}
-            {activeTab === 'comercial' && filters.version !== 'todos' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                Versión: {filters.version}
-                <button type="button" onClick={() => setFilters(p => ({ ...p, version: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            )}
-            {activeTab === 'comercial' && filters.motivoRechazo !== 'todos' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                Motivo: {filters.motivoRechazo}
-                <button type="button" onClick={() => setFilters(p => ({ ...p, motivoRechazo: 'todos' }))} className="hover:text-purple-950 cursor-pointer">
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            )}
-            {activeTab === 'comercial' && searchTerm.trim() !== '' && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
-                Búsqueda: &ldquo;{searchTerm}&rdquo;
-                <button type="button" onClick={() => setSearchTerm('')} className="hover:text-purple-950 cursor-pointer">
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            )}
-          </div>
-        )}
-
-        {/* Contenido desplegable con efecto sutil */}
-        {isFilterPanelOpen && (
-          <div className="pt-3 mt-2.5 border-t border-purple-100 dark:border-white/10 space-y-3 animate-in fade-in zoom-in-98 duration-200">
-            {/* Caso 1: Dashboard Comercial (Todos los filtros + búsqueda) */}
-            {activeTab === 'comercial' && (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
-                  {/* 1. Periodo */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-purple-600" />
-                      <span>Período</span>
-                    </label>
-                    <select
-                      value={filters.periodo}
-                      onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
-                      className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
-                    >
-                      <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                      <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
-                      <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
-                      <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
-                      <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                      <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
-                    </select>
-                  </div>
-
-                  {/* 2. Ejecutivo */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                      <Users className="w-3 h-3 text-purple-600" />
-                      <span>Ejecutivo</span>
-                    </label>
-                    <select
-                      value={filters.ejecutivoId}
-                      onChange={(e) => setFilters((prev) => ({ ...prev, ejecutivoId: e.target.value }))}
-                      className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                    >
-                      <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los ejecutivos</option>
-                      {MOCK_EXECUTIVES.map((exe) => (
-                        <option key={exe.id} value={exe.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                          {exe.nombre}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* 3. Cliente */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                      <Building2 className="w-3 h-3 text-purple-600" />
-                      <span>Cliente</span>
-                    </label>
-                    <select
-                      value={filters.clienteId || 'todos'}
-                      onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
-                      className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                    >
-                      <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
-                      {MOCK_CLIENTS.map((cli) => (
-                        <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                          {cli.razonSocial}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* 4. Estado Proforma */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                      <FileText className="w-3 h-3 text-purple-600" />
-                      <span>Estado proforma</span>
-                    </label>
-                    <select
-                      value={filters.estadoProforma}
-                      onChange={(e) => setFilters((prev) => ({ ...prev, estadoProforma: e.target.value }))}
-                      className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                    >
-                      <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los estados</option>
-                      <option value="Pendiente" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Pendiente</option>
-                      <option value="Pendiente de validación" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Pendiente de validación V°B°</option>
-                      <option value="Aprobada por Cliente" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Aprobada por cliente</option>
-                      <option value="Facturado" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Facturado</option>
-                      <option value="Rechazada v1" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Rechazada v1</option>
-                      <option value="Derivada a KAM" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Derivada a KAM</option>
-                    </select>
-                  </div>
-
-                  {/* 5. Versión */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                      <Layers className="w-3 h-3 text-purple-600" />
-                      <span>Versión</span>
-                    </label>
-                    <select
-                      value={filters.version}
-                      onChange={(e) => setFilters((prev) => ({ ...prev, version: e.target.value }))}
-                      className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
-                    >
-                      <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todas las versiones</option>
-                      <option value="v1" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v1 (Original)</option>
-                      <option value="v2" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v2 (Ajustada)</option>
-                      <option value="v3" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v3 (Crítica)</option>
-                    </select>
-                  </div>
-
-                  {/* 6. Motivo de Rechazo */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                      <AlertTriangle className="w-3 h-3 text-purple-600" />
-                      <span>Motivo de rechazo</span>
-                    </label>
-                    <select
-                      value={filters.motivoRechazo}
-                      onChange={(e) => setFilters((prev) => ({ ...prev, motivoRechazo: e.target.value }))}
-                      className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                    >
-                      <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los motivos</option>
-                      <option value="Diferencia en recubitaje / medidas de SKUs" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Diferencia en recubitaje</option>
-                      <option value="Inconsistencia en Tarifas / Descuentos negociados" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Inconsistencia en tarifas</option>
-                      <option value="Discrepancia comercial no resuelta en V3" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Discrepancia en V3</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Input Búsqueda en tiempo real */}
-                <div className="relative">
-                  <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Buscar en tiempo real por RUT, Razón Social del Cliente, ID de Proforma o Ejecutivo..."
-                    className="w-full pl-9 pr-8 py-2 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-600 dark:text-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-normal focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20 outline-none shadow-2xs"
-                  />
-                  {searchTerm && (
-                    <button
-                      type="button"
-                      onClick={() => setSearchTerm('')}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5 rounded-full hover:bg-gray-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                      title="Borrar búsqueda"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
-              </>
-            )}
-
-            {/* Caso 2: KPIs por Ejecutivo (Solo periodo, cliente y ejecutivo) */}
-            {(activeTab === 'ejecutivos' || activeTab === 'analistas') && (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                {/* 1. Periodo */}
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-purple-600" />
-                    <span>Período</span>
-                  </label>
-                  <select
-                    value={filters.periodo}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
-                  >
-                    <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                    <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
-                    <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
-                    <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
-                    <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
-                  </select>
-                </div>
-
-                {/* 2. Cliente */}
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                    <Building2 className="w-3 h-3 text-purple-600" />
-                    <span>Cliente</span>
-                  </label>
-                  <select
-                    value={filters.clienteId || 'todos'}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                  >
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
-                    {MOCK_CLIENTS.map((cli) => (
-                      <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                        {cli.razonSocial}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* 3. Ejecutivo */}
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                    <Users className="w-3 h-3 text-purple-600" />
-                    <span>Ejecutivo</span>
-                  </label>
-                  <select
-                    value={filters.ejecutivoId}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, ejecutivoId: e.target.value }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                  >
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los ejecutivos</option>
-                    {MOCK_EXECUTIVES.map((exe) => (
-                      <option key={exe.id} value={exe.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                        {exe.nombre}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            )}
-
-            {/* Caso 3: KPIs por Cliente (Solo periodo y cliente) */}
-            {activeTab === 'clientes' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs max-w-2xl">
-                {/* 1. Periodo */}
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-purple-600" />
-                    <span>Período</span>
-                  </label>
-                  <select
-                    value={filters.periodo}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
-                  >
-                    <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                    <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
-                    <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
-                    <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
-                    <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
-                  </select>
-                </div>
-
-                {/* 2. Cliente */}
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                    <Building2 className="w-3 h-3 text-purple-600" />
-                    <span>Cliente</span>
-                  </label>
-                  <select
-                    value={filters.clienteId || 'todos'}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                  >
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
-                    {MOCK_CLIENTS.map((cli) => (
-                      <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                        {cli.razonSocial}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* ========================================================================= */}
       {/* PESTAÑA 1: DASHBOARD COMERCIAL GENERAL (Punto 5 Requerimiento Jira)        */}
       {/* ========================================================================= */}
       {activeTab === 'comercial' && (
@@ -1271,9 +1300,27 @@ export function JefeDashboard() {
             </div>
           )}
 
-          {/* 3. TABLA DINÁMICA DE RESULTADOS DE LOS FILTROS (Visible solo cuando el KPI seleccionado es 'todos' / Total Proformas) */}
+          {/* 3. CARD UNIFICADA: FILTROS + RESULTADOS DE BÚSQUEDA DINÁMICOS (Visible solo cuando el KPI seleccionado es 'todos' / Total Proformas) */}
           {kpiFilter === 'todos' && (
-            <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100/90 dark:border-white/10 overflow-hidden shadow-xs animate-in fade-in duration-200">
+            <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-200/90 dark:border-purple-900/50 overflow-hidden shadow-xs animate-in fade-in duration-200">
+              {/* Sección Superior: Filtros */}
+              <DashboardFiltersPanel
+                tab="comercial"
+                totalFoundText={`${dynamicFilteredProformas.length} proformas encontradas`}
+                filters={filters}
+                setFilters={setFilters}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                activeFiltersCount={activeFiltersCount}
+                resetFilters={resetFilters}
+                isFilterPanelOpen={isFilterPanelOpen}
+                setIsFilterPanelOpen={setIsFilterPanelOpen}
+              />
+
+              {/* Separador de línea gris */}
+              <div className="border-t border-gray-200 dark:border-white/10" />
+
+              {/* Sección Inferior: Header de Tabla de Resultados */}
               <div className="p-4 border-b border-gray-100 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-purple-50/30 dark:bg-purple-950/10">
                 <div>
                   <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -1401,8 +1448,24 @@ export function JefeDashboard() {
       {/* PESTAÑA 2: KPIS POR EJECUTIVO (Punto 6 Requerimiento Jira)                 */}
       {/* ========================================================================= */}
       {(activeTab === 'ejecutivos' || activeTab === 'analistas') && (
-        <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 overflow-hidden shadow-xs">
-          <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between">
+        <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-200/90 dark:border-purple-900/50 overflow-hidden shadow-xs animate-in fade-in duration-200">
+          {/* Sección Superior: Filtros (Período, Cliente, Ejecutivo) */}
+          <DashboardFiltersPanel
+            tab="ejecutivos"
+            totalFoundText={`${filteredEjecutivosData.length} ejecutivo${filteredEjecutivosData.length === 1 ? '' : 's'} encontrado${filteredEjecutivosData.length === 1 ? '' : 's'}`}
+            filters={filters}
+            setFilters={setFilters}
+            activeFiltersCount={activeFiltersCount}
+            resetFilters={resetFilters}
+            isFilterPanelOpen={isFilterPanelOpen}
+            setIsFilterPanelOpen={setIsFilterPanelOpen}
+          />
+
+          {/* Separador de línea gris */}
+          <div className="border-t border-gray-200 dark:border-white/10" />
+
+          {/* Sección Inferior: Header de Tabla de Ejecutivos */}
+          <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between bg-purple-50/30 dark:bg-purple-950/10">
             <div>
               <h3 className="text-base font-bold text-gray-900 dark:text-white">
                 Desempeño Individual de Ejecutivos de Facturación
@@ -1587,8 +1650,24 @@ export function JefeDashboard() {
       {/* PESTAÑA 3: KPIS POR CLIENTE (Punto 7 Requerimiento Jira)                   */}
       {/* ========================================================================= */}
       {activeTab === 'clientes' && (
-        <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 overflow-hidden shadow-xs">
-          <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between">
+        <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-200/90 dark:border-purple-900/50 overflow-hidden shadow-xs animate-in fade-in duration-200">
+          {/* Sección Superior: Filtros (Período, Cliente) */}
+          <DashboardFiltersPanel
+            tab="clientes"
+            totalFoundText={`${filteredClientesData.length} cliente${filteredClientesData.length === 1 ? '' : 's'} encontrado${filteredClientesData.length === 1 ? '' : 's'}`}
+            filters={filters}
+            setFilters={setFilters}
+            activeFiltersCount={activeFiltersCount}
+            resetFilters={resetFilters}
+            isFilterPanelOpen={isFilterPanelOpen}
+            setIsFilterPanelOpen={setIsFilterPanelOpen}
+          />
+
+          {/* Separador de línea gris */}
+          <div className="border-t border-gray-200 dark:border-white/10" />
+
+          {/* Sección Inferior: Header de Tabla de Clientes */}
+          <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between bg-purple-50/30 dark:bg-purple-950/10">
             <div>
               <h3 className="text-base font-bold text-gray-900 dark:text-white">
                 Comportamiento y Complejidad por Cliente
