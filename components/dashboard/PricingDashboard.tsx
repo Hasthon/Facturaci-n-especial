@@ -1012,17 +1012,20 @@ export function PricingDashboard() {
                     {globalFilteredProformas.length} proformas encontradas
                   </span>
 
-                  {activeFiltersCount > 0 && (
-                    <button
-                      type="button"
-                      onClick={resetFilters}
-                      className="px-2 py-1 text-xs font-bold text-purple-700 hover:text-purple-900 dark:text-purple-400 dark:hover:text-purple-200 flex items-center gap-1 cursor-pointer transition-colors bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/40 dark:hover:bg-purple-900/60 rounded-lg border border-purple-200/60 dark:border-purple-800/40 shadow-2xs"
-                      title="Restablecer todos los filtros"
-                    >
-                      <RotateCcw className="w-3 h-3" />
-                      <span>Limpiar</span>
-                    </button>
-                  )}
+                <button
+                  type="button"
+                  disabled={activeFiltersCount === 0}
+                  onClick={resetFilters}
+                  title={activeFiltersCount > 0 ? 'Restablecer todos los filtros' : 'No hay filtros activos para limpiar'}
+                  className={`px-2.5 py-1 text-xs font-bold rounded-lg border flex items-center gap-1 transition-all shadow-2xs ${
+                    activeFiltersCount > 0
+                      ? 'bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-900 border-purple-200/80 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 dark:text-purple-300 dark:border-purple-800/60 cursor-pointer active:scale-95'
+                      : 'bg-gray-50 dark:bg-slate-800/40 text-gray-400 dark:text-gray-600 border-gray-200/70 dark:border-white/5 cursor-not-allowed opacity-60'
+                  }`}
+                >
+                  <RotateCcw className={`w-3 h-3 ${activeFiltersCount > 0 ? 'text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-600'}`} />
+                  <span>Limpiar</span>
+                </button>
 
                   <button
                     type="button"
