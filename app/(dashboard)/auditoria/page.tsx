@@ -17,6 +17,8 @@ import {
   FileSpreadsheet,
   BarChart3,
   TrendingDown,
+  DollarSign,
+  ArrowDownRight,
   Clock,
   Check,
   X,
@@ -50,6 +52,60 @@ export default function AuditoriaPage() {
       .filter((c) => c.kpis.proformasTotales > 0)
       .sort((a, b) => (b.kpis.cantidadReprocesos || 0) - (a.kpis.cantidadReprocesos || 0))
       .slice(0, 5);
+  }, []);
+
+  // Métricas financieras y variación en $ para el dashboard de versionamiento
+  const financialMetrics = useMemo(() => {
+    const proformasConVersiones = MOCK_PROFORMAS.filter((p) => {
+      const hist = p.historialVersiones || [];
+      return hist.length > 1 || p.versionActual === 'v2' || p.versionActual === 'v3';
+    });
+
+    let totalMontoActualReprocesos = 0;
+    let totalMontoOriginalV1 = 0;
+    let totalVariaciones = 0;
+    let maxVariacionAbs = 0;
+    let maxVariacionCliente = '';
+    let maxVariacionMonto = 0;
+
+    proformasConVersiones.forEach((p) => {
+      const hist = p.historialVersiones || [];
+      const v1 = hist[0];
+      const montoV1 = v1?.monto || p.monto;
+      const montoActual = p.monto;
+      const diff = montoActual - montoV1;
+
+      totalMontoActualReprocesos += montoActual;
+      totalMontoOriginalV1 += montoV1;
+      totalVariaciones += diff;
+
+      if (Math.abs(diff) > maxVariacionAbs) {
+        maxVariacionAbs = Math.abs(diff);
+        maxVariacionCliente = p.cliente;
+        maxVariacionMonto = diff;
+      }
+    });
+
+    const count = proformasConVersiones.length || 1;
+    const promedioVariacion = totalVariaciones / count;
+    const porcentajeVariacionGlobal = totalMontoOriginalV1 > 0 ? (totalVariaciones / totalMontoOriginalV1) * 100 : 0;
+
+    const proformasAprobadasV2 = proformasConVersiones.filter(
+      (p) => p.estadoSupervision === 'Autorizada' || p.estado === 'Aprobada por Cliente' || p.estado === 'Facturado'
+    );
+    const totalMontoRecuperado = proformasAprobadasV2.reduce((acc, curr) => acc + curr.monto, 0);
+
+    return {
+      count,
+      totalMontoActualReprocesos,
+      totalMontoOriginalV1,
+      totalVariaciones,
+      promedioVariacion,
+      porcentajeVariacionGlobal,
+      totalMontoRecuperado,
+      maxVariacionCliente,
+      maxVariacionMonto,
+    };
   }, []);
 
   // Filtrado de la bitácora
@@ -618,6 +674,109 @@ export default function AuditoriaPage() {
               <p className="text-[11px] text-gray-500 mt-1">
                 Tiempo que tarda el ejecutivo en corregir y solicitar V°B°.
               </p>
+            </div>
+          </div>
+
+          {/* Tarjetas de Métricas Financieras en Montos ($) */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <h3 className="text-sm font-bold text-gray-900 dark:text-white">
+                KPIs Financieros de Versionamiento y Reprocesos (en $)
+              </h3>
+              <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/40">
+                Montos $
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Monto Total en Reprocesos (v2+)
+                </div>
+                <div className="text-3xl font-black text-purple-700 dark:text-purple-300 mt-2">
+                  {formatCurrency(financialMetrics.totalMontoActualReprocesos)}
+                </div>
+                <p className="text-[11px] text-gray-500 mt-1">
+                  Volumen económico de proformas que requirieron corrección ({financialMetrics.count} casos).
+                </p>
+              </div>
+
+              <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Monto Aprobado / Recuperado en V2
+                </div>
+                <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-2">
+                  {formatCurrency(financialMetrics.totalMontoRecuperado)}
+                </div>
+                <p className="text-[11px] text-gray-500 mt-1">
+                  Proformas re-emitidas que ya obtuvieron V°B° de jefatura o facturación.
+                </p>
+              </div>
+
+              <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Ajuste Económico Total Acumulado
+                </div>
+                <div className="text-3xl font-black text-amber-600 dark:text-amber-400 mt-2">
+                  {formatCurrency(financialMetrics.totalVariaciones)}
+                </div>
+                <p className="text-[11px] text-gray-500 mt-1">
+                  Diferencia neta acumulada entre montos iniciales v1 y versiones corregidas.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Tarjetas de Promedio de Variación entre Proformas (en $) */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <ArrowDownRight className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+              <h3 className="text-sm font-bold text-gray-900 dark:text-white">
+                Promedio de Variación entre Versiones de Proformas (en $)
+              </h3>
+              <span className="text-[10px] font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-200 dark:border-purple-800/40">
+                Variación Promedio $
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Promedio de Variación por Proforma
+                </div>
+                <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400 mt-2 flex items-baseline gap-2">
+                  <span>{formatCurrency(Math.round(financialMetrics.promedioVariacion))}</span>
+                  <span className="text-xs font-bold text-indigo-500/80">/ proforma</span>
+                </div>
+                <p className="text-[11px] text-gray-500 mt-1">
+                  Delta medio en pesos chilenos por proforma re-emitida tras observaciones.
+                </p>
+              </div>
+
+              <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Variación Porcentual Media
+                </div>
+                <div className="text-3xl font-black text-purple-700 dark:text-purple-300 mt-2">
+                  {financialMetrics.porcentajeVariacionGlobal.toFixed(1)}%
+                </div>
+                <p className="text-[11px] text-gray-500 mt-1">
+                  Impacto porcentual medio de corrección sobre el importe original cotizado.
+                </p>
+              </div>
+
+              <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Mayor Variación Registrada
+                </div>
+                <div className="text-3xl font-black text-rose-600 dark:text-rose-400 mt-2">
+                  {formatCurrency(financialMetrics.maxVariacionMonto)}
+                </div>
+                <p className="text-[11px] text-gray-500 mt-1 truncate" title={financialMetrics.maxVariacionCliente}>
+                  {financialMetrics.maxVariacionCliente} (Recubitaje y medidas SKU).
+                </p>
+              </div>
             </div>
           </div>
 
