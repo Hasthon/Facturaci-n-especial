@@ -118,7 +118,7 @@ export default function AprobacionesPage() {
     return proformas.filter((p) => {
       const isPending = p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación';
       const isAuthorized = p.estadoSupervision === 'Autorizada' || p.estado === 'Aprobada por Cliente' || p.estado === 'Facturado';
-      const isReturned = p.estadoSupervision === 'Devuelta_Analista' || p.estado === 'Derivada a KAM';
+      const isReturned = p.estadoSupervision === 'Devuelta_Analista' || p.estado === 'Derivada a KAM' || p.estado === 'Rechazada' || p.estado === 'Rechazada v1' || p.estado === 'Rechazada v2' || p.estadoComercial === 'Rechazada_Cliente';
 
       if (activeTab === 'pendientes' && !isPending) return false;
       if (activeTab === 'autorizadas' && !isAuthorized) return false;
@@ -382,12 +382,12 @@ export default function AprobacionesPage() {
         <div className="w-full overflow-x-auto">
           <table className="w-full table-fixed text-left border-collapse text-xs">
             <colgroup>
-              <col className="w-[16%]" />
-              <col className="w-[24%]" />
-              <col className="w-[16%]" />
-              <col className="w-[16%]" />
-              <col className="w-[13%]" />
-              <col className="w-[15%]" />
+              <col className={activeTab === 'devueltas' ? 'w-[18%]' : 'w-[16%]'} />
+              <col className={activeTab === 'devueltas' ? 'w-[28%]' : 'w-[24%]'} />
+              <col className={activeTab === 'devueltas' ? 'w-[18%]' : 'w-[16%]'} />
+              <col className={activeTab === 'devueltas' ? 'w-[18%]' : 'w-[16%]'} />
+              <col className={activeTab === 'devueltas' ? 'w-[18%]' : 'w-[13%]'} />
+              {activeTab !== 'devueltas' && <col className="w-[15%]" />}
             </colgroup>
             <thead>
               <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[11px] font-bold text-gray-600 dark:text-gray-400">
@@ -396,13 +396,15 @@ export default function AprobacionesPage() {
                 <th className="py-3.5 px-3">Fecha y hora última versión</th>
                 <th className="py-3.5 px-3">Ejecutivo responsable</th>
                 <th className="py-3.5 px-3 text-right">Monto actual</th>
-                <th className="py-3.5 px-3 text-center">Acciones</th>
+                {activeTab !== 'devueltas' && (
+                  <th className="py-3.5 px-3 text-center">Acciones</th>
+                )}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-xs text-gray-700 dark:text-gray-300">
               {filteredProformas.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-gray-500">
+                  <td colSpan={activeTab === 'devueltas' ? 5 : 6} className="text-center py-12 text-gray-500">
                     <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-2" />
                     <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
                       No hay solicitudes de aprobación bajo los filtros seleccionados
@@ -424,11 +426,14 @@ export default function AprobacionesPage() {
                     <React.Fragment key={proforma.id}>
                       <tr
                         id={`aprobaciones-row-${proforma.id}`}
+                        onClick={activeTab === 'devueltas' ? () => toggleRowExpanded(proforma.id) : undefined}
                         className={cn(
                           'hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors',
+                          activeTab === 'devueltas' && 'cursor-pointer',
                           isPendingVb && 'bg-amber-50/25 dark:bg-amber-950/10',
                           isExpanded && 'bg-purple-50/30 dark:bg-purple-950/25'
                         )}
+                        title={activeTab === 'devueltas' ? 'Haz clic en la fila para ver detalles, observaciones y motivo de rechazo' : undefined}
                       >
                         {/* Proforma ID */}
                         <td className="py-3.5 px-4 align-middle">
@@ -440,6 +445,14 @@ export default function AprobacionesPage() {
                               <span className="px-1.5 py-0.2 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300 uppercase">
                                 {proforma.versionActual || 'v1'}
                               </span>
+                              {activeTab === 'devueltas' && (
+                                <ChevronDown
+                                  className={cn(
+                                    'w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ml-1',
+                                    isExpanded && 'rotate-180 text-purple-600 dark:text-purple-300'
+                                  )}
+                                />
+                              )}
                             </div>
                             {isPendingVb ? (
                               <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300 animate-pulse">
@@ -499,109 +512,111 @@ export default function AprobacionesPage() {
                           )}
                         </td>
 
-                        {/* Acciones (solo iconos según especificación) */}
-                        <td className="py-3.5 px-3 align-middle text-center">
-                          <div className="inline-flex items-center justify-center gap-1">
-                            {/* 1. Icono Derivadas / Comparar Versiones (Diff) */}
-                            <button
-                              type="button"
-                              onClick={() => setComparingProforma(proforma)}
-                              className="p-1.5 rounded-lg border border-purple-200/80 dark:border-purple-800/60 bg-purple-50/80 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/70 text-purple-700 dark:text-purple-300 transition-colors cursor-pointer shadow-2xs"
-                              title="Comparar Versiones (Diff) / Derivadas"
-                            >
-                              <GitCompare className="w-3.5 h-3.5" />
-                            </button>
-
-                            {/* 2. Icono Rechazar (X) */}
-                            {isPendingVb ? (
+                        {/* Acciones (solo iconos según especificación; oculto en pestaña rechazadas y derivadas) */}
+                        {activeTab !== 'devueltas' && (
+                          <td className="py-3.5 px-3 align-middle text-center">
+                            <div className="inline-flex items-center justify-center gap-1">
+                              {/* 1. Icono Derivadas / Comparar Versiones (Diff) */}
                               <button
                                 type="button"
-                                onClick={() => {
-                                  setRejectingProforma(proforma);
-                                  setRejectionReason('Inconsistencia en Tarifas / Descuentos');
-                                  setRejectionObservations('');
-                                }}
-                                className="p-1.5 rounded-lg border border-rose-200/80 dark:border-rose-900/50 bg-rose-50/80 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900/70 text-rose-600 dark:text-rose-400 transition-colors cursor-pointer shadow-2xs"
-                                title="Rechazar / Devolver V2 con observaciones"
+                                onClick={() => setComparingProforma(proforma)}
+                                className="p-1.5 rounded-lg border border-purple-200/80 dark:border-purple-800/60 bg-purple-50/80 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/70 text-purple-700 dark:text-purple-300 transition-colors cursor-pointer shadow-2xs"
+                                title="Comparar Versiones (Diff) / Derivadas"
                               >
-                                <XCircle className="w-3.5 h-3.5" />
+                                <GitCompare className="w-3.5 h-3.5" />
                               </button>
-                            ) : (
-                              <button
-                                type="button"
-                                disabled
-                                className="p-1.5 rounded-lg border border-gray-100 dark:border-white/5 text-gray-300 dark:text-gray-600 opacity-40 cursor-not-allowed"
-                                title="Rechazar no disponible para este estado"
-                              >
-                                <XCircle className="w-3.5 h-3.5" />
-                              </button>
-                            )}
 
-                            {/* 3. Icono Aprobar (Ticket de línea verde con fondo menta/verde claro, mismo grado iconográfico) */}
-                            {isPendingVb ? (
-                              <button
-                                type="button"
-                                onClick={() => setApprovingProforma(proforma)}
-                                className="p-1.5 rounded-lg border border-emerald-200/80 dark:border-emerald-800/60 bg-emerald-50/80 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/70 text-emerald-600 dark:text-emerald-400 transition-colors cursor-pointer shadow-2xs"
-                                title="Aprobar V2 (Otorgar V°B° de Jefatura)"
-                              >
-                                <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                              </button>
-                            ) : proforma.estadoSupervision === 'Autorizada' ? (
-                              <span
-                                className="p-1.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/40 inline-flex items-center justify-center shadow-2xs"
-                                title="V°B° ya otorgado"
-                              >
-                                <CheckCircle2 className="w-3.5 h-3.5" />
-                              </span>
-                            ) : (
-                              <button
-                                type="button"
-                                disabled
-                                className="p-1.5 rounded-lg border border-gray-100 dark:border-white/5 text-gray-300 dark:text-gray-600 opacity-40 cursor-not-allowed"
-                                title="Aprobación no disponible"
-                              >
-                                <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                              </button>
-                            )}
-
-                            {/* 4. Icono Descarga */}
-                            <button
-                              type="button"
-                              onClick={() => handleDescargarProforma(proforma)}
-                              className="p-1.5 rounded-lg border border-gray-200/80 dark:border-white/10 bg-gray-50/80 hover:bg-gray-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-gray-600 dark:text-gray-300 transition-colors cursor-pointer shadow-2xs"
-                              title="Descargar proforma (PDF / Excel)"
-                            >
-                              <Download className="w-3.5 h-3.5" />
-                            </button>
-
-                            {/* 5. Icono Chevron para desplegar información extendida */}
-                            <button
-                              type="button"
-                              onClick={() => toggleRowExpanded(proforma.id)}
-                              className={cn(
-                                'p-1.5 rounded-lg border transition-all cursor-pointer shadow-2xs',
-                                isExpanded
-                                  ? 'bg-purple-100 dark:bg-purple-900/60 border-purple-300 text-purple-700 dark:text-purple-200'
-                                  : 'border-gray-200/80 dark:border-white/10 bg-gray-50/80 hover:bg-gray-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-gray-500 hover:text-gray-800 dark:hover:text-white'
+                              {/* 2. Icono Rechazar (X) */}
+                              {isPendingVb ? (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setRejectingProforma(proforma);
+                                    setRejectionReason('Inconsistencia en Tarifas / Descuentos');
+                                    setRejectionObservations('');
+                                  }}
+                                  className="p-1.5 rounded-lg border border-rose-200/80 dark:border-rose-900/50 bg-rose-50/80 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900/70 text-rose-600 dark:text-rose-400 transition-colors cursor-pointer shadow-2xs"
+                                  title="Rechazar / Devolver V2 con observaciones"
+                                >
+                                  <XCircle className="w-3.5 h-3.5" />
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  disabled
+                                  className="p-1.5 rounded-lg border border-gray-100 dark:border-white/5 text-gray-300 dark:text-gray-600 opacity-40 cursor-not-allowed"
+                                  title="Rechazar no disponible para este estado"
+                                >
+                                  <XCircle className="w-3.5 h-3.5" />
+                                </button>
                               )}
-                              title={isExpanded ? 'Ocultar información detallada' : 'Ver alertas, observaciones y motivo de rechazo'}
-                            >
-                              <ChevronDown
+
+                              {/* 3. Icono Aprobar (Ticket de línea verde con fondo menta/verde claro, mismo grado iconográfico) */}
+                              {isPendingVb ? (
+                                <button
+                                  type="button"
+                                  onClick={() => setApprovingProforma(proforma)}
+                                  className="p-1.5 rounded-lg border border-emerald-200/80 dark:border-emerald-800/60 bg-emerald-50/80 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/70 text-emerald-600 dark:text-emerald-400 transition-colors cursor-pointer shadow-2xs"
+                                  title="Aprobar V2 (Otorgar V°B° de Jefatura)"
+                                >
+                                  <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                                </button>
+                              ) : proforma.estadoSupervision === 'Autorizada' ? (
+                                <span
+                                  className="p-1.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/40 inline-flex items-center justify-center shadow-2xs"
+                                  title="V°B° ya otorgado"
+                                >
+                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                </span>
+                              ) : (
+                                <button
+                                  type="button"
+                                  disabled
+                                  className="p-1.5 rounded-lg border border-gray-100 dark:border-white/5 text-gray-300 dark:text-gray-600 opacity-40 cursor-not-allowed"
+                                  title="Aprobación no disponible"
+                                >
+                                  <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                                </button>
+                              )}
+
+                              {/* 4. Icono Descarga */}
+                              <button
+                                type="button"
+                                onClick={() => handleDescargarProforma(proforma)}
+                                className="p-1.5 rounded-lg border border-gray-200/80 dark:border-white/10 bg-gray-50/80 hover:bg-gray-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-gray-600 dark:text-gray-300 transition-colors cursor-pointer shadow-2xs"
+                                title="Descargar proforma (PDF / Excel)"
+                              >
+                                <Download className="w-3.5 h-3.5" />
+                              </button>
+
+                              {/* 5. Icono Chevron para desplegar información extendida */}
+                              <button
+                                type="button"
+                                onClick={() => toggleRowExpanded(proforma.id)}
                                 className={cn(
-                                  'w-3.5 h-3.5 transition-transform duration-200',
-                                  isExpanded && 'rotate-180 text-purple-700 dark:text-purple-200'
+                                  'p-1.5 rounded-lg border transition-all cursor-pointer shadow-2xs',
+                                  isExpanded
+                                    ? 'bg-purple-100 dark:bg-purple-900/60 border-purple-300 text-purple-700 dark:text-purple-200'
+                                    : 'border-gray-200/80 dark:border-white/10 bg-gray-50/80 hover:bg-gray-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-gray-500 hover:text-gray-800 dark:hover:text-white'
                                 )}
-                              />
-                            </button>
-                          </div>
-                        </td>
+                                title={isExpanded ? 'Ocultar información detallada' : 'Ver alertas, observaciones y motivo de rechazo'}
+                              >
+                                <ChevronDown
+                                  className={cn(
+                                    'w-3.5 h-3.5 transition-transform duration-200',
+                                    isExpanded && 'rotate-180 text-purple-700 dark:text-purple-200'
+                                  )}
+                                />
+                              </button>
+                            </div>
+                          </td>
+                        )}
                       </tr>
 
                       {/* Fila expandible con el resto de la información */}
                       {isExpanded && (
                         <tr id={`aprobaciones-expanded-row-${proforma.id}`} className="bg-purple-50/30 dark:bg-slate-800/40 border-b border-purple-100 dark:border-white/5">
-                          <td colSpan={6} className="py-3.5 px-6">
+                          <td colSpan={activeTab === 'devueltas' ? 5 : 6} className="py-3.5 px-6">
                             <div className="space-y-3 animate-in fade-in slide-in-from-top-1 duration-150">
                               {/* Alertas y Observaciones de Elaboración */}
                               {proforma.alertasElaboracion && proforma.alertasElaboracion.length > 0 && (
