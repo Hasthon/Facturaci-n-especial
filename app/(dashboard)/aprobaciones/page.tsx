@@ -279,7 +279,7 @@ export default function AprobacionesPage() {
               Aprobación / Rechazo de Proformas y Control de Versiones
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
-              Supervisa las proformas re-emitidas tras rechazo del cliente (Versión 2+), contrasta cambios y emite V°B° de jefatura.
+              Supervisa las versiones de las proformas tras el rechazo del cliente, los cambios entre versiones y permite dar V°B.
             </p>
           </div>
         </div>
