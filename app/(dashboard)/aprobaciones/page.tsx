@@ -161,6 +161,7 @@ export default function AprobacionesPage() {
                 estadoSupervision: 'Autorizada' as const,
                 aprobadoPorSupervisor: user?.name || 'Carlos Muñoz (Jefatura)',
                 fechaSupervision: nowStr,
+                fechaAprobacion: nowStr,
               }
               : h
           );
@@ -169,6 +170,7 @@ export default function AprobacionesPage() {
             ...p,
             estadoSupervision: 'Autorizada',
             estado: 'Pendiente', // Lista para reenvío formal al cliente
+            fechaAprobacion: nowStr,
             historialVersiones: updatedHist,
           };
         }
@@ -223,6 +225,7 @@ export default function AprobacionesPage() {
                 motivo: rejectionReason,
                 observaciones: rejectionObservations,
                 fechaSupervision: nowStr,
+                fechaRechazo: nowStr,
               }
               : h
           );
@@ -231,6 +234,7 @@ export default function AprobacionesPage() {
             ...p,
             estadoSupervision: 'Devuelta_Analista',
             estado: 'Rechazada v2',
+            fechaRechazo: nowStr,
             historialVersiones: updatedHist,
           };
         }
@@ -267,6 +271,32 @@ export default function AprobacionesPage() {
     setRejectionObservations('');
     setComparingProforma(null);
   };
+
+  // Obtener fecha de resolución (Aprobación o Rechazo según la sección)
+  const getApprovalOrResolutionDate = (proforma: Proforma) => {
+    const lastVersion = proforma.historialVersiones?.[proforma.historialVersiones.length - 1];
+
+    if (activeTab === 'autorizadas') {
+      return (
+        lastVersion?.fechaSupervision ||
+        lastVersion?.fechaAprobacion ||
+        proforma.fechaFacturacion ||
+        (lastVersion?.fechaCreacion ? `${lastVersion.fechaCreacion.split(' ')[0]} 14:15` : proforma.fecha)
+      );
+    }
+
+    if (activeTab === 'devueltas') {
+      return (
+        lastVersion?.fechaSupervision ||
+        lastVersion?.fechaRechazo ||
+        (lastVersion?.fechaCreacion ? `${lastVersion.fechaCreacion.split(' ')[0]} 18:30` : proforma.fecha)
+      );
+    }
+
+    return null;
+  };
+
+  const totalColumns = activeTab === 'autorizadas' ? 7 : 6;
 
   return (
     <div className="p-6 space-y-6 max-w-[1600px] mx-auto">
@@ -313,8 +343,8 @@ export default function AprobacionesPage() {
             <button
               onClick={() => setActiveTab('pendientes')}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${activeTab === 'pendientes'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+                ? 'bg-purple-600 text-white shadow-xs'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
             >
               <span>Pendientes V°B°</span>
@@ -327,8 +357,8 @@ export default function AprobacionesPage() {
             <button
               onClick={() => setActiveTab('autorizadas')}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 ${activeTab === 'autorizadas'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+                ? 'bg-purple-600 text-white shadow-xs'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
             >
               Autorizadas por Jefatura
@@ -336,8 +366,8 @@ export default function AprobacionesPage() {
             <button
               onClick={() => setActiveTab('devueltas')}
               className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 ${activeTab === 'devueltas'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
+                ? 'bg-purple-600 text-white shadow-xs'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
             >
               Rechazadas / Derivadas
@@ -373,18 +403,48 @@ export default function AprobacionesPage() {
         <div className="w-full overflow-x-auto">
           <table className="w-full table-fixed text-left border-collapse text-xs">
             <colgroup>
-              <col className={activeTab === 'devueltas' ? 'w-[18%]' : 'w-[16%]'} />
-              <col className={activeTab === 'devueltas' ? 'w-[28%]' : 'w-[24%]'} />
-              <col className={activeTab === 'devueltas' ? 'w-[18%]' : 'w-[16%]'} />
-              <col className={activeTab === 'devueltas' ? 'w-[18%]' : 'w-[16%]'} />
-              <col className={activeTab === 'devueltas' ? 'w-[18%]' : 'w-[13%]'} />
-              {activeTab !== 'devueltas' && <col className="w-[15%]" />}
+              {activeTab === 'pendientes' && (
+                <>
+                  <col className="w-[16%]" />
+                  <col className="w-[24%]" />
+                  <col className="w-[16%]" />
+                  <col className="w-[16%]" />
+                  <col className="w-[13%]" />
+                  <col className="w-[15%]" />
+                </>
+              )}
+              {activeTab === 'autorizadas' && (
+                <>
+                  <col className="w-[14%]" />
+                  <col className="w-[22%]" />
+                  <col className="w-[14%]" />
+                  <col className="w-[15%]" />
+                  <col className="w-[14%]" />
+                  <col className="w-[10%]" />
+                  <col className="w-[11%]" />
+                </>
+              )}
+              {activeTab === 'devueltas' && (
+                <>
+                  <col className="w-[16%]" />
+                  <col className="w-[24%]" />
+                  <col className="w-[15%]" />
+                  <col className="w-[16%]" />
+                  <col className="w-[16%]" />
+                  <col className="w-[13%]" />
+                </>
+              )}
             </colgroup>
             <thead>
               <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[11px] font-bold text-gray-600 dark:text-gray-400">
                 <th className="py-3.5 px-4">Proforma ID</th>
                 <th className="py-3.5 px-3">Nombre o razón social</th>
                 <th className="py-3.5 px-3">Fecha y hora última versión</th>
+                {activeTab !== 'pendientes' && (
+                  <th className="py-3.5 px-3">
+                    {activeTab === 'autorizadas' ? 'Fecha y hora de aprobación' : 'Fecha y hora de rechazo'}
+                  </th>
+                )}
                 <th className="py-3.5 px-3">Ejecutivo responsable</th>
                 <th className="py-3.5 px-3 text-right">Monto actual</th>
                 {activeTab !== 'devueltas' && (
@@ -395,7 +455,7 @@ export default function AprobacionesPage() {
             <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-xs text-gray-700 dark:text-gray-300">
               {filteredProformas.length === 0 ? (
                 <tr>
-                  <td colSpan={activeTab === 'devueltas' ? 5 : 6} className="text-center py-12 text-gray-500">
+                  <td colSpan={totalColumns} className="text-center py-12 text-gray-500">
                     <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-2" />
                     <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
                       No hay solicitudes de aprobación bajo los filtros seleccionados
@@ -480,6 +540,27 @@ export default function AprobacionesPage() {
                             <span>{lastVersion?.fechaCreacion || proforma.fecha}</span>
                           </div>
                         </td>
+
+                        {/* Fecha y hora de aprobación / rechazo (exceptuando pendientes) */}
+                        {activeTab !== 'pendientes' && (
+                          <td className="py-3.5 px-3 align-middle">
+                            <div
+                              className={cn(
+                                'flex items-center gap-1.5 font-mono text-[11px]',
+                                activeTab === 'autorizadas'
+                                  ? 'text-emerald-700 dark:text-emerald-400 font-medium'
+                                  : 'text-rose-700 dark:text-rose-400'
+                              )}
+                            >
+                              {activeTab === 'autorizadas' ? (
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                              ) : (
+                                <XCircle className="w-3.5 h-3.5 text-rose-500 dark:text-rose-400 shrink-0" />
+                              )}
+                              <span>{getApprovalOrResolutionDate(proforma)}</span>
+                            </div>
+                          </td>
+                        )}
 
                         {/* Ejecutivo responsable */}
                         <td className="py-3.5 px-3 align-middle">
@@ -607,7 +688,7 @@ export default function AprobacionesPage() {
                       {/* Fila expandible con el resto de la información */}
                       {isExpanded && (
                         <tr id={`aprobaciones-expanded-row-${proforma.id}`} className="bg-purple-50/30 dark:bg-slate-800/40 border-b border-purple-100 dark:border-white/5">
-                          <td colSpan={activeTab === 'devueltas' ? 5 : 6} className="py-3.5 px-6">
+                          <td colSpan={totalColumns} className="py-3.5 px-6">
                             <div className="space-y-3 animate-in fade-in slide-in-from-top-1 duration-150">
                               {/* Alertas y Observaciones de Elaboración */}
                               {proforma.alertasElaboracion && proforma.alertasElaboracion.length > 0 && (
