@@ -481,13 +481,49 @@ export function JefeDashboard() {
   const [rejectionReason, setRejectionReason] = useState('Inconsistencia en Tarifas / Descuentos');
   const [rejectionObservations, setRejectionObservations] = useState('');
 
+  // Desplazamiento automático suave hacia la fila desplegada para evitar que quede cortada abajo
+  const scrollToExpandedRow = (id: string) => {
+    setTimeout(() => {
+      const expEl = document.getElementById(`expanded-row-${id}`);
+      const parentEl = document.getElementById(`row-${id}`);
+      if (!expEl) return;
+
+      const expRect = expEl.getBoundingClientRect();
+      const parentRect = parentEl ? parentEl.getBoundingClientRect() : expRect;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const bottomPadding = 56; // Margen de separación para ver holgadamente todo el contenido
+      const topbarMargin = 85;  // Margen superior para respetar barra de navegación
+
+      if (parentRect.top < topbarMargin) {
+        // Si la fila principal quedó oculta arriba
+        const targetY = window.scrollY + parentRect.top - topbarMargin;
+        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+      } else if (expRect.bottom > viewportHeight - bottomPadding) {
+        // Si el contenido desplegado queda cortado abajo de la pantalla
+        const scrollNeeded = expRect.bottom - viewportHeight + bottomPadding;
+        const newParentTop = parentRect.top - scrollNeeded;
+
+        if (newParentTop >= topbarMargin) {
+          // Ambos caben en el viewport: scrolleamos hacia abajo lo necesario
+          window.scrollBy({ top: scrollNeeded, behavior: 'smooth' });
+        } else {
+          // Si el alto de la pantalla es menor a ambos juntos, alineamos la cabecera arriba
+          const targetY = window.scrollY + parentRect.top - topbarMargin;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
+      }
+    }, 150);
+  };
+
   const toggleRowExpanded = (id: string) => {
     setExpandedRowIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
+      const isOpening = !next.has(id);
+      if (isOpening) {
         next.add(id);
+        scrollToExpandedRow(id);
+      } else {
+        next.delete(id);
       }
       return next;
     });
@@ -632,7 +668,7 @@ export function JefeDashboard() {
     const isPendingVb = p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación';
 
     return (
-      <tr key={`${p.id}-expanded`} className="bg-purple-50/30 dark:bg-slate-800/40 border-b border-purple-100 dark:border-white/5">
+      <tr key={`${p.id}-expanded`} id={`expanded-row-${p.id}`} className="bg-purple-50/30 dark:bg-slate-800/40 border-b border-purple-100 dark:border-white/5">
         <td colSpan={colSpan} className="py-4 px-6">
           <div className="space-y-3.5 max-w-6xl animate-in fade-in slide-in-from-top-1 duration-150">
             {/* Barra Superior del Desplegable (Acciones / Detalle) */}
@@ -1564,7 +1600,7 @@ export function JefeDashboard() {
                       const isPendingVb = p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación';
                       return (
                         <React.Fragment key={p.id}>
-                          <tr className={cn("hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors", isExpanded && "bg-purple-50/30 dark:bg-purple-950/25")}>
+                          <tr id={`row-${p.id}`} className={cn("hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors", isExpanded && "bg-purple-50/30 dark:bg-purple-950/25")}>
                             <td className="py-2.5 px-3 font-mono font-bold text-purple-700 dark:text-purple-300">
                               {p.id}
                             </td>
@@ -1724,7 +1760,7 @@ export function JefeDashboard() {
                         const isPendingVb = p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación';
                         return (
                           <React.Fragment key={p.id}>
-                            <tr className={cn("hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors", isExpanded && "bg-purple-50/30 dark:bg-purple-950/25")}>
+                            <tr id={`row-${p.id}`} className={cn("hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors", isExpanded && "bg-purple-50/30 dark:bg-purple-950/25")}>
                               <td className="py-3 px-3 font-mono font-bold text-purple-700 dark:text-purple-300">
                                 {p.id}
                               </td>

@@ -371,8 +371,44 @@ function EjecutivoDashboardContent() {
     setSelectedRespuesta(null);
   };
 
+  const scrollToExpandedProforma = (id: string) => {
+    setTimeout(() => {
+      const expEl = document.getElementById(`ejecutivo-expanded-row-${id}`);
+      const parentEl = document.getElementById(`ejecutivo-row-${id}`);
+      if (!expEl) return;
+
+      const expRect = expEl.getBoundingClientRect();
+      const parentRect = parentEl ? parentEl.getBoundingClientRect() : expRect;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const bottomPadding = 56;
+      const topbarMargin = 85;
+
+      if (parentRect.top < topbarMargin) {
+        const targetY = window.scrollY + parentRect.top - topbarMargin;
+        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+      } else if (expRect.bottom > viewportHeight - bottomPadding) {
+        const scrollNeeded = expRect.bottom - viewportHeight + bottomPadding;
+        const newParentTop = parentRect.top - scrollNeeded;
+
+        if (newParentTop >= topbarMargin) {
+          window.scrollBy({ top: scrollNeeded, behavior: 'smooth' });
+        } else {
+          const targetY = window.scrollY + parentRect.top - topbarMargin;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
+      }
+    }, 150);
+  };
+
   const toggleExpandProforma = (id: string) => {
-    setExpandedProformaId((prev) => (prev === id ? null : id));
+    setExpandedProformaId((prev) => {
+      const isOpening = prev !== id;
+      if (isOpening) {
+        scrollToExpandedProforma(id);
+        return id;
+      }
+      return null;
+    });
   };
 
   const handleDescargarVersion = (proformaId: string, version: string) => {
@@ -779,6 +815,7 @@ function EjecutivoDashboardContent() {
                 return (
                   <React.Fragment key={p.id}>
                     <tr
+                      id={`ejecutivo-row-${p.id}`}
                       className={`transition-all duration-300 ${
                         isNewlyCreated
                           ? 'bg-emerald-100/90 dark:bg-emerald-500/20 border-l-4 border-l-emerald-600 font-semibold'
@@ -1056,7 +1093,7 @@ function EjecutivoDashboardContent() {
 
                     {/* ─── Acordeón: Línea de tiempo horizontal ─── */}
                     {isExpanded && (
-                      <tr className="bg-purple-50/30 dark:bg-slate-900/60 border-b-2 border-purple-200 dark:border-purple-900/50">
+                      <tr id={`ejecutivo-expanded-row-${p.id}`} className="bg-purple-50/30 dark:bg-slate-900/60 border-b-2 border-purple-200 dark:border-purple-900/50">
                         <td colSpan={6} className="p-0">
                           <div className="p-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
                             {/* Cabecera del acordeón */}

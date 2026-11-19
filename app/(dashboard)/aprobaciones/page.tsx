@@ -50,13 +50,44 @@ export default function AprobacionesPage() {
   // Estado para filas expandidas en la tabla de aprobaciones
   const [expandedRowIds, setExpandedRowIds] = useState<Set<string>>(new Set());
 
+  const scrollToExpandedRow = (id: string) => {
+    setTimeout(() => {
+      const expEl = document.getElementById(`aprobaciones-expanded-row-${id}`);
+      const parentEl = document.getElementById(`aprobaciones-row-${id}`);
+      if (!expEl) return;
+
+      const expRect = expEl.getBoundingClientRect();
+      const parentRect = parentEl ? parentEl.getBoundingClientRect() : expRect;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const bottomPadding = 56;
+      const topbarMargin = 85;
+
+      if (parentRect.top < topbarMargin) {
+        const targetY = window.scrollY + parentRect.top - topbarMargin;
+        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+      } else if (expRect.bottom > viewportHeight - bottomPadding) {
+        const scrollNeeded = expRect.bottom - viewportHeight + bottomPadding;
+        const newParentTop = parentRect.top - scrollNeeded;
+
+        if (newParentTop >= topbarMargin) {
+          window.scrollBy({ top: scrollNeeded, behavior: 'smooth' });
+        } else {
+          const targetY = window.scrollY + parentRect.top - topbarMargin;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
+      }
+    }, 150);
+  };
+
   const toggleRowExpanded = (id: string) => {
     setExpandedRowIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
+      const isOpening = !next.has(id);
+      if (isOpening) {
         next.add(id);
+        scrollToExpandedRow(id);
+      } else {
+        next.delete(id);
       }
       return next;
     });
@@ -410,6 +441,7 @@ export default function AprobacionesPage() {
                   return (
                     <React.Fragment key={proforma.id}>
                       <tr
+                        id={`aprobaciones-row-${proforma.id}`}
                         className={cn(
                           'hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors',
                           isPendingVb && 'bg-amber-50/25 dark:bg-amber-950/10',
@@ -586,7 +618,7 @@ export default function AprobacionesPage() {
 
                       {/* Fila expandible con el resto de la información */}
                       {isExpanded && (
-                        <tr className="bg-purple-50/30 dark:bg-slate-800/40 border-b border-purple-100 dark:border-white/5">
+                        <tr id={`aprobaciones-expanded-row-${proforma.id}`} className="bg-purple-50/30 dark:bg-slate-800/40 border-b border-purple-100 dark:border-white/5">
                           <td colSpan={6} className="py-3.5 px-6">
                             <div className="space-y-3 animate-in fade-in slide-in-from-top-1 duration-150">
                               {/* Alertas y Observaciones de Elaboración */}
