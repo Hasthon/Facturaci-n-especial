@@ -120,7 +120,7 @@ function SidebarContent() {
     navItems = [
       { label: 'Dashboard y KPIs', href: '/', icon: LayoutDashboard },
       { label: 'Gestión clientes', href: '/clientes', icon: Users, badge: clientesReprocesoCount > 0 ? String(clientesReprocesoCount) : undefined },
-      { label: 'Aprobaciones V2', href: '/aprobaciones', icon: CheckSquare, badge: aprobacionesV2Count > 0 ? String(aprobacionesV2Count) : undefined },
+      { label: 'Aprobación de versiones', href: '/aprobaciones', icon: CheckSquare, badge: aprobacionesV2Count > 0 ? String(aprobacionesV2Count) : undefined },
       { label: 'Auditoría y bitácora', href: '/auditoria', icon: ShieldAlert },
       { label: 'Mi perfil y temas', href: '/perfil', icon: User },
     ];
