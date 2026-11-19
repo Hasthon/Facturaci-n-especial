@@ -685,11 +685,10 @@ export function JefeDashboard() {
                     ⚡ Requiere V°B°
                   </span>
                 ) : (
-                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                    p.estado.includes('Aprobada') || p.estado === 'Facturado'
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${p.estado.includes('Aprobada') || p.estado === 'Facturado'
                       ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
                       : 'bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300'
-                  }`}>
+                    }`}>
                     {p.estado}
                   </span>
                 )}
@@ -702,7 +701,7 @@ export function JefeDashboard() {
                     <button
                       type="button"
                       onClick={() => handleAprobarProforma(p.id)}
-                      className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-95"
+                      className="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-95 shadow-2xs"
                       title="Aprobar y conceder V°B° de Jefatura"
                     >
                       <Check className="w-3.5 h-3.5 stroke-[2.5]" />

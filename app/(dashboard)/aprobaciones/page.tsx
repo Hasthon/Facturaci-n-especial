@@ -524,7 +524,7 @@ export default function AprobacionesPage() {
                             <button
                               type="button"
                               onClick={() => setComparingProforma(proforma)}
-                              className="p-1.5 rounded-lg border border-purple-200/80 dark:border-purple-800/60 hover:bg-purple-100 dark:hover:bg-purple-950/70 text-purple-700 dark:text-purple-300 transition-colors cursor-pointer shadow-2xs"
+                              className="p-1.5 rounded-lg border border-purple-200/80 dark:border-purple-800/60 bg-purple-50/80 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/70 text-purple-700 dark:text-purple-300 transition-colors cursor-pointer shadow-2xs"
                               title="Comparar Versiones (Diff) / Derivadas"
                             >
                               <GitCompare className="w-3.5 h-3.5" />
@@ -539,7 +539,7 @@ export default function AprobacionesPage() {
                                   setRejectionReason('Inconsistencia en Tarifas / Descuentos');
                                   setRejectionObservations('');
                                 }}
-                                className="p-1.5 rounded-lg border border-rose-200/80 dark:border-rose-900/50 hover:bg-rose-100 dark:hover:bg-rose-950/70 text-rose-600 dark:text-rose-400 transition-colors cursor-pointer shadow-2xs"
+                                className="p-1.5 rounded-lg border border-rose-200/80 dark:border-rose-900/50 bg-rose-50/80 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900/70 text-rose-600 dark:text-rose-400 transition-colors cursor-pointer shadow-2xs"
                                 title="Rechazar / Devolver V2 con observaciones"
                               >
                                 <XCircle className="w-3.5 h-3.5" />
@@ -555,19 +555,19 @@ export default function AprobacionesPage() {
                               </button>
                             )}
 
-                            {/* 3. Icono Aprobar (Ticket / Check V°B°) */}
+                            {/* 3. Icono Aprobar (Ticket de línea verde con fondo menta/verde claro, mismo grado iconográfico) */}
                             {isPendingVb ? (
                               <button
                                 type="button"
                                 onClick={() => handleAprobarV2(proforma.id)}
-                                className="p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xs transition-colors cursor-pointer"
+                                className="p-1.5 rounded-lg border border-emerald-200/80 dark:border-emerald-800/60 bg-emerald-50/80 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/70 text-emerald-600 dark:text-emerald-400 transition-colors cursor-pointer shadow-2xs"
                                 title="Aprobar V2 (Otorgar V°B° de Jefatura)"
                               >
                                 <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                               </button>
                             ) : proforma.estadoSupervision === 'Autorizada' ? (
                               <span
-                                className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40 inline-flex items-center justify-center"
+                                className="p-1.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/40 inline-flex items-center justify-center shadow-2xs"
                                 title="V°B° ya otorgado"
                               >
                                 <CheckCircle2 className="w-3.5 h-3.5" />
@@ -587,7 +587,7 @@ export default function AprobacionesPage() {
                             <button
                               type="button"
                               onClick={() => handleDescargarProforma(proforma)}
-                              className="p-1.5 rounded-lg border border-gray-200/80 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-600 dark:text-gray-300 transition-colors cursor-pointer shadow-2xs"
+                              className="p-1.5 rounded-lg border border-gray-200/80 dark:border-white/10 bg-gray-50/80 hover:bg-gray-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-gray-600 dark:text-gray-300 transition-colors cursor-pointer shadow-2xs"
                               title="Descargar proforma (PDF / Excel)"
                             >
                               <Download className="w-3.5 h-3.5" />
@@ -601,7 +601,7 @@ export default function AprobacionesPage() {
                                 'p-1.5 rounded-lg border transition-all cursor-pointer shadow-2xs',
                                 isExpanded
                                   ? 'bg-purple-100 dark:bg-purple-900/60 border-purple-300 text-purple-700 dark:text-purple-200'
-                                  : 'border-gray-200/80 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-500 hover:text-gray-800 dark:hover:text-white'
+                                  : 'border-gray-200/80 dark:border-white/10 bg-gray-50/80 hover:bg-gray-100 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-gray-500 hover:text-gray-800 dark:hover:text-white'
                               )}
                               title={isExpanded ? 'Ocultar información detallada' : 'Ver alertas, observaciones y motivo de rechazo'}
                             >
