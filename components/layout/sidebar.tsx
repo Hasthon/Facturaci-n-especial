@@ -49,7 +49,7 @@ function SidebarContent() {
         try {
           const parsed = JSON.parse(stored);
           if (typeof parsed.rechazosCount === 'number') return parsed.rechazosCount;
-        } catch {}
+        } catch { }
       }
     }
     return MOCK_PROFORMAS.filter((p) => p.estado.includes('Rechazada') || Boolean(p.motivoRechazoPricing)).length;
@@ -62,7 +62,7 @@ function SidebarContent() {
         try {
           const parsed = JSON.parse(stored);
           if (typeof parsed.excepcionesCount === 'number') return parsed.excepcionesCount;
-        } catch {}
+        } catch { }
       }
     }
     return MOCK_EXCEPCIONES_TARIFARIAS.filter((e) => e.estado.includes('Pendiente')).length;
@@ -75,7 +75,7 @@ function SidebarContent() {
         try {
           const parsed = JSON.parse(stored);
           if (typeof parsed.kamComsCount === 'number') return parsed.kamComsCount;
-        } catch {}
+        } catch { }
       }
     }
     return MOCK_COMUNICACIONES_KAM.filter((c) => c.estado !== 'Resuelta').length;
@@ -188,11 +188,10 @@ function SidebarContent() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-2 px-2.5 py-2 rounded-xl text-body font-medium transition-all relative whitespace-nowrap overflow-hidden group ${
-                isItemActive
+              className={`flex items-center gap-2 px-2.5 py-2 rounded-xl text-body font-medium transition-all relative whitespace-nowrap overflow-hidden group ${isItemActive
                   ? 'bg-white/95 dark:bg-white/10 text-gray-900 dark:text-white border border-purple-100/90 dark:border-white/10 shadow-xs backdrop-blur-xl'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-white/5'
-              }`}
+                }`}
               title={item.label}
             >
               {isItemActive && (

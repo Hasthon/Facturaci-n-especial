@@ -54,7 +54,7 @@ export interface SkuResolutionItem {
   descripcion: string;
   totalOfs: number;
   ofsEjemplo: string[];
-  
+
   // Datos declarados originalmente por el cliente
   pesoDeclaradoKg: number;
   dimensionesDeclaradasCm: { largo: number; ancho: number; alto: number };
@@ -351,12 +351,12 @@ function EditarProformaContent() {
       prev.map((s) =>
         s.id === item.id
           ? {
-              ...s,
-              estadoValidacion: 'Validado_Humano',
-              modificadoPorAnalista: false,
-              pesoFinalKg: s.datosIa?.pesoKg || s.pesoFinalKg,
-              dimensionesFinalesCm: s.datosIa?.dimensionesCm || s.dimensionesFinalesCm,
-            }
+            ...s,
+            estadoValidacion: 'Validado_Humano',
+            modificadoPorAnalista: false,
+            pesoFinalKg: s.datosIa?.pesoKg || s.pesoFinalKg,
+            dimensionesFinalesCm: s.datosIa?.dimensionesCm || s.dimensionesFinalesCm,
+          }
           : s
       )
     );
@@ -383,17 +383,17 @@ function EditarProformaContent() {
       prev.map((s) =>
         s.id === editingIaItem.id
           ? {
-              ...s,
-              estadoValidacion: 'Validado_Humano',
-              modificadoPorAnalista: true,
-              modificadoPorEjecutivo: true,
-              pesoFinalKg: Number(iaFormPeso),
-              dimensionesFinalesCm: {
-                largo: Number(iaFormLargo),
-                ancho: Number(iaFormAncho),
-                alto: Number(iaFormAlto),
-              },
-            }
+            ...s,
+            estadoValidacion: 'Validado_Humano',
+            modificadoPorAnalista: true,
+            modificadoPorEjecutivo: true,
+            pesoFinalKg: Number(iaFormPeso),
+            dimensionesFinalesCm: {
+              largo: Number(iaFormLargo),
+              ancho: Number(iaFormAncho),
+              alto: Number(iaFormAlto),
+            },
+          }
           : s
       )
     );
@@ -413,7 +413,7 @@ function EditarProformaContent() {
     setSinEvidenciaEncontrada(isSinEv);
     setMotivoSinEvidencia(
       item.evidenciaManual?.motivoSinEvidencia ||
-        'No se encontró ficha técnica web pública. Se aceptan medidas según objeción del cliente.'
+      'No se encontró ficha técnica web pública. Se aceptan medidas según objeción del cliente.'
     );
     setManualUrl(item.evidenciaManual?.urlProveedor || 'https://tienda-oficial.cl/producto/' + item.sku.toLowerCase());
     setManualFilePreview(item.evidenciaManual?.screenshotUrl || null);
@@ -450,30 +450,30 @@ function EditarProformaContent() {
       prev.map((s) =>
         s.id === manualEvidenceItem.id
           ? {
-              ...s,
-              estadoValidacion: 'Validado_Humano',
-              modificadoPorAnalista: true,
-              evidenciaManual: sinEvidenciaEncontrada
-                ? {
-                    sinEvidencia: true,
-                    motivoSinEvidencia: motivoSinEvidencia.trim() || 'Aceptado según objeción de cliente',
-                    urlProveedor: '',
-                    screenshotUrl: '',
-                    nombreArchivo: '',
-                  }
-                : {
-                    sinEvidencia: false,
-                    urlProveedor: manualUrl,
-                    screenshotUrl: manualFilePreview || '/demo_email_aprobado.png',
-                    nombreArchivo: manualFile ? manualFile.name : 'ficha_tecnica_respaldo.png',
-                  },
-              pesoFinalKg: Number(manualFormPeso),
-              dimensionesFinalesCm: {
-                largo: Number(manualFormLargo),
-                ancho: Number(manualFormAncho),
-                alto: Number(manualFormAlto),
+            ...s,
+            estadoValidacion: 'Validado_Humano',
+            modificadoPorAnalista: true,
+            evidenciaManual: sinEvidenciaEncontrada
+              ? {
+                sinEvidencia: true,
+                motivoSinEvidencia: motivoSinEvidencia.trim() || 'Aceptado según objeción de cliente',
+                urlProveedor: '',
+                screenshotUrl: '',
+                nombreArchivo: '',
+              }
+              : {
+                sinEvidencia: false,
+                urlProveedor: manualUrl,
+                screenshotUrl: manualFilePreview || '/demo_email_aprobado.png',
+                nombreArchivo: manualFile ? manualFile.name : 'ficha_tecnica_respaldo.png',
               },
-            }
+            pesoFinalKg: Number(manualFormPeso),
+            dimensionesFinalesCm: {
+              largo: Number(manualFormLargo),
+              ancho: Number(manualFormAncho),
+              alto: Number(manualFormAlto),
+            },
+          }
           : s
       )
     );
@@ -637,7 +637,7 @@ function EditarProformaContent() {
 
           {/* Grid en 2 Columnas: Detalle Original V1 (Izquierda) + Resolución de Pricing (Derecha) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
+
             {/* Columna Izquierda: Detalle de la Proforma Original V1 */}
             <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-6 shadow-sm flex flex-col justify-between space-y-4">
               <div className="space-y-4">
@@ -947,623 +947,613 @@ function EditarProformaContent() {
             </div>
           </div>
 
-      {/* Grid en 2 Columnas: Detalle de Proforma Actual (Izquierda) + Carga de Planilla (Derecha) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        {/* Columna Izquierda: Detalle de la Proforma Actual */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-6 shadow-sm flex flex-col justify-between space-y-4">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
-                  <FileSpreadsheet className="w-4 h-4" />
-                </div>
-                <h3 className="text-h2 font-bold text-gray-900 dark:text-gray-100">
-                  Detalle de la proforma actual
-                </h3>
-              </div>
-              <span className="text-micro font-extrabold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/30 px-2 py-0.5 rounded">
-                Versión 1
-              </span>
-            </div>
+          {/* Grid en 2 Columnas: Detalle de Proforma Actual (Izquierda) + Carga de Planilla (Derecha) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            <div className="grid grid-cols-2 gap-4 text-caption">
-              <div>
-                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Cliente</span>
-                <span className="font-bold text-gray-900 dark:text-gray-100 text-body">
-                  Retail Logistics Chile S.A.
-                </span>
-                <span className="text-micro font-mono text-gray-400 block">RUT: 76.452.120-K</span>
-              </div>
-
-              <div>
-                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Cuenta corriente</span>
-                <span className="font-mono font-bold text-purple-700 dark:text-purple-400 text-body block">
-                  CTA-001
-                </span>
-                <span className="text-micro text-gray-400">Santiago Centro Distribución</span>
-              </div>
-
-              <div>
-                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Total OFs involucradas</span>
-                <span className="font-mono font-extrabold text-gray-900 dark:text-gray-100 text-body">
-                  {totalOfsCount} Órdenes de Flete
-                </span>
-              </div>
-
-              <div>
-                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Monto original facturado</span>
-                <span className="font-mono font-extrabold text-gray-900 dark:text-gray-100 text-body">
-                  {formatCurrency(montoOriginal)}
-                </span>
-              </div>
-            </div>
-
-            {/* Motivo de Rechazo */}
-            <div className="p-3.5 bg-rose-50/80 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl text-caption text-rose-900 dark:text-rose-200 flex items-start gap-2.5">
-              <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-              <div>
-                <strong className="block font-bold">Motivo del rechazo del cliente:</strong>
-                <p className="text-micro text-rose-800 dark:text-rose-300 mt-0.5">
-                  Diferencia en recubitaje / medidas de SKUs. Requiere recalcular con medidas verificadas.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-2 text-micro text-gray-400 font-medium">
-            💡 Al regularizar las medidas se generará la <strong>Versión V2</strong> de la proforma.
-          </div>
-        </div>
-
-        {/* Columna Derecha: Carga de Planilla con Mediciones */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-6 shadow-sm flex flex-col justify-between space-y-4">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
-                  <UploadCloud className="w-4 h-4" />
-                </div>
-                <h3 className="text-h2 font-bold text-gray-900 dark:text-gray-100">
-                  Carga de planilla con mediciones
-                </h3>
-              </div>
-
-              {hasProcessed && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30 rounded-full text-micro font-bold">
-                  <CheckCircle2 className="w-3 h-3" /> Procesada
-                </span>
-              )}
-            </div>
-
-            <p className="text-caption text-gray-600 dark:text-gray-300">
-              Sube la planilla con las medidas revisadas para cruzar automáticamente contra el histórico, agente IA y validar discrepancias.
-            </p>
-
-            {/* Dropzone */}
-            <div className="border-2 border-dashed border-gray-300 dark:border-white/15 hover:border-purple-500 rounded-2xl p-5 bg-gray-50/50 dark:bg-white/5 transition-all text-center">
-              <input
-                type="file"
-                accept=".csv,.xlsx,.xls"
-                onChange={handleFileDrop}
-                className="hidden"
-                id="planilla-sku-input"
-              />
-              <label
-                htmlFor="planilla-sku-input"
-                className="cursor-pointer flex flex-col items-center justify-center gap-2"
-              >
-                <div className="w-11 h-11 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center">
-                  <UploadCloud className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-caption font-bold text-gray-800 dark:text-gray-200">
-                    {selectedFile ? selectedFile.name : 'Haz clic para seleccionar o arrastra la planilla'}
-                  </p>
-                  <p className="text-micro text-gray-400 mt-0.5">Formatos soportados: Excel (.xlsx) o CSV</p>
-                </div>
-                <span className="px-3 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-lg text-micro font-bold mt-1 border border-purple-200 dark:border-purple-800/40">
-                  {selectedFile ? 'Cambiar archivo' : 'Examinar archivo'}
-                </span>
-              </label>
-            </div>
-          </div>
-
-          {/* Botón Procesar */}
-          <div>
-            <button
-              type="button"
-              onClick={handleSimularProcesarSku}
-              disabled={isProcessingSku}
-              className={`w-full py-3.5 px-4 rounded-xl text-body font-bold text-white shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                isProcessingSku
-                  ? 'bg-purple-400 cursor-wait'
-                  : `bg-gradient-to-r ${theme.buttonGradient} hover:shadow-md active:scale-98`
-              }`}
-            >
-              {isProcessingSku ? (
-                <>
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Cruzando SKUs con IA y Maestro...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4" />
-                  <span>Procesar y cruzar SKUs</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      {/* PASO 2: Panel de Resolución de SKUs en 3 Tiers (SOLO VISIBLE TRAS PROCESAR) */}
-      {hasProcessed && (
-        <div ref={resultadoRef} className="space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
-          {/* Barra Superior de Métricas y Progreso (Opción 2: Foco en OFs resueltas vs pendientes) */}
-          <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-5 shadow-sm space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-body text-gray-900 dark:text-gray-100">
-                    Avance de regularización de OFs
-                  </span>
-                  <span
-                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-micro font-extrabold ${
-                      todoValidado
-                        ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300'
-                        : 'bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300'
-                    }`}
-                  >
-                    {todoValidado ? <CheckCircle2 className="w-3.5 h-3.5" /> : null}
-                    {skusValidados} de {totalSkus} SKUs listos
+            {/* Columna Izquierda: Detalle de la Proforma Actual */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-6 shadow-sm flex flex-col justify-between space-y-4">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
+                      <FileSpreadsheet className="w-4 h-4" />
+                    </div>
+                    <h3 className="text-h2 font-bold text-gray-900 dark:text-gray-100">
+                      Detalle de la proforma actual
+                    </h3>
+                  </div>
+                  <span className="text-micro font-extrabold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/30 px-2 py-0.5 rounded">
+                    Versión 1
                   </span>
                 </div>
 
-                <p className="text-caption text-gray-600 dark:text-gray-400 font-medium">
-                  {todoValidado ? (
-                    <span className="text-emerald-700 dark:text-emerald-300 font-bold">
-                      ¡Las {totalOfsCount} OFs están regularizadas y listas para enviar!
+                <div className="grid grid-cols-2 gap-4 text-caption">
+                  <div>
+                    <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Cliente</span>
+                    <span className="font-bold text-gray-900 dark:text-gray-100 text-body">
+                      Retail Logistics Chile S.A.
                     </span>
-                  ) : (
-                    <span>
-                      <strong className="text-purple-700 dark:text-purple-300 font-bold">{ofsValidadas} OFs</strong> regularizadas ·{' '}
-                      <strong className="text-amber-700 dark:text-amber-400 font-bold">{ofsPendientes} OFs</strong> pendientes de acción
+                    <span className="text-micro font-mono text-gray-400 block">RUT: 76.452.120-K</span>
+                  </div>
+
+                  <div>
+                    <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Cuenta corriente</span>
+                    <span className="font-mono font-bold text-purple-700 dark:text-purple-400 text-body block">
+                      CTA-001
+                    </span>
+                    <span className="text-micro text-gray-400">Santiago Centro Distribución</span>
+                  </div>
+
+                  <div>
+                    <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Total OFs involucradas</span>
+                    <span className="font-mono font-extrabold text-gray-900 dark:text-gray-100 text-body">
+                      {totalOfsCount} Órdenes de Flete
+                    </span>
+                  </div>
+
+                  <div>
+                    <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Monto original facturado</span>
+                    <span className="font-mono font-extrabold text-gray-900 dark:text-gray-100 text-body">
+                      {formatCurrency(montoOriginal)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Motivo de Rechazo */}
+                <div className="p-3.5 bg-rose-50/80 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl text-caption text-rose-900 dark:text-rose-200 flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="block font-bold">Motivo del rechazo del cliente:</strong>
+                    <p className="text-micro text-rose-800 dark:text-rose-300 mt-0.5">
+                      Diferencia en recubitaje / medidas de SKUs. Requiere recalcular con medidas verificadas.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 text-micro text-gray-400 font-medium">
+                💡 Al regularizar las medidas se generará la <strong>Versión V2</strong> de la proforma.
+              </div>
+            </div>
+
+            {/* Columna Derecha: Carga de Planilla con Mediciones */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-6 shadow-sm flex flex-col justify-between space-y-4">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
+                      <UploadCloud className="w-4 h-4" />
+                    </div>
+                    <h3 className="text-h2 font-bold text-gray-900 dark:text-gray-100">
+                      Carga de planilla con mediciones
+                    </h3>
+                  </div>
+
+                  {hasProcessed && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30 rounded-full text-micro font-bold">
+                      <CheckCircle2 className="w-3 h-3" /> Procesada
                     </span>
                   )}
+                </div>
+
+                <p className="text-caption text-gray-600 dark:text-gray-300">
+                  Sube la planilla con las medidas revisadas para cruzar automáticamente contra el histórico, agente IA y validar discrepancias.
                 </p>
+
+                {/* Dropzone */}
+                <div className="border-2 border-dashed border-gray-300 dark:border-white/15 hover:border-purple-500 rounded-2xl p-5 bg-gray-50/50 dark:bg-white/5 transition-all text-center">
+                  <input
+                    type="file"
+                    accept=".csv,.xlsx,.xls"
+                    onChange={handleFileDrop}
+                    className="hidden"
+                    id="planilla-sku-input"
+                  />
+                  <label
+                    htmlFor="planilla-sku-input"
+                    className="cursor-pointer flex flex-col items-center justify-center gap-2"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                      <UploadCloud className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="text-caption font-bold text-gray-800 dark:text-gray-200">
+                        {selectedFile ? selectedFile.name : 'Haz clic para seleccionar o arrastra la planilla'}
+                      </p>
+                      <p className="text-micro text-gray-400 mt-0.5">Formatos soportados: Excel (.xlsx) o CSV</p>
+                    </div>
+                    <span className="px-3 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-lg text-micro font-bold mt-1 border border-purple-200 dark:border-purple-800/40">
+                      {selectedFile ? 'Cambiar archivo' : 'Examinar archivo'}
+                    </span>
+                  </label>
+                </div>
               </div>
 
-              <div className="flex items-center gap-1.5 self-start sm:self-auto shrink-0">
-                <span className={`text-body font-extrabold ${todoValidado ? 'text-emerald-600 dark:text-emerald-400' : 'text-purple-700 dark:text-purple-300'}`}>
-                  {porcentajeOfs}%
-                </span>
-                <span className="text-caption font-medium text-gray-500 dark:text-gray-400">
-                  completado
-                </span>
-              </div>
-            </div>
-
-            {/* Barra de Progreso Visual */}
-            <div className="w-full h-3 bg-gray-100 dark:bg-slate-900/80 rounded-full overflow-hidden p-0.5 border border-gray-200/60 dark:border-white/10">
-              <div
-                className={`h-full transition-all duration-500 rounded-full ${
-                  todoValidado ? 'bg-emerald-500 shadow-xs' : 'bg-gradient-to-r from-purple-600 to-indigo-600'
-                }`}
-                style={{ width: `${porcentajeOfs}%` }}
-              />
-            </div>
-          </div>
-
-        {/* Pestañas de Filtrado (Inbox de Tareas) */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-purple-900/10 dark:border-white/10 bg-purple-50/20 dark:bg-white/5 flex items-center justify-between gap-4 flex-wrap">
-            {/* Pestañas */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              <button
-                type="button"
-                onClick={() => setActiveTab('todos')}
-                className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer ${
-                  activeTab === 'todos'
-                    ? 'bg-purple-700 text-white shadow-xs'
-                    : 'bg-white dark:bg-slate-800 border border-purple-100 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-white/5'
-                }`}
-              >
-                Todos ({skusList.length})
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('accion')}
-                className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeTab === 'accion'
-                    ? 'bg-rose-600 text-white shadow-xs'
-                    : 'bg-white dark:bg-slate-800 border border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10'
-                }`}
-              >
-                <span>🚨 Requieren acción</span>
-                <span className="w-5 h-5 rounded-full bg-rose-100 dark:bg-rose-500/30 text-rose-800 dark:text-rose-200 text-[10px] flex items-center justify-center">
-                  {skusList.filter((s) => s.estadoValidacion === 'Pendiente_IA' || s.estadoValidacion === 'Pendiente_Manual').length}
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('ia')}
-                className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeTab === 'ia'
-                    ? 'bg-purple-600 text-white shadow-xs'
-                    : 'bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-500/20 text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-500/10'
-                }`}
-              >
-                <Bot className="w-3.5 h-3.5" />
-                <span>Sugerencias de IA ({skusList.filter((s) => s.tier === 'IA_Web').length})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('manual')}
-                className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeTab === 'manual'
-                    ? 'bg-amber-600 text-white shadow-xs'
-                    : 'bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-500/20 text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-500/10'
-                }`}
-              >
-                <Globe className="w-3.5 h-3.5" />
-                <span>Búsqueda manual ({skusList.filter((s) => s.tier === 'Manual_Requerido').length})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('historico')}
-                className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeTab === 'historico'
-                    ? 'bg-emerald-600 text-white shadow-xs'
-                    : 'bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10'
-                }`}
-              >
-                <Database className="w-3.5 h-3.5" />
-                <span>Histórico Starken ({skusList.filter((s) => s.tier === 'Historico').length})</span>
-              </button>
-            </div>
-
-            {/* Búsqueda rápida */}
-            <div className="relative flex items-center">
-              <Search className="w-3.5 h-3.5 absolute left-3 text-gray-400" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Filtrar por SKU o descripción..."
-                className="pl-8 pr-8 py-1.5 bg-white dark:bg-slate-900/50 border border-purple-900/15 dark:border-white/10 rounded-lg text-caption outline-none focus:border-purple-600"
-              />
-              {searchTerm && (
+              {/* Botón Procesar */}
+              <div>
                 <button
                   type="button"
-                  onClick={() => setSearchTerm('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5 rounded-full hover:bg-gray-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                  title="Borrar búsqueda"
+                  onClick={handleSimularProcesarSku}
+                  disabled={isProcessingSku}
+                  className={`w-full py-3.5 px-4 rounded-xl text-body font-bold text-white shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${isProcessingSku
+                      ? 'bg-purple-400 cursor-wait'
+                      : `bg-gradient-to-r ${theme.buttonGradient} hover:shadow-md active:scale-98`
+                    }`}
                 >
-                  <X className="w-3.5 h-3.5" />
+                  {isProcessingSku ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>Cruzando SKUs con IA y Maestro...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4" />
+                      <span>Procesar y cruzar SKUs</span>
+                    </>
+                  )}
                 </button>
-              )}
+              </div>
             </div>
+
           </div>
 
-          {/* TABLA DE SKUs */}
-          <div className="overflow-x-auto">
-              <table className="w-full text-left text-body">
-                <thead className="bg-purple-50/40 dark:bg-white/5 border-b border-purple-900/10 dark:border-white/10 text-gray-600 dark:text-gray-400 font-semibold uppercase tracking-wider text-micro">
-                  <tr>
-                    <th className="py-3.5 px-5">SKU y descripción</th>
-                    <th className="py-3.5 px-5">OFs afectadas</th>
-                    <th className="py-3.5 px-5">Declarado por cliente</th>
-                    <th className="py-3.5 px-5">Sugerencia de medidas</th>
-                    <th className="py-3.5 px-5">Estado</th>
-                    <th className="py-3.5 px-5 text-right">Acción requerida</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 dark:divide-white/5">
-                  {filteredSkus.map((item) => {
-                    const isVal = item.estadoValidacion === 'Validado_Auto' || item.estadoValidacion === 'Validado_Humano';
-                    const isIa = item.tier === 'IA_Web';
-                    const isManual = item.tier === 'Manual_Requerido';
-                    const isHist = item.tier === 'Historico';
-
-                    return (
-                      <tr
-                        key={item.id}
-                        className={`transition-colors ${
-                          !isVal
-                            ? 'bg-rose-50/30 dark:bg-rose-950/10 hover:bg-rose-50/50'
-                            : 'hover:bg-purple-50/30 dark:hover:bg-white/5'
-                        }`}
+          {/* PASO 2: Panel de Resolución de SKUs en 3 Tiers (SOLO VISIBLE TRAS PROCESAR) */}
+          {hasProcessed && (
+            <div ref={resultadoRef} className="space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
+              {/* Barra Superior de Métricas y Progreso (Opción 2: Foco en OFs resueltas vs pendientes) */}
+              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-5 shadow-sm space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-body text-gray-900 dark:text-gray-100">
+                        Avance de regularización de OFs
+                      </span>
+                      <span
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-micro font-extrabold ${todoValidado
+                            ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300'
+                            : 'bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300'
+                          }`}
                       >
-                        {/* SKU y Descripción */}
-                        <td className="py-4 px-5">
-                          <div>
-                            <span className="font-mono font-extrabold text-body text-purple-900 dark:text-purple-300">
-                              {item.sku}
-                            </span>
-                            <p className="text-micro text-gray-500 dark:text-gray-400 line-clamp-1 max-w-xs">
-                              {item.descripcion}
-                            </p>
-                          </div>
-                        </td>
+                        {todoValidado ? <CheckCircle2 className="w-3.5 h-3.5" /> : null}
+                        {skusValidados} de {totalSkus} SKUs listos
+                      </span>
+                    </div>
 
-                        {/* Total OFs asociadas */}
-                        <td className="py-4 px-5">
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-purple-100/70 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 font-mono font-extrabold text-micro">
-                            <Layers className="w-3 h-3" />
-                            {item.totalOfs} OFs
-                          </span>
-                        </td>
+                    <p className="text-caption text-gray-600 dark:text-gray-400 font-medium">
+                      {todoValidado ? (
+                        <span className="text-emerald-700 dark:text-emerald-300 font-bold">
+                          ¡Las {totalOfsCount} OFs están regularizadas y listas para enviar!
+                        </span>
+                      ) : (
+                        <span>
+                          <strong className="text-purple-700 dark:text-purple-300 font-bold">{ofsValidadas} OFs</strong> regularizadas ·{' '}
+                          <strong className="text-amber-700 dark:text-amber-400 font-bold">{ofsPendientes} OFs</strong> pendientes de acción
+                        </span>
+                      )}
+                    </p>
+                  </div>
 
-                        {/* Declarado por cliente */}
-                        <td className="py-4 px-5 font-mono text-caption text-gray-700 dark:text-gray-300">
-                          <div>
-                            <span className="font-bold">{item.pesoDeclaradoKg} kg</span>
-                            <span className="text-micro text-gray-400 block">
-                              {item.dimensionesDeclaradasCm.largo}x{item.dimensionesDeclaradasCm.ancho}x{item.dimensionesDeclaradasCm.alto} cm
-                            </span>
-                          </div>
-                        </td>
+                  <div className="flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+                    <span className={`text-body font-extrabold ${todoValidado ? 'text-emerald-600 dark:text-emerald-400' : 'text-purple-700 dark:text-purple-300'}`}>
+                      {porcentajeOfs}%
+                    </span>
+                    <span className="text-caption font-medium text-gray-500 dark:text-gray-400">
+                      completado
+                    </span>
+                  </div>
+                </div>
 
-                        {/* COLUMNA UNIFICADA: Sugerencia Medidas */}
-                        <td className="py-4 px-5">
-                          <div className="space-y-1.5">
-                            {/* Origen del dato */}
-                            {isHist && (
-                              <div className="flex items-center gap-1.5 whitespace-nowrap">
-                                <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-700 dark:text-emerald-400">
-                                  <Database className="w-3.5 h-3.5" /> Maestro Starken
+                {/* Barra de Progreso Visual */}
+                <div className="w-full h-3 bg-gray-100 dark:bg-slate-900/80 rounded-full overflow-hidden p-0.5 border border-gray-200/60 dark:border-white/10">
+                  <div
+                    className={`h-full transition-all duration-500 rounded-full ${todoValidado ? 'bg-emerald-500 shadow-xs' : 'bg-gradient-to-r from-purple-600 to-indigo-600'
+                      }`}
+                    style={{ width: `${porcentajeOfs}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Pestañas de Filtrado (Inbox de Tareas) */}
+              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 overflow-hidden shadow-sm">
+                <div className="p-4 border-b border-purple-900/10 dark:border-white/10 bg-purple-50/20 dark:bg-white/5 flex items-center justify-between gap-4 flex-wrap">
+                  {/* Pestañas */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('todos')}
+                      className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer ${activeTab === 'todos'
+                          ? 'bg-purple-700 text-white shadow-xs'
+                          : 'bg-white dark:bg-slate-800 border border-purple-100 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-white/5'
+                        }`}
+                    >
+                      Todos ({skusList.length})
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('accion')}
+                      className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'accion'
+                          ? 'bg-rose-600 text-white shadow-xs'
+                          : 'bg-white dark:bg-slate-800 border border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10'
+                        }`}
+                    >
+                      <span>🚨 Requieren acción</span>
+                      <span className="w-5 h-5 rounded-full bg-rose-100 dark:bg-rose-500/30 text-rose-800 dark:text-rose-200 text-[10px] flex items-center justify-center">
+                        {skusList.filter((s) => s.estadoValidacion === 'Pendiente_IA' || s.estadoValidacion === 'Pendiente_Manual').length}
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('ia')}
+                      className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'ia'
+                          ? 'bg-purple-600 text-white shadow-xs'
+                          : 'bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-500/20 text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-500/10'
+                        }`}
+                    >
+                      <Bot className="w-3.5 h-3.5" />
+                      <span>Sugerencias de IA ({skusList.filter((s) => s.tier === 'IA_Web').length})</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('manual')}
+                      className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'manual'
+                          ? 'bg-amber-600 text-white shadow-xs'
+                          : 'bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-500/20 text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-500/10'
+                        }`}
+                    >
+                      <Globe className="w-3.5 h-3.5" />
+                      <span>Búsqueda manual ({skusList.filter((s) => s.tier === 'Manual_Requerido').length})</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('historico')}
+                      className={`px-3.5 py-1.5 rounded-xl text-caption font-bold transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'historico'
+                          ? 'bg-emerald-600 text-white shadow-xs'
+                          : 'bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10'
+                        }`}
+                    >
+                      <Database className="w-3.5 h-3.5" />
+                      <span>Histórico Starken ({skusList.filter((s) => s.tier === 'Historico').length})</span>
+                    </button>
+                  </div>
+
+                  {/* Búsqueda rápida */}
+                  <div className="relative flex items-center">
+                    <Search className="w-3.5 h-3.5 absolute left-3 text-gray-400" />
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      placeholder="Filtrar por SKU o descripción..."
+                      className="pl-8 pr-8 py-1.5 bg-white dark:bg-slate-900/50 border border-purple-900/15 dark:border-white/10 rounded-lg text-caption outline-none focus:border-purple-600"
+                    />
+                    {searchTerm && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchTerm('')}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5 rounded-full hover:bg-gray-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                        title="Borrar búsqueda"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* TABLA DE SKUs */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-body">
+                    <thead className="bg-purple-50/40 dark:bg-white/5 border-b border-purple-900/10 dark:border-white/10 text-gray-600 dark:text-gray-400 font-semibold uppercase tracking-wider text-micro">
+                      <tr>
+                        <th className="py-3.5 px-5">SKU y descripción</th>
+                        <th className="py-3.5 px-5">OFs afectadas</th>
+                        <th className="py-3.5 px-5">Declarado por cliente</th>
+                        <th className="py-3.5 px-5">Sugerencia de medidas</th>
+                        <th className="py-3.5 px-5">Estado</th>
+                        <th className="py-3.5 px-5 text-right">Acción requerida</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+                      {filteredSkus.map((item) => {
+                        const isVal = item.estadoValidacion === 'Validado_Auto' || item.estadoValidacion === 'Validado_Humano';
+                        const isIa = item.tier === 'IA_Web';
+                        const isManual = item.tier === 'Manual_Requerido';
+                        const isHist = item.tier === 'Historico';
+
+                        return (
+                          <tr
+                            key={item.id}
+                            className={`transition-colors ${!isVal
+                                ? 'bg-rose-50/30 dark:bg-rose-950/10 hover:bg-rose-50/50'
+                                : 'hover:bg-purple-50/30 dark:hover:bg-white/5'
+                              }`}
+                          >
+                            {/* SKU y Descripción */}
+                            <td className="py-4 px-5">
+                              <div>
+                                <span className="font-mono font-extrabold text-body text-purple-900 dark:text-purple-300">
+                                  {item.sku}
+                                </span>
+                                <p className="text-micro text-gray-500 dark:text-gray-400 line-clamp-1 max-w-xs">
+                                  {item.descripcion}
+                                </p>
+                              </div>
+                            </td>
+
+                            {/* Total OFs asociadas */}
+                            <td className="py-4 px-5">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-purple-100/70 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 font-mono font-extrabold text-micro">
+                                <Layers className="w-3 h-3" />
+                                {item.totalOfs} OFs
+                              </span>
+                            </td>
+
+                            {/* Declarado por cliente */}
+                            <td className="py-4 px-5 font-mono text-caption text-gray-700 dark:text-gray-300">
+                              <div>
+                                <span className="font-bold">{item.pesoDeclaradoKg} kg</span>
+                                <span className="text-micro text-gray-400 block">
+                                  {item.dimensionesDeclaradasCm.largo}x{item.dimensionesDeclaradasCm.ancho}x{item.dimensionesDeclaradasCm.alto} cm
                                 </span>
                               </div>
-                            )}
+                            </td>
 
-                            {isIa && (
-                              <div>
-                                {item.modificadoPorAnalista || item.modificadoPorEjecutivo ? (
-                                  <div className="space-y-1">
-                                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/15 px-2 py-0.5 rounded border border-amber-300 dark:border-amber-500/30">
-                                      <UserCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" /> Modificado por Ejecutivo
-                                    </span>
-                                    <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-mono">
-                                      Sugerencia IA original: {item.datosIa?.pesoKg}kg ({item.datosIa?.dimensionesCm.largo}x{item.datosIa?.dimensionesCm.ancho}x{item.datosIa?.dimensionesCm.alto} cm)
-                                    </span>
-                                  </div>
-                                ) : (
+                            {/* COLUMNA UNIFICADA: Sugerencia Medidas */}
+                            <td className="py-4 px-5">
+                              <div className="space-y-1.5">
+                                {/* Origen del dato */}
+                                {isHist && (
                                   <div className="flex items-center gap-1.5 whitespace-nowrap">
-                                    <span className="inline-flex items-center gap-1 text-micro font-bold text-purple-700 dark:text-purple-300">
-                                      <Bot className="w-3.5 h-3.5" /> Agente IA Web
+                                    <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-700 dark:text-emerald-400">
+                                      <Database className="w-3.5 h-3.5" /> Maestro Starken
                                     </span>
                                   </div>
                                 )}
-                              </div>
-                            )}
 
-                            {isManual && (
-                              <div className="flex items-center gap-1.5 whitespace-nowrap">
-                                {item.evidenciaManual?.sinEvidencia ? (
-                                  <span
-                                    className="inline-flex items-center gap-1 text-[11px] text-amber-800 dark:text-amber-300 font-bold bg-amber-50 dark:bg-amber-500/15 px-2 py-0.5 rounded border border-amber-300 dark:border-amber-500/30"
-                                    title={item.evidenciaManual.motivoSinEvidencia}
+                                {isIa && (
+                                  <div>
+                                    {item.modificadoPorAnalista || item.modificadoPorEjecutivo ? (
+                                      <div className="space-y-1">
+                                        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/15 px-2 py-0.5 rounded border border-amber-300 dark:border-amber-500/30">
+                                          <UserCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" /> Modificado por Ejecutivo
+                                        </span>
+                                        <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-mono">
+                                          Sugerencia IA original: {item.datosIa?.pesoKg}kg ({item.datosIa?.dimensionesCm.largo}x{item.datosIa?.dimensionesCm.ancho}x{item.datosIa?.dimensionesCm.alto} cm)
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center gap-1.5 whitespace-nowrap">
+                                        <span className="inline-flex items-center gap-1 text-micro font-bold text-purple-700 dark:text-purple-300">
+                                          <Bot className="w-3.5 h-3.5" /> Agente IA Web
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+
+                                {isManual && (
+                                  <div className="flex items-center gap-1.5 whitespace-nowrap">
+                                    {item.evidenciaManual?.sinEvidencia ? (
+                                      <span
+                                        className="inline-flex items-center gap-1 text-[11px] text-amber-800 dark:text-amber-300 font-bold bg-amber-50 dark:bg-amber-500/15 px-2 py-0.5 rounded border border-amber-300 dark:border-amber-500/30"
+                                        title={item.evidenciaManual.motivoSinEvidencia}
+                                      >
+                                        <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" /> Sin evidencia web · Objeción cliente
+                                      </span>
+                                    ) : item.evidenciaManual ? (
+                                      <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-700 dark:text-emerald-400">
+                                        <CheckCircle2 className="w-3.5 h-3.5" /> Evidencia Adjunta
+                                      </span>
+                                    ) : (
+                                      <span className="inline-flex items-center gap-1 text-micro font-bold text-amber-700 dark:text-amber-400">
+                                        <AlertTriangle className="w-3.5 h-3.5" /> Sin Match en Web
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+
+                                {/* Medidas en líneas separadas */}
+                                <div className="font-mono text-caption">
+                                  <span className="font-extrabold text-gray-900 dark:text-gray-100 block">
+                                    {item.pesoFinalKg} kg
+                                  </span>
+                                  <span className="text-micro text-gray-500 dark:text-gray-400 block">
+                                    {item.dimensionesFinalesCm.largo}x{item.dimensionesFinalesCm.ancho}x{item.dimensionesFinalesCm.alto} cm
+                                  </span>
+                                  {item.modificadoPorAnalista && (
+                                    <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400 block">
+                                      ✏️ Ajuste manual aplicado
+                                    </span>
+                                  )}
+                                </div>
+
+                                {/* Enlace ver fuente web si existe */}
+                                {item.datosIa?.fuenteUrl && (
+                                  <a
+                                    href={item.datosIa.fuenteUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inline-flex items-center gap-1 text-[11px] text-purple-600 dark:text-purple-400 hover:underline font-semibold"
                                   >
-                                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" /> Sin evidencia web · Objeción cliente
-                                  </span>
-                                ) : item.evidenciaManual ? (
-                                  <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-700 dark:text-emerald-400">
-                                    <CheckCircle2 className="w-3.5 h-3.5" /> Evidencia Adjunta
-                                  </span>
-                                ) : (
-                                  <span className="inline-flex items-center gap-1 text-micro font-bold text-amber-700 dark:text-amber-400">
-                                    <AlertTriangle className="w-3.5 h-3.5" /> Sin Match en Web
-                                  </span>
+                                    <span>Ver fuente web IA</span>
+                                    <ExternalLink className="w-2.5 h-2.5" />
+                                  </a>
+                                )}
+
+                                {!item.evidenciaManual?.sinEvidencia && item.evidenciaManual?.urlProveedor && (
+                                  <a
+                                    href={item.evidenciaManual.urlProveedor}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inline-flex items-center gap-1 text-[11px] text-purple-600 dark:text-purple-400 hover:underline font-semibold"
+                                  >
+                                    <span>Ver fuente web</span>
+                                    <ExternalLink className="w-2.5 h-2.5" />
+                                  </a>
                                 )}
                               </div>
-                            )}
+                            </td>
 
-                            {/* Medidas en líneas separadas */}
-                            <div className="font-mono text-caption">
-                              <span className="font-extrabold text-gray-900 dark:text-gray-100 block">
-                                {item.pesoFinalKg} kg
-                              </span>
-                              <span className="text-micro text-gray-500 dark:text-gray-400 block">
-                                {item.dimensionesFinalesCm.largo}x{item.dimensionesFinalesCm.ancho}x{item.dimensionesFinalesCm.alto} cm
-                              </span>
-                              {item.modificadoPorAnalista && (
-                                <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400 block">
-                                  ✏️ Ajuste manual aplicado
+                            {/* Estado */}
+                            <td className="py-4 px-5 whitespace-nowrap">
+                              {isVal ? (
+                                item.tier === 'IA_Web' && item.modificadoPorAnalista ? (
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 whitespace-nowrap">
+                                    <UserCheck className="w-3.5 h-3.5" /> Ajuste Manual
+                                  </span>
+                                ) : item.tier === 'IA_Web' ? (
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-purple-50 dark:bg-purple-500/15 text-purple-800 dark:text-purple-300 border border-purple-300 whitespace-nowrap">
+                                    <Bot className="w-3.5 h-3.5" /> Validado IA
+                                  </span>
+                                ) : item.tier === 'Historico' ? (
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 whitespace-nowrap">
+                                    <CheckCircle2 className="w-3.5 h-3.5" /> Maestro Starken
+                                  </span>
+                                ) : item.evidenciaManual?.sinEvidencia ? (
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 whitespace-nowrap">
+                                    <UserCheck className="w-3.5 h-3.5" /> Ajuste Manual
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 whitespace-nowrap">
+                                    <CheckCircle2 className="w-3.5 h-3.5" /> Evidencia Validada
+                                  </span>
+                                )
+                              ) : item.estadoValidacion === 'Pendiente_IA' ? (
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-purple-50 dark:bg-purple-500/15 text-purple-800 dark:text-purple-300 border border-purple-300 animate-pulse whitespace-nowrap">
+                                  <Bot className="w-3.5 h-3.5" /> Requiere V°B° IA
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-rose-50 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-300 animate-pulse whitespace-nowrap">
+                                  <AlertTriangle className="w-3.5 h-3.5" /> Búsqueda Manual
                                 </span>
                               )}
-                            </div>
+                            </td>
 
-                            {/* Enlace ver fuente web si existe */}
-                            {item.datosIa?.fuenteUrl && (
-                              <a
-                                href={item.datosIa.fuenteUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] text-purple-600 dark:text-purple-400 hover:underline font-semibold"
-                              >
-                                <span>Ver fuente web IA</span>
-                                <ExternalLink className="w-2.5 h-2.5" />
-                              </a>
-                            )}
+                            {/* Acciones Requeridas */}
+                            <td className="py-4 px-5 text-right">
+                              <div className="flex items-center justify-end gap-1.5">
+                                {/* Caso IA: Aceptar o Modificar */}
+                                {item.tier === 'IA_Web' && (
+                                  isVal ? (
+                                    <div className="flex items-center gap-1.5 justify-end">
+                                      <span className="text-micro text-gray-400 font-medium italic">
+                                        {item.modificadoPorAnalista ? 'Ajuste manual' : 'Validado IA'}
+                                      </span>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEditIaModal(item)}
+                                        title="Modificar / Re-editar medidas manualmente"
+                                        className="p-1.5 bg-white dark:bg-slate-700 border border-amber-200 dark:border-white/10 hover:bg-amber-50 text-amber-700 dark:text-amber-300 rounded-lg text-micro font-bold transition-all cursor-pointer"
+                                      >
+                                        <Pencil className="w-3.5 h-3.5" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleAprobarSugerenciaIa(item)}
+                                        title="Aceptar sugerencia de IA para este SKU"
+                                        className="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-micro font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
+                                      >
+                                        <Check className="w-3.5 h-3.5" />
+                                        <span>Aceptar IA</span>
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEditIaModal(item)}
+                                        title="Modificar manualmente las medidas de la IA"
+                                        className="p-1.5 bg-white dark:bg-slate-700 border border-purple-200 dark:border-white/10 hover:bg-purple-50 text-purple-700 dark:text-purple-300 rounded-lg text-micro font-bold transition-all cursor-pointer"
+                                      >
+                                        <Pencil className="w-3.5 h-3.5" />
+                                      </button>
+                                    </>
+                                  )
+                                )}
 
-                            {!item.evidenciaManual?.sinEvidencia && item.evidenciaManual?.urlProveedor && (
-                              <a
-                                href={item.evidenciaManual.urlProveedor}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] text-purple-600 dark:text-purple-400 hover:underline font-semibold"
-                              >
-                                <span>Ver fuente web</span>
-                                <ExternalLink className="w-2.5 h-2.5" />
-                              </a>
-                            )}
-                          </div>
-                        </td>
+                                {/* Caso Manual: Adjuntar Evidencia */}
+                                {item.tier === 'Manual_Requerido' && (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenManualEvidenceModal(item)}
+                                    className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-micro font-bold transition-all shadow-2xs whitespace-nowrap cursor-pointer"
+                                  >
+                                    {item.evidenciaManual ? 'Editar evidencia' : '+ Adjuntar evidencia'}
+                                  </button>
+                                )}
 
-                        {/* Estado */}
-                        <td className="py-4 px-5 whitespace-nowrap">
-                          {isVal ? (
-                            item.tier === 'IA_Web' && item.modificadoPorAnalista ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 whitespace-nowrap">
-                                <UserCheck className="w-3.5 h-3.5" /> Ajuste Manual
-                              </span>
-                            ) : item.tier === 'IA_Web' ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-purple-50 dark:bg-purple-500/15 text-purple-800 dark:text-purple-300 border border-purple-300 whitespace-nowrap">
-                                <Bot className="w-3.5 h-3.5" /> Validado IA
-                              </span>
-                            ) : item.tier === 'Historico' ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 whitespace-nowrap">
-                                <CheckCircle2 className="w-3.5 h-3.5" /> Maestro Starken
-                              </span>
-                            ) : item.evidenciaManual?.sinEvidencia ? (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 whitespace-nowrap">
-                                <UserCheck className="w-3.5 h-3.5" /> Ajuste Manual
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 whitespace-nowrap">
-                                <CheckCircle2 className="w-3.5 h-3.5" /> Evidencia Validada
-                              </span>
-                            )
-                          ) : item.estadoValidacion === 'Pendiente_IA' ? (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-purple-50 dark:bg-purple-500/15 text-purple-800 dark:text-purple-300 border border-purple-300 animate-pulse whitespace-nowrap">
-                              <Bot className="w-3.5 h-3.5" /> Requiere V°B° IA
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-micro font-extrabold bg-rose-50 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-300 animate-pulse whitespace-nowrap">
-                              <AlertTriangle className="w-3.5 h-3.5" /> Búsqueda Manual
-                            </span>
-                          )}
-                        </td>
-
-                        {/* Acciones Requeridas */}
-                        <td className="py-4 px-5 text-right">
-                          <div className="flex items-center justify-end gap-1.5">
-                            {/* Caso IA: Aceptar o Modificar */}
-                            {item.tier === 'IA_Web' && (
-                              isVal ? (
-                                <div className="flex items-center gap-1.5 justify-end">
-                                  <span className="text-micro text-gray-400 font-medium italic">
-                                    {item.modificadoPorAnalista ? 'Ajuste manual' : 'Validado IA'}
+                                {/* Caso Histórico: Ya está resuelto */}
+                                {item.tier === 'Historico' && (
+                                  <span className="text-micro text-gray-400 font-medium italic pr-2">
+                                    Auto-resuelto
                                   </span>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleOpenEditIaModal(item)}
-                                    title="Modificar / Re-editar medidas manualmente"
-                                    className="p-1.5 bg-white dark:bg-slate-700 border border-amber-200 dark:border-white/10 hover:bg-amber-50 text-amber-700 dark:text-amber-300 rounded-lg text-micro font-bold transition-all cursor-pointer"
-                                  >
-                                    <Pencil className="w-3.5 h-3.5" />
-                                  </button>
-                                </div>
-                              ) : (
-                                <>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleAprobarSugerenciaIa(item)}
-                                    title="Aceptar sugerencia de IA para este SKU"
-                                    className="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-micro font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
-                                  >
-                                    <Check className="w-3.5 h-3.5" />
-                                    <span>Aceptar IA</span>
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleOpenEditIaModal(item)}
-                                    title="Modificar manualmente las medidas de la IA"
-                                    className="p-1.5 bg-white dark:bg-slate-700 border border-purple-200 dark:border-white/10 hover:bg-purple-50 text-purple-700 dark:text-purple-300 rounded-lg text-micro font-bold transition-all cursor-pointer"
-                                  >
-                                    <Pencil className="w-3.5 h-3.5" />
-                                  </button>
-                                </>
-                              )
-                            )}
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-                            {/* Caso Manual: Adjuntar Evidencia */}
-                            {item.tier === 'Manual_Requerido' && (
-                              <button
-                                type="button"
-                                onClick={() => handleOpenManualEvidenceModal(item)}
-                                className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-micro font-bold transition-all shadow-2xs whitespace-nowrap cursor-pointer"
-                              >
-                                {item.evidenciaManual ? 'Editar evidencia' : '+ Adjuntar evidencia'}
-                              </button>
-                            )}
+              {/* Resumen Financiero y Botones Finales */}
+              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-6 shadow-sm space-y-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-100 dark:border-white/10">
+                  <div>
+                    <span className="text-caption text-gray-500 font-medium">Monto original facturado:</span>
+                    <p className="text-xl font-bold text-gray-400 line-through">
+                      {formatCurrency(montoOriginal)}
+                    </p>
+                  </div>
 
-                            {/* Caso Histórico: Ya está resuelto */}
-                            {item.tier === 'Historico' && (
-                              <span className="text-micro text-gray-400 font-medium italic pr-2">
-                                Auto-resuelto
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                  <div className="text-right">
+                    <span className="text-caption text-purple-700 dark:text-purple-400 font-bold block">
+                      Nuevo monto regularizado Starken:
+                    </span>
+                    <p className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">
+                      {formatCurrency(montoAjustado)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={handleDescargarNuevaProforma}
+                    className="w-full sm:w-auto px-5 py-3 bg-white dark:bg-slate-700 border border-purple-200 dark:border-white/10 hover:bg-purple-50 text-purple-700 dark:text-purple-300 rounded-xl text-body font-bold transition-all shadow-2xs inline-flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Descargar nueva proforma (.xlsx)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSolicitarAutorizacionEnvio}
+                    disabled={!todoValidado}
+                    title={
+                      !todoValidado
+                        ? 'Debes validar el 100% de los SKUs (IA y Manual) antes de enviar'
+                        : 'Enviar solicitud de autorización a Jefatura'
+                    }
+                    className={`w-full sm:w-auto px-6 py-3 rounded-xl text-body font-extrabold text-white shadow-sm transition-all inline-flex items-center justify-center gap-2 ${!todoValidado
+                        ? 'bg-gray-300 dark:bg-slate-700 cursor-not-allowed opacity-60'
+                        : `bg-gradient-to-r ${theme.buttonGradient} hover:shadow-md active:scale-98 cursor-pointer`
+                      }`}
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>Solicitar autorización de envío de proforma</span>
+                  </button>
+                </div>
+              </div>
             </div>
+          )}
         </div>
-
-        {/* Resumen Financiero y Botones Finales */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/10 dark:border-white/10 p-6 shadow-sm space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-100 dark:border-white/10">
-            <div>
-              <span className="text-caption text-gray-500 font-medium">Monto original facturado:</span>
-              <p className="text-xl font-bold text-gray-400 line-through">
-                {formatCurrency(montoOriginal)}
-              </p>
-            </div>
-
-            <div className="text-right">
-              <span className="text-caption text-purple-700 dark:text-purple-400 font-bold block">
-                Nuevo monto regularizado Starken:
-              </span>
-              <p className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">
-                {formatCurrency(montoAjustado)}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
-            <button
-              type="button"
-              onClick={handleDescargarNuevaProforma}
-              className="w-full sm:w-auto px-5 py-3 bg-white dark:bg-slate-700 border border-purple-200 dark:border-white/10 hover:bg-purple-50 text-purple-700 dark:text-purple-300 rounded-xl text-body font-bold transition-all shadow-2xs inline-flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Download className="w-4 h-4" />
-              <span>Descargar nueva proforma (.xlsx)</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSolicitarAutorizacionEnvio}
-              disabled={!todoValidado}
-              title={
-                !todoValidado
-                  ? 'Debes validar el 100% de los SKUs (IA y Manual) antes de enviar'
-                  : 'Enviar solicitud de autorización a Jefatura'
-              }
-              className={`w-full sm:w-auto px-6 py-3 rounded-xl text-body font-extrabold text-white shadow-sm transition-all inline-flex items-center justify-center gap-2 ${
-                !todoValidado
-                  ? 'bg-gray-300 dark:bg-slate-700 cursor-not-allowed opacity-60'
-                  : `bg-gradient-to-r ${theme.buttonGradient} hover:shadow-md active:scale-98 cursor-pointer`
-              }`}
-            >
-              <Send className="w-4 h-4" />
-              <span>Solicitar autorización de envío de proforma</span>
-            </button>
-          </div>
-        </div>
-      </div>
       )}
-    </div>
-  )}
 
       {/* ─── MODAL 1: REVISAR / MODIFICAR SUGERENCIA IA (TIER 2) ─── */}
       {editingIaItem && (
@@ -1817,11 +1807,10 @@ function EditarProformaContent() {
 
             {/* SECCIÓN / CHECKBOX: SIN EVIDENCIA ENCONTRADA */}
             <div
-              className={`p-3 rounded-xl border transition-all ${
-                sinEvidenciaEncontrada
+              className={`p-3 rounded-xl border transition-all ${sinEvidenciaEncontrada
                   ? 'bg-amber-50/80 dark:bg-amber-500/10 border-amber-300 dark:border-amber-500/30'
                   : 'bg-gray-50/60 dark:bg-white/5 border-gray-200 dark:border-white/10 hover:border-gray-300'
-              }`}
+                }`}
             >
               <label className="flex items-center gap-2.5 cursor-pointer select-none">
                 <input

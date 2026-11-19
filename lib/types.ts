@@ -241,7 +241,7 @@ export interface Client {
   proformasIds: string[];
   historialModificaciones: HistorialModificacionCliente[];
   excepcionesActivasCount?: number;
-  
+
   // KPIs específicos por cliente
   kpis: {
     proformasTotales: number;
@@ -267,24 +267,24 @@ export interface AuditLog {
   usuario: string;
   rol: Role;
   accion:
-    | 'Creación'
-    | 'Aprobación'
-    | 'Rechazo'
-    | 'Login'
-    | 'Facturación'
-    | 'Reasignación de Ejecutivo'
-    | 'Modificación Cliente'
-    | 'Cambio Condiciones Comerciales'
-    | 'Envío Proforma'
-    | 'Creación Nueva Versión'
-    | 'Cambio de Estado'
-    | 'Resolución Pricing'
-    | 'Validación Tarifa'
-    | 'Excepción Aprobada'
-    | 'Excepción Rechazada'
-    | 'Solicitud a KAM'
-    | 'Sincronización Salesforce'
-    | string;
+  | 'Creación'
+  | 'Aprobación'
+  | 'Rechazo'
+  | 'Login'
+  | 'Facturación'
+  | 'Reasignación de Ejecutivo'
+  | 'Modificación Cliente'
+  | 'Cambio Condiciones Comerciales'
+  | 'Envío Proforma'
+  | 'Creación Nueva Versión'
+  | 'Cambio de Estado'
+  | 'Resolución Pricing'
+  | 'Validación Tarifa'
+  | 'Excepción Aprobada'
+  | 'Excepción Rechazada'
+  | 'Solicitud a KAM'
+  | 'Sincronización Salesforce'
+  | string;
   recurso: string;
   objetoAfectado: string;
   cliente?: string;

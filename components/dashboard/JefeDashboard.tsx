@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import {
   LayoutDashboard,
@@ -19,6 +19,7 @@ import {
   RefreshCw,
   ArrowRight,
   ExternalLink,
+  ChevronLeft,
   ChevronRight,
   AlertTriangle,
   FileText,
@@ -465,6 +466,102 @@ function DashboardFiltersPanel({
   );
 }
 
+// Componente unificado de paginación para las tablas de Jefatura (máximo 10 filas por página)
+interface TablePaginationProps {
+  currentPage: number;
+  totalItems: number;
+  itemsPerPage?: number;
+  onPageChange: (page: number) => void;
+  itemLabel?: string;
+}
+
+function TablePagination({
+  currentPage,
+  totalItems,
+  itemsPerPage = 10,
+  onPageChange,
+  itemLabel = 'registros',
+}: TablePaginationProps) {
+  const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+  const safePage = Math.min(Math.max(1, currentPage), totalPages);
+  const startIndex = (safePage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+  return (
+    <div className="p-4 border-t border-purple-100 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500 bg-white/50 dark:bg-slate-900/40">
+      <div>
+        {totalItems > 0 ? (
+          <span>
+            Mostrando <span className="font-bold text-gray-900 dark:text-white">{startIndex + 1}</span> a{' '}
+            <span className="font-bold text-gray-900 dark:text-white">{endIndex}</span> de{' '}
+            <span className="font-bold text-purple-700 dark:text-purple-300">{totalItems}</span> {itemLabel}
+          </span>
+        ) : (
+          <span>0 {itemLabel} encontrados</span>
+        )}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="flex items-center gap-1.5">
+          {/* Botón Anterior */}
+          <button
+            type="button"
+            onClick={() => onPageChange(Math.max(1, safePage - 1))}
+            disabled={safePage === 1}
+            className={`px-2.5 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all ${
+              safePage === 1
+                ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
+                : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
+            }`}
+            title="Página anterior"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+            <span>Anterior</span>
+          </button>
+
+          {/* Números de página */}
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+              const isActive = page === safePage;
+              return (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() => onPageChange(page)}
+                  className={`w-7 h-7 text-xs rounded-lg font-bold flex items-center justify-center transition-all ${
+                    isActive
+                      ? 'bg-purple-600 text-white shadow-xs'
+                      : 'border border-purple-200/80 dark:border-white/10 text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 cursor-pointer shadow-2xs'
+                  }`}
+                  title={`Ir a página ${page}`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Botón Siguiente */}
+          <button
+            type="button"
+            onClick={() => onPageChange(Math.min(totalPages, safePage + 1))}
+            disabled={safePage === totalPages}
+            className={`px-2.5 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all ${
+              safePage === totalPages
+                ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
+                : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
+            }`}
+            title="Página siguiente"
+          >
+            <span>Siguiente</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function JefeDashboard() {
   const { user } = useAuth();
   const { showToast } = useToast();
@@ -689,8 +786,8 @@ export function JefeDashboard() {
                   </span>
                 ) : (
                   <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${p.estado.includes('Aprobada') || p.estado === 'Facturado'
-                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
-                      : 'bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300'
+                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                    : 'bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300'
                     }`}>
                     {p.estado}
                   </span>
@@ -1241,6 +1338,49 @@ export function JefeDashboard() {
     });
   }, [clientesData, filters.clienteId]);
 
+  // Paginación de tablas (máximo 10 líneas / clientes por página)
+  const ITEMS_PER_PAGE = 10;
+  const [pageClientes, setPageClientes] = useState(1);
+  const [pageEjecutivos, setPageEjecutivos] = useState(1);
+  const [pageProformas, setPageProformas] = useState(1);
+  const [pageKpiProformas, setPageKpiProformas] = useState(1);
+
+  // Resetear páginas cuando cambian los filtros, término de búsqueda o pestaña
+  useEffect(() => {
+    setPageClientes(1);
+    setPageEjecutivos(1);
+    setPageProformas(1);
+    setPageKpiProformas(1);
+  }, [filters, searchTerm, kpiFilter, activeTab]);
+
+  // 1. Proformas paginadas (KPI drilldown)
+  const safePageKpiProformas = Math.min(pageKpiProformas, Math.max(1, Math.ceil(kpiFilteredProformas.length / ITEMS_PER_PAGE)));
+  const kpiProformasStartIndex = (safePageKpiProformas - 1) * ITEMS_PER_PAGE;
+  const paginatedKpiProformas = useMemo(() => {
+    return kpiFilteredProformas.slice(kpiProformasStartIndex, kpiProformasStartIndex + ITEMS_PER_PAGE);
+  }, [kpiFilteredProformas, kpiProformasStartIndex]);
+
+  // 2. Proformas paginadas (Búsqueda dinámica / Comercial)
+  const safePageProformas = Math.min(pageProformas, Math.max(1, Math.ceil(dynamicFilteredProformas.length / ITEMS_PER_PAGE)));
+  const proformasStartIndex = (safePageProformas - 1) * ITEMS_PER_PAGE;
+  const paginatedDynamicProformas = useMemo(() => {
+    return dynamicFilteredProformas.slice(proformasStartIndex, proformasStartIndex + ITEMS_PER_PAGE);
+  }, [dynamicFilteredProformas, proformasStartIndex]);
+
+  // 3. Ejecutivos paginados
+  const safePageEjecutivos = Math.min(pageEjecutivos, Math.max(1, Math.ceil(filteredEjecutivosData.length / ITEMS_PER_PAGE)));
+  const ejecutivosStartIndex = (safePageEjecutivos - 1) * ITEMS_PER_PAGE;
+  const paginatedEjecutivosData = useMemo(() => {
+    return filteredEjecutivosData.slice(ejecutivosStartIndex, ejecutivosStartIndex + ITEMS_PER_PAGE);
+  }, [filteredEjecutivosData, ejecutivosStartIndex]);
+
+  // 4. Clientes paginados (máximo 10 clientes por página)
+  const safePageClientes = Math.min(pageClientes, Math.max(1, Math.ceil(filteredClientesData.length / ITEMS_PER_PAGE)));
+  const clientesStartIndex = (safePageClientes - 1) * ITEMS_PER_PAGE;
+  const paginatedClientesData = useMemo(() => {
+    return filteredClientesData.slice(clientesStartIndex, clientesStartIndex + ITEMS_PER_PAGE);
+  }, [filteredClientesData, clientesStartIndex]);
+
   const resetFilters = () => {
     setFilters({
       periodo: 'mes',
@@ -1255,6 +1395,10 @@ export function JefeDashboard() {
     });
     setKpiFilter('todos');
     setSearchTerm('');
+    setPageClientes(1);
+    setPageEjecutivos(1);
+    setPageProformas(1);
+    setPageKpiProformas(1);
   };
 
   return (
@@ -1265,7 +1409,7 @@ export function JefeDashboard() {
           Hola, {user?.name?.split(' ')[0] || 'Carlos'} 👋
         </h1>
         <p className="text-caption text-gray-600 dark:text-gray-400">
-          Rol: <span className="font-semibold text-purple-700 dark:text-purple-400">Jefatura de Facturación</span> · Supervisión centralizada, control de ejecutivos y clientes
+          Rol: <span className="font-semibold text-purple-700 dark:text-purple-400">Jefatura de facturación</span> · Supervisión centralizada, control de ejecutivos y clientes
         </p>
       </div>
 
@@ -1597,7 +1741,7 @@ export function JefeDashboard() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-gray-700 dark:text-gray-300">
-                    {kpiFilteredProformas.map((p) => {
+                    {paginatedKpiProformas.map((p) => {
                       const isExpanded = expandedRowIds.has(p.id);
                       const isPendingVb = p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación';
                       return (
@@ -1682,6 +1826,15 @@ export function JefeDashboard() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Paginador para proformas de tarjeta KPI */}
+              <TablePagination
+                currentPage={safePageKpiProformas}
+                totalItems={kpiFilteredProformas.length}
+                itemsPerPage={ITEMS_PER_PAGE}
+                onPageChange={setPageKpiProformas}
+                itemLabel="proformas"
+              />
             </div>
           )}
 
@@ -1710,7 +1863,7 @@ export function JefeDashboard() {
                 <div>
                   <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <FileText className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                    Resultados de Búsqueda y Filtros Dinámicos
+                    Resultados de búsqueda y filtros dinámicos
                   </h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Listado sincronizado en tiempo real según los filtros y términos de búsqueda seleccionados arriba.
@@ -1757,7 +1910,7 @@ export function JefeDashboard() {
                         </td>
                       </tr>
                     ) : (
-                      dynamicFilteredProformas.map((p) => {
+                      paginatedDynamicProformas.map((p) => {
                         const isExpanded = expandedRowIds.has(p.id);
                         const isPendingVb = p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación';
                         return (
@@ -1855,6 +2008,15 @@ export function JefeDashboard() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Paginador para búsqueda dinámica de proformas */}
+              <TablePagination
+                currentPage={safePageProformas}
+                totalItems={dynamicFilteredProformas.length}
+                itemsPerPage={ITEMS_PER_PAGE}
+                onPageChange={setPageProformas}
+                itemLabel="proformas"
+              />
             </div>
           )}
         </div>
@@ -1884,7 +2046,7 @@ export function JefeDashboard() {
           <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between bg-purple-50/30 dark:bg-purple-950/10">
             <div>
               <h3 className="text-base font-bold text-gray-900 dark:text-white">
-                Desempeño Individual de Ejecutivos de Facturación
+                Desempeño individual de ejecutivos de facturación
               </h3>
               <p className="text-xs text-gray-500">
                 Permite identificar balance de carga de trabajo, eficiencia y oportunidades de mejora por ejecutivo según el período seleccionado.
@@ -1976,7 +2138,7 @@ export function JefeDashboard() {
                     </td>
                   </tr>
                 ) : (
-                  filteredEjecutivosData.map((exe) => (
+                  paginatedEjecutivosData.map((exe) => (
                     <tr key={exe.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
                       {/* Ejecutivo: Nombre y correo debajo */}
                       <td className="py-3 px-3 font-medium">
@@ -2059,6 +2221,15 @@ export function JefeDashboard() {
               </tbody>
             </table>
           </div>
+
+          {/* Paginador para desempeño de ejecutivos */}
+          <TablePagination
+            currentPage={safePageEjecutivos}
+            totalItems={filteredEjecutivosData.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setPageEjecutivos}
+            itemLabel="ejecutivos"
+          />
         </div>
       )}
 
@@ -2086,7 +2257,7 @@ export function JefeDashboard() {
           <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between bg-purple-50/30 dark:bg-purple-950/10">
             <div>
               <h3 className="text-base font-bold text-gray-900 dark:text-white">
-                Comportamiento y Complejidad por Cliente
+                Comportamiento y complejidad por cliente
               </h3>
               <p className="text-xs text-gray-500">
                 Permite detectar clientes que presentan mayor nivel de complejidad, reprocesos o desviaciones tarifarias en el período seleccionado.
@@ -2112,7 +2283,7 @@ export function JefeDashboard() {
               <thead>
                 <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[10px] font-bold text-gray-600 dark:text-gray-400">
                   <th className="py-2.5 px-3">Cliente / razón social</th>
-                  <th className="py-2.5 px-1.5">Rut</th>
+                  <th className="py-2.5 px-1.5">RUT</th>
                   <th className="py-2.5 px-1.5">Ejecutivo</th>
                   <th className="py-2.5 px-1 text-center">Total</th>
                   <th className="py-2.5 px-1 text-center">Aprob.</th>
@@ -2132,7 +2303,7 @@ export function JefeDashboard() {
                     </td>
                   </tr>
                 ) : (
-                  filteredClientesData.map((client) => (
+                  paginatedClientesData.map((client) => (
                     <tr key={client.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
                       {/* Cliente */}
                       <td className="py-2.5 px-3 font-bold text-gray-900 dark:text-white">
@@ -2205,6 +2376,15 @@ export function JefeDashboard() {
               </tbody>
             </table>
           </div>
+
+          {/* Paginador para comportamiento por cliente */}
+          <TablePagination
+            currentPage={safePageClientes}
+            totalItems={filteredClientesData.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setPageClientes}
+            itemLabel="clientes"
+          />
         </div>
       )}
 

@@ -100,9 +100,9 @@ export function RespuestaClienteModal({
     const fechaActualFormateada = `${ahora.getDate().toString().padStart(2, '0')}/${(ahora.getMonth() + 1)
       .toString()
       .padStart(2, '0')}/${ahora.getFullYear()} ${ahora.getHours().toString().padStart(2, '0')}:${ahora
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}`;
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}`;
 
     let nuevoEstado: ProformaEstado = 'Aprobada por Cliente';
     let nuevoConteo = conteoActual;
@@ -132,12 +132,12 @@ export function RespuestaClienteModal({
       proforma.historialVersiones && proforma.historialVersiones.length > 0
         ? proforma.historialVersiones
         : [
-            {
-              version: 'v1' as const,
-              fechaCreacion: proforma.fecha || fechaActualFormateada,
-              monto: proforma.monto,
-            },
-          ];
+          {
+            version: 'v1' as const,
+            fechaCreacion: proforma.fecha || fechaActualFormateada,
+            monto: proforma.monto,
+          },
+        ];
 
     // Actualizar la versión actual (tope estricto a V3, NUNCA crear V4)
     const histSanitizado = baseHist.slice(0, 3).map((item, idx, arr) => {
@@ -167,8 +167,8 @@ export function RespuestaClienteModal({
         nuevoEstado === 'Derivada a KAM'
           ? 'Derivada_KAM'
           : tipoRespuesta === 'Aprobada'
-          ? 'Aprobada_Cliente'
-          : 'Rechazada_Cliente',
+            ? 'Aprobada_Cliente'
+            : 'Rechazada_Cliente',
       versionActual: versionTope,
       conteoRechazos: nuevoConteo,
       respaldoCorreo: archivoRespaldo ? archivoRespaldo.name : 'correo_respaldo_cliente.png',
@@ -224,7 +224,7 @@ export function RespuestaClienteModal({
       {/* Modal Principal de Respuesta */}
       <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 relative flex flex-col max-h-[90vh]">
-          
+
           {/* Header Limpio */}
           <div className="px-6 pt-6 pb-4 border-b border-gray-100 dark:border-white/10 flex items-start justify-between bg-gradient-to-b from-purple-50/40 to-transparent dark:from-white/5">
             <div className="space-y-1">
@@ -253,7 +253,7 @@ export function RespuestaClienteModal({
 
           {/* Contenido con scroll limpio */}
           <div className="p-6 space-y-5 overflow-y-auto">
-            
+
             {/* Selector de Estado: Tarjetas Claras */}
             <div className="space-y-2">
               <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
@@ -263,17 +263,15 @@ export function RespuestaClienteModal({
                 <button
                   type="button"
                   onClick={() => setTipoRespuesta('Aprobada')}
-                  className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer ${
-                    tipoRespuesta === 'Aprobada'
-                      ? 'bg-emerald-50/80 dark:bg-emerald-500/15 border-emerald-500 ring-2 ring-emerald-500/20 text-emerald-950 dark:text-emerald-200 shadow-xs'
-                      : 'bg-white dark:bg-slate-900/40 border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-emerald-300'
-                  }`}
+                  className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer ${tipoRespuesta === 'Aprobada'
+                    ? 'bg-emerald-50/80 dark:bg-emerald-500/15 border-emerald-500 ring-2 ring-emerald-500/20 text-emerald-950 dark:text-emerald-200 shadow-xs'
+                    : 'bg-white dark:bg-slate-900/40 border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-emerald-300'
+                    }`}
                 >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                    tipoRespuesta === 'Aprobada'
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600'
-                  }`}>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${tipoRespuesta === 'Aprobada'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600'
+                    }`}>
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                   <div>
@@ -285,17 +283,15 @@ export function RespuestaClienteModal({
                 <button
                   type="button"
                   onClick={() => setTipoRespuesta('Rechazada')}
-                  className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer ${
-                    tipoRespuesta === 'Rechazada'
-                      ? 'bg-rose-50/80 dark:bg-rose-500/15 border-rose-500 ring-2 ring-rose-500/20 text-rose-950 dark:text-rose-200 shadow-xs'
-                      : 'bg-white dark:bg-slate-900/40 border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-rose-300'
-                  }`}
+                  className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer ${tipoRespuesta === 'Rechazada'
+                    ? 'bg-rose-50/80 dark:bg-rose-500/15 border-rose-500 ring-2 ring-rose-500/20 text-rose-950 dark:text-rose-200 shadow-xs'
+                    : 'bg-white dark:bg-slate-900/40 border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-rose-300'
+                    }`}
                 >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                    tipoRespuesta === 'Rechazada'
-                      ? 'bg-rose-600 text-white'
-                      : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600'
-                  }`}>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${tipoRespuesta === 'Rechazada'
+                    ? 'bg-rose-600 text-white'
+                    : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600'
+                    }`}>
                     <XCircle className="w-4 h-4" />
                   </div>
                   <div>
@@ -321,9 +317,8 @@ export function RespuestaClienteModal({
                   >
                     <span className="truncate pr-2">{motivoRechazoSelect}</span>
                     <ChevronDown
-                      className={`w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 transition-transform duration-200 ${
-                        motivoSelectOpen ? 'rotate-180' : ''
-                      }`}
+                      className={`w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 transition-transform duration-200 ${motivoSelectOpen ? 'rotate-180' : ''
+                        }`}
                     />
                   </button>
 
@@ -341,11 +336,10 @@ export function RespuestaClienteModal({
                                 setMotivoRechazoSelect(motivo);
                                 setMotivoSelectOpen(false);
                               }}
-                              className={`w-full p-2.5 text-left text-body rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
-                                isSelected
-                                  ? 'bg-purple-50 dark:bg-purple-500/20 text-purple-950 dark:text-purple-200 font-bold'
-                                  : 'text-gray-700 dark:text-gray-300 hover:bg-purple-50/60 dark:hover:bg-white/5 font-medium'
-                              }`}
+                              className={`w-full p-2.5 text-left text-body rounded-lg transition-colors flex items-center justify-between cursor-pointer ${isSelected
+                                ? 'bg-purple-50 dark:bg-purple-500/20 text-purple-950 dark:text-purple-200 font-bold'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-purple-50/60 dark:hover:bg-white/5 font-medium'
+                                }`}
                             >
                               <span className="truncate">{motivo}</span>
                               {isSelected && <Check className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 ml-2" />}

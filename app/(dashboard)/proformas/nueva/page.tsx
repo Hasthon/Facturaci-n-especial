@@ -679,13 +679,12 @@ export default function NuevaProformaPage() {
                           </span>
                         </div>
                         <span
-                          className={`text-micro font-bold px-2.5 py-0.5 rounded transition-all border ${
-                            theme.id === 'mocha'
+                          className={`text-micro font-bold px-2.5 py-0.5 rounded transition-all border ${theme.id === 'mocha'
                               ? 'bg-amber-100/90 text-amber-950 border-amber-300/80 group-hover:!bg-amber-900 group-hover:!text-white group-hover:!border-amber-900 shadow-xs'
                               : theme.id === 'dark'
-                              ? 'bg-emerald-950/60 text-emerald-300 border-emerald-500/30 group-hover:!bg-emerald-500 group-hover:!text-slate-950 group-hover:!border-emerald-500 shadow-xs'
-                              : 'bg-purple-100 text-purple-800 border-purple-200 group-hover:!bg-purple-600 group-hover:!text-white group-hover:!border-purple-600 shadow-xs'
-                          }`}
+                                ? 'bg-emerald-950/60 text-emerald-300 border-emerald-500/30 group-hover:!bg-emerald-500 group-hover:!text-slate-950 group-hover:!border-emerald-500 shadow-xs'
+                                : 'bg-purple-100 text-purple-800 border-purple-200 group-hover:!bg-purple-600 group-hover:!text-white group-hover:!border-purple-600 shadow-xs'
+                            }`}
                         >
                           Seleccionar
                         </span>

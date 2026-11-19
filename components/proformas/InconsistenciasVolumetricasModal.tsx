@@ -36,7 +36,7 @@ export const InconsistenciasVolumetricasModal: React.FC<InconsistenciasVolumetri
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm animate-fade-in">
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-purple-900/15 dark:border-white/10 shadow-2xl max-w-lg w-full p-6 space-y-5 relative overflow-hidden">
-        
+
         {/* BOTÓN DE CIERRE (✕) */}
         <div className="flex items-center justify-end">
           <button
