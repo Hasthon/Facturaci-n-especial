@@ -36,7 +36,7 @@ import { MOCK_PROFORMAS, MOCK_AUDIT, MOCK_EXECUTIVES } from '@/lib/mock-data';
 import { Proforma } from '@/lib/types';
 import { formatCurrency, cn } from '@/lib/utils';
 
-type FilterTab = 'pendientes' | 'autorizadas' | 'devueltas' | 'todas';
+type FilterTab = 'pendientes' | 'autorizadas' | 'devueltas';
 
 export default function AprobacionesPage() {
   const { user } = useAuth();
@@ -341,15 +341,6 @@ export default function AprobacionesPage() {
                 }`}
             >
               Rechazadas / Derivadas
-            </button>
-            <button
-              onClick={() => setActiveTab('todas')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 ${activeTab === 'todas'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-                }`}
-            >
-              Todas las Proformas ({proformas.length})
             </button>
           </div>
 
