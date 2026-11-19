@@ -111,6 +111,9 @@ export default function AprobacionesPage() {
   const [rejectionReason, setRejectionReason] = useState('Inconsistencia en Tarifas / Descuentos');
   const [rejectionObservations, setRejectionObservations] = useState('');
 
+  // Modal para Doble Validación de Aprobación (Aceptar Proforma)
+  const [approvingProforma, setApprovingProforma] = useState<Proforma | null>(null);
+
   // Proformas que tienen version 2 o requieren supervisión
   const filteredProformas = useMemo(() => {
     return proformas.filter((p) => {
@@ -559,7 +562,7 @@ export default function AprobacionesPage() {
                             {isPendingVb ? (
                               <button
                                 type="button"
-                                onClick={() => handleAprobarV2(proforma.id)}
+                                onClick={() => setApprovingProforma(proforma)}
                                 className="p-1.5 rounded-lg border border-emerald-200/80 dark:border-emerald-800/60 bg-emerald-50/80 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/70 text-emerald-600 dark:text-emerald-400 transition-colors cursor-pointer shadow-2xs"
                                 title="Aprobar V2 (Otorgar V°B° de Jefatura)"
                               >
@@ -902,7 +905,7 @@ export default function AprobacionesPage() {
                   </button>
 
                   <button
-                    onClick={() => handleAprobarV2(comparingProforma.id)}
+                    onClick={() => setApprovingProforma(comparingProforma)}
                     className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
                   >
                     <Check className="w-4 h-4" />
@@ -916,7 +919,94 @@ export default function AprobacionesPage() {
       })()}
 
       {/* ========================================================================= */}
-      {/* MODAL: RECHAZAR / DEVOLVER PROFORMA V2 CON REGISTRO DE MOTIVO              */}
+      {/* MODAL: DOBLE VALIDACIÓN - ACEPTAR / APROBAR PROFORMA                       */}
+      {/* ========================================================================= */}
+      {approvingProforma && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-emerald-200 dark:border-emerald-900/50 p-6 max-w-lg w-full shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            {/* Cabecera del modal */}
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
+                  <Check className="w-5 h-5 stroke-[2.5]" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                    ¿Estás seguro de aceptar la proforma?
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    Doble validación de autorización comercial y V°B° de jefatura
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setApprovingProforma(null)}
+                className="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Ficha resumen: ID de la proforma, Cliente y Ejecutivo */}
+            <div className="p-4 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 rounded-xl space-y-2.5">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500 dark:text-gray-400 font-bold">ID Proforma:</span>
+                <span className="font-mono font-bold text-purple-700 dark:text-purple-300">
+                  {approvingProforma.id}
+                </span>
+              </div>
+              <div className="flex items-start justify-between text-xs gap-2">
+                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / Razón Social:</span>
+                <span className="font-bold text-gray-900 dark:text-white text-right">
+                  {approvingProforma.cliente}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo Responsable:</span>
+                <span className="font-semibold text-purple-700 dark:text-purple-300">
+                  {approvingProforma.ejecutivoNombre || 'Ana Valenzuela'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-xs pt-1 border-t border-purple-100/60 dark:border-white/5">
+                <span className="text-gray-500 dark:text-gray-400 font-bold">Monto actual:</span>
+                <span className="font-mono font-black text-gray-900 dark:text-white">
+                  {approvingProforma.montoFormatted}
+                </span>
+              </div>
+            </div>
+
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Al confirmar, se otorgará formalmente el V°B° de jefatura y la proforma quedará autorizada para continuar con el ciclo de facturación.
+            </p>
+
+            {/* Botones de acción: Cancelar (rojo secundario con contorno y texto) y Sí, aceptar (verde) */}
+            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-gray-100 dark:border-white/10">
+              <button
+                type="button"
+                onClick={() => setApprovingProforma(null)}
+                className="px-4 py-2 text-xs font-semibold rounded-xl border border-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  handleAprobarV2(approvingProforma.id);
+                  setApprovingProforma(null);
+                }}
+                className="px-5 py-2 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
+              >
+                <Check className="w-4 h-4 stroke-[2.5]" />
+                <span>Sí, aceptar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL: DOBLE VALIDACIÓN - RECHAZAR / DEVOLVER PROFORMA                    */}
       {/* ========================================================================= */}
       {rejectingProforma && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -928,19 +1018,42 @@ export default function AprobacionesPage() {
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-gray-900 dark:text-white">
-                    Rechazar y Devolver Proforma V2
+                    ¿Estás seguro de rechazar la proforma?
                   </h3>
                   <p className="text-xs text-gray-500">
-                    {rejectingProforma.id} • {rejectingProforma.cliente}
+                    Doble validación de devolución con observaciones
                   </p>
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => setRejectingProforma(null)}
-                className="p-1 rounded-lg text-gray-400 hover:text-gray-600 cursor-pointer"
+                className="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
+            </div>
+
+            {/* Ficha resumen con los datos requeridos: ID, Cliente y Ejecutivo */}
+            <div className="p-4 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 rounded-xl space-y-2.5">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500 dark:text-gray-400 font-bold">ID Proforma:</span>
+                <span className="font-mono font-bold text-purple-700 dark:text-purple-300">
+                  {rejectingProforma.id}
+                </span>
+              </div>
+              <div className="flex items-start justify-between text-xs gap-2">
+                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / Razón Social:</span>
+                <span className="font-bold text-gray-900 dark:text-white text-right">
+                  {rejectingProforma.cliente}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo Responsable:</span>
+                <span className="font-semibold text-purple-700 dark:text-purple-300">
+                  {rejectingProforma.ejecutivoNombre || 'Ana Valenzuela'}
+                </span>
+              </div>
             </div>
 
             <form onSubmit={handleConfirmRechazoV2} className="space-y-4">
@@ -974,27 +1087,27 @@ export default function AprobacionesPage() {
                   onChange={(e) => setRejectionObservations(e.target.value)}
                   required
                   placeholder="Detalla qué correcciones debe aplicar el ejecutivo antes de volver a solicitar V°B°..."
-                  rows={4}
+                  rows={3}
                   className="w-full p-3 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none resize-none"
                 />
               </div>
 
-              {/* Botones de confirmación */}
-              <div className="flex items-center justify-end gap-2.5 pt-2">
+              {/* Botones de confirmación: Cancelar (rojo secundario con contorno y texto) y Sí, rechazar (verde) */}
+              <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-gray-100 dark:border-white/10">
                 <button
                   type="button"
                   onClick={() => setRejectingProforma(null)}
-                  className="px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded-xl border border-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={!rejectionObservations.trim()}
-                  className="px-4 py-2 text-xs font-bold bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                  className="px-5 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                 >
-                  <XCircle className="w-4 h-4" />
-                  Confirmar Rechazo y Devolver
+                  <Check className="w-4 h-4 stroke-[2.5]" />
+                  <span>Sí, rechazar</span>
                 </button>
               </div>
             </form>
