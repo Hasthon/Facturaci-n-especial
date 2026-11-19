@@ -507,11 +507,11 @@ export function JefeDashboard() {
           const updatedHist = hist.map((h, i) =>
             i === hist.length - 1
               ? {
-                  ...h,
-                  estadoSupervision: 'Autorizada' as const,
-                  aprobadoPorSupervisor: user?.name || 'Carlos Muñoz (Jefatura)',
-                  fechaSupervision: nowStr,
-                }
+                ...h,
+                estadoSupervision: 'Autorizada' as const,
+                aprobadoPorSupervisor: user?.name || 'Carlos Muñoz (Jefatura)',
+                fechaSupervision: nowStr,
+              }
               : h
           );
 
@@ -566,12 +566,12 @@ export function JefeDashboard() {
           const updatedHist = hist.map((h, i) =>
             i === hist.length - 1
               ? {
-                  ...h,
-                  estadoSupervision: 'Devuelta_Analista' as const,
-                  motivo: rejectionReason,
-                  observaciones: rejectionObservations,
-                  fechaSupervision: nowStr,
-                }
+                ...h,
+                estadoSupervision: 'Devuelta_Analista' as const,
+                motivo: rejectionReason,
+                observaciones: rejectionObservations,
+                fechaSupervision: nowStr,
+              }
               : h
           );
 
@@ -635,67 +635,61 @@ export function JefeDashboard() {
       <tr key={`${p.id}-expanded`} className="bg-purple-50/30 dark:bg-slate-800/40 border-b border-purple-100 dark:border-white/5">
         <td colSpan={colSpan} className="py-4 px-6">
           <div className="space-y-3.5 max-w-6xl animate-in fade-in slide-in-from-top-1 duration-150">
-            {/* Barra de Acciones del Desplegable (Aceptar, Rechazar, Descargar) */}
+            {/* Barra Superior del Desplegable (Acciones / Detalle) */}
             <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-white/90 dark:bg-slate-900/90 rounded-xl border border-purple-100 dark:border-white/10 shadow-2xs">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200">
-                  Acciones para {p.id}:
+                  {isPendingVb ? `Acciones para ${p.id}:` : `Información de Proforma ${p.id}:`}
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300 uppercase">
                   {p.versionActual || 'v1'}
                 </span>
-                {isPendingVb && (
+                {isPendingVb ? (
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300 animate-pulse">
                     ⚡ Requiere V°B°
+                  </span>
+                ) : (
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                    p.estado.includes('Aprobada') || p.estado === 'Facturado'
+                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                      : 'bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300'
+                  }`}>
+                    {p.estado}
                   </span>
                 )}
               </div>
 
               <div className="flex items-center gap-2 flex-wrap">
-                {/* 1. Botón Aceptar / Aprobar */}
-                {isPendingVb ? (
-                  <button
-                    type="button"
-                    onClick={() => handleAprobarProforma(p.id)}
-                    className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-95"
-                    title="Aprobar y conceder V°B° de Jefatura"
-                  >
-                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                    <span>Aprobar V°B°</span>
-                  </button>
-                ) : p.estadoSupervision === 'Autorizada' ? (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>V°B° Otorgado</span>
-                  </span>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleAprobarProforma(p.id)}
-                    className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-95"
-                    title="Aprobar proforma"
-                  >
-                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                    <span>Aprobar</span>
-                  </button>
+                {/* Botones de Aceptar y Rechazar: SOLO presentes para proformas con estado pendiente de validación o V°B° */}
+                {isPendingVb && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleAprobarProforma(p.id)}
+                      className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-95"
+                      title="Aprobar y conceder V°B° de Jefatura"
+                    >
+                      <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <span>Aprobar V°B°</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRejectingProforma(p);
+                        setRejectionReason('Inconsistencia en Tarifas / Descuentos');
+                        setRejectionObservations('');
+                      }}
+                      className="px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200 dark:border-rose-900/40 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-95"
+                      title="Rechazar o devolver con observaciones al ejecutivo"
+                    >
+                      <XCircle className="w-3.5 h-3.5" />
+                      <span>Rechazar</span>
+                    </button>
+                  </>
                 )}
 
-                {/* 2. Botón Rechazar */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setRejectingProforma(p);
-                    setRejectionReason('Inconsistencia en Tarifas / Descuentos');
-                    setRejectionObservations('');
-                  }}
-                  className="px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200 dark:border-rose-900/40 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-95"
-                  title="Rechazar o devolver con observaciones al ejecutivo"
-                >
-                  <XCircle className="w-3.5 h-3.5" />
-                  <span>Rechazar</span>
-                </button>
-
-                {/* 3. Botón Descargar */}
+                {/* Botón Descargar: siempre disponible */}
                 <button
                   type="button"
                   onClick={() => handleDescargarProforma(p)}
@@ -779,8 +773,8 @@ export function JefeDashboard() {
                   {p.estadoSupervision === 'Autorizada'
                     ? 'Autorizada / V°B° Otorgado'
                     : p.estadoSupervision === 'Devuelta_Analista'
-                    ? 'Devuelta a Ejecutivo'
-                    : 'Pendiente de Autorización / V°B°'}
+                      ? 'Devuelta a Ejecutivo'
+                      : 'Pendiente de Autorización / V°B°'}
                 </span>
               </div>
             </div>
@@ -1567,6 +1561,7 @@ export function JefeDashboard() {
                   <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-gray-700 dark:text-gray-300">
                     {kpiFilteredProformas.map((p) => {
                       const isExpanded = expandedRowIds.has(p.id);
+                      const isPendingVb = p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación';
                       return (
                         <React.Fragment key={p.id}>
                           <tr className={cn("hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors", isExpanded && "bg-purple-50/30 dark:bg-purple-950/25")}>
@@ -1606,8 +1601,24 @@ export function JefeDashboard() {
                                 <button
                                   type="button"
                                   onClick={() => toggleRowExpanded(p.id)}
-                                  title={isExpanded ? 'Ocultar información detallada' : 'Ver detalle, alertas y acciones'}
-                                  aria-label={isExpanded ? 'Ocultar información detallada' : 'Ver detalle, alertas y acciones'}
+                                  title={
+                                    isPendingVb
+                                      ? isExpanded
+                                        ? 'Ocultar información y acciones'
+                                        : 'Revisar proforma, alertas y gestionar V°B°'
+                                      : isExpanded
+                                        ? 'Ocultar información detallada'
+                                        : 'Desplegar información de proforma'
+                                  }
+                                  aria-label={
+                                    isPendingVb
+                                      ? isExpanded
+                                        ? 'Ocultar información y acciones'
+                                        : 'Revisar proforma, alertas y gestionar V°B°'
+                                      : isExpanded
+                                        ? 'Ocultar información detallada'
+                                        : 'Desplegar información de proforma'
+                                  }
                                   className={cn(
                                     'p-1.5 rounded-lg border transition-all inline-flex items-center justify-center shadow-2xs cursor-pointer',
                                     isExpanded
@@ -1615,7 +1626,13 @@ export function JefeDashboard() {
                                       : 'bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60'
                                   )}
                                 >
-                                  <Pencil className="w-4 h-4" />
+                                  {isPendingVb ? (
+                                    <Pencil className="w-4 h-4" />
+                                  ) : isExpanded ? (
+                                    <ChevronUp className="w-4 h-4" />
+                                  ) : (
+                                    <ChevronDown className="w-4 h-4" />
+                                  )}
                                 </button>
                               </div>
                             </td>
@@ -1704,6 +1721,7 @@ export function JefeDashboard() {
                     ) : (
                       dynamicFilteredProformas.map((p) => {
                         const isExpanded = expandedRowIds.has(p.id);
+                        const isPendingVb = p.estadoSupervision === 'Pendiente_Autorizacion' || p.estado === 'Pendiente de validación';
                         return (
                           <React.Fragment key={p.id}>
                             <tr className={cn("hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors", isExpanded && "bg-purple-50/30 dark:bg-purple-950/25")}>
@@ -1755,8 +1773,24 @@ export function JefeDashboard() {
                                   <button
                                     type="button"
                                     onClick={() => toggleRowExpanded(p.id)}
-                                    title={isExpanded ? 'Ocultar información detallada' : 'Ver detalle, alertas y acciones'}
-                                    aria-label={isExpanded ? 'Ocultar información detallada' : 'Ver detalle, alertas y acciones'}
+                                    title={
+                                      isPendingVb
+                                        ? isExpanded
+                                          ? 'Ocultar información y acciones'
+                                          : 'Revisar proforma, alertas y gestionar V°B°'
+                                        : isExpanded
+                                          ? 'Ocultar información detallada'
+                                          : 'Desplegar información de proforma'
+                                    }
+                                    aria-label={
+                                      isPendingVb
+                                        ? isExpanded
+                                          ? 'Ocultar información y acciones'
+                                          : 'Revisar proforma, alertas y gestionar V°B°'
+                                        : isExpanded
+                                          ? 'Ocultar información detallada'
+                                          : 'Desplegar información de proforma'
+                                    }
                                     className={cn(
                                       'p-1.5 rounded-lg border transition-all inline-flex items-center justify-center shadow-2xs cursor-pointer',
                                       isExpanded
@@ -1764,7 +1798,13 @@ export function JefeDashboard() {
                                         : 'bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/80 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60'
                                     )}
                                   >
-                                    <Pencil className="w-4 h-4" />
+                                    {isPendingVb ? (
+                                      <Pencil className="w-4 h-4" />
+                                    ) : isExpanded ? (
+                                      <ChevronUp className="w-4 h-4" />
+                                    ) : (
+                                      <ChevronDown className="w-4 h-4" />
+                                    )}
                                   </button>
                                 </div>
                               </td>
@@ -1899,85 +1939,85 @@ export function JefeDashboard() {
                   </tr>
                 ) : (
                   filteredEjecutivosData.map((exe) => (
-                  <tr key={exe.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
-                    {/* Ejecutivo: Nombre y correo debajo */}
-                    <td className="py-3 px-3 font-medium">
-                      <div className="flex flex-col min-w-0">
-                        <span className="font-bold text-gray-900 dark:text-white leading-tight block truncate max-w-[180px]">
-                          {exe.nombre}
+                    <tr key={exe.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
+                      {/* Ejecutivo: Nombre y correo debajo */}
+                      <td className="py-3 px-3 font-medium">
+                        <div className="flex flex-col min-w-0">
+                          <span className="font-bold text-gray-900 dark:text-white leading-tight block truncate max-w-[180px]">
+                            {exe.nombre}
+                          </span>
+                          <span className="text-[11px] text-gray-500 font-normal leading-tight mt-0.5 block truncate max-w-[180px]">
+                            {exe.email}
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* Clientes */}
+                      <td className="py-3 px-2 text-center font-bold text-purple-700 dark:text-purple-300">
+                        {exe.clientesAsignadosCount}
+                      </td>
+
+                      {/* Proformas */}
+                      <td className="py-3 px-2 text-center font-bold">
+                        {exe.proformasTotales}
+                      </td>
+
+                      {/* Aprobadas */}
+                      <td className="py-3 px-2 text-center text-emerald-600 dark:text-emerald-400 font-semibold">
+                        {exe.proformasAprobadas}
+                      </td>
+
+                      {/* Rechazadas */}
+                      <td className="py-3 px-2 text-center text-red-600 dark:text-red-400 font-semibold">
+                        {exe.proformasRechazadas}
+                      </td>
+
+                      {/* Pendientes */}
+                      <td className="py-3 px-2 text-center text-amber-600 dark:text-amber-400 font-semibold">
+                        {exe.proformasPendientes}
+                      </td>
+
+                      {/* Expiradas */}
+                      <td className="py-3 px-2 text-center text-gray-500 dark:text-gray-400 font-medium">
+                        {exe.proformasExpiradas}
+                      </td>
+
+                      {/* Convertidas */}
+                      <td className="py-3 px-2 text-center font-bold text-purple-700 dark:text-purple-300">
+                        {exe.proformasConvertidas}
+                      </td>
+
+                      {/* Tasa Aprobación */}
+                      <td className="py-3 px-2 text-center">
+                        <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300">
+                          {exe.tasaAprobacion}%
                         </span>
-                        <span className="text-[11px] text-gray-500 font-normal leading-tight mt-0.5 block truncate max-w-[180px]">
-                          {exe.email}
+                      </td>
+
+                      {/* Tasa Rechazo */}
+                      <td className="py-3 px-2 text-center">
+                        <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 dark:bg-red-950/70 dark:text-red-300">
+                          {exe.tasaRechazo}%
                         </span>
-                      </div>
-                    </td>
+                      </td>
 
-                    {/* Clientes */}
-                    <td className="py-3 px-2 text-center font-bold text-purple-700 dark:text-purple-300">
-                      {exe.clientesAsignadosCount}
-                    </td>
+                      {/* Tiempos */}
+                      <td className="py-3 px-2 text-center font-mono text-[11px]">
+                        {exe.tiempoPromedioGeneracionDias}d
+                      </td>
+                      <td className="py-3 px-2 text-center font-mono text-[11px]">
+                        {exe.tiempoPromedioAprobacionDias}d
+                      </td>
 
-                    {/* Proformas */}
-                    <td className="py-3 px-2 text-center font-bold">
-                      {exe.proformasTotales}
-                    </td>
-
-                    {/* Aprobadas */}
-                    <td className="py-3 px-2 text-center text-emerald-600 dark:text-emerald-400 font-semibold">
-                      {exe.proformasAprobadas}
-                    </td>
-
-                    {/* Rechazadas */}
-                    <td className="py-3 px-2 text-center text-red-600 dark:text-red-400 font-semibold">
-                      {exe.proformasRechazadas}
-                    </td>
-
-                    {/* Pendientes */}
-                    <td className="py-3 px-2 text-center text-amber-600 dark:text-amber-400 font-semibold">
-                      {exe.proformasPendientes}
-                    </td>
-
-                    {/* Expiradas */}
-                    <td className="py-3 px-2 text-center text-gray-500 dark:text-gray-400 font-medium">
-                      {exe.proformasExpiradas}
-                    </td>
-
-                    {/* Convertidas */}
-                    <td className="py-3 px-2 text-center font-bold text-purple-700 dark:text-purple-300">
-                      {exe.proformasConvertidas}
-                    </td>
-
-                    {/* Tasa Aprobación */}
-                    <td className="py-3 px-2 text-center">
-                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300">
-                        {exe.tasaAprobacion}%
-                      </span>
-                    </td>
-
-                    {/* Tasa Rechazo */}
-                    <td className="py-3 px-2 text-center">
-                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 dark:bg-red-950/70 dark:text-red-300">
-                        {exe.tasaRechazo}%
-                      </span>
-                    </td>
-
-                    {/* Tiempos */}
-                    <td className="py-3 px-2 text-center font-mono text-[11px]">
-                      {exe.tiempoPromedioGeneracionDias}d
-                    </td>
-                    <td className="py-3 px-2 text-center font-mono text-[11px]">
-                      {exe.tiempoPromedioAprobacionDias}d
-                    </td>
-
-                    {/* Versiones y Reprocesos */}
-                    <td className="py-3 px-2 text-center font-mono font-bold text-purple-700 dark:text-purple-300 text-[11px]">
-                      {exe.promedioVersiones}v
-                    </td>
-                    <td className="py-3 px-2 text-center font-mono text-amber-700 dark:text-amber-400 font-bold text-[11px]">
-                      {exe.cantidadReprocesos}
-                    </td>
-                  </tr>
-                )))}
+                      {/* Versiones y Reprocesos */}
+                      <td className="py-3 px-2 text-center font-mono font-bold text-purple-700 dark:text-purple-300 text-[11px]">
+                        {exe.promedioVersiones}v
+                      </td>
+                      <td className="py-3 px-2 text-center font-mono text-amber-700 dark:text-amber-400 font-bold text-[11px]">
+                        {exe.cantidadReprocesos}
+                      </td>
+                    </tr>
+                  )))}
               </tbody>
             </table>
           </div>
@@ -2055,75 +2095,75 @@ export function JefeDashboard() {
                   </tr>
                 ) : (
                   filteredClientesData.map((client) => (
-                  <tr key={client.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
-                    {/* Cliente */}
-                    <td className="py-2.5 px-3 font-bold text-gray-900 dark:text-white">
-                      <div className="flex flex-col min-w-0">
-                        <span className="font-bold text-gray-900 dark:text-white leading-tight block truncate max-w-[190px]">
-                          {client.razonSocial}
-                        </span>
-                        {client.nombreFantasia && (
-                          <span className="text-[10px] text-gray-500 dark:text-gray-400 font-normal leading-tight mt-0.5 block truncate max-w-[190px]">
-                            {client.nombreFantasia}
+                    <tr key={client.id} className="hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors">
+                      {/* Cliente */}
+                      <td className="py-2.5 px-3 font-bold text-gray-900 dark:text-white">
+                        <div className="flex flex-col min-w-0">
+                          <span className="font-bold text-gray-900 dark:text-white leading-tight block truncate max-w-[190px]">
+                            {client.razonSocial}
+                          </span>
+                          {client.nombreFantasia && (
+                            <span className="text-[10px] text-gray-500 dark:text-gray-400 font-normal leading-tight mt-0.5 block truncate max-w-[190px]">
+                              {client.nombreFantasia}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* RUT */}
+                      <td className="py-2.5 px-1.5 font-mono text-[11px] text-gray-700 dark:text-gray-300">
+                        <span className="truncate block max-w-[100px]">{client.rut}</span>
+                      </td>
+
+                      {/* Ejecutivo */}
+                      <td className="py-2.5 px-1.5">
+                        {client.ejecutivoNombre ? (
+                          <span className="font-semibold text-purple-700 dark:text-purple-300 text-[11px] block truncate max-w-[130px]">
+                            {client.ejecutivoNombre}
+                          </span>
+                        ) : (
+                          <span className="text-amber-700 dark:text-amber-400 font-bold text-[10px]">
+                            Sin asignar
                           </span>
                         )}
-                      </div>
-                    </td>
+                      </td>
 
-                    {/* RUT */}
-                    <td className="py-2.5 px-1.5 font-mono text-[11px] text-gray-700 dark:text-gray-300">
-                      <span className="truncate block max-w-[100px]">{client.rut}</span>
-                    </td>
-
-                    {/* Ejecutivo */}
-                    <td className="py-2.5 px-1.5">
-                      {client.ejecutivoNombre ? (
-                        <span className="font-semibold text-purple-700 dark:text-purple-300 text-[11px] block truncate max-w-[130px]">
-                          {client.ejecutivoNombre}
+                      {/* Métricas */}
+                      <td className="py-2.5 px-1 text-center font-bold">
+                        {client.kpis.proformasTotales}
+                      </td>
+                      <td className="py-2.5 px-1 text-center text-emerald-600 font-semibold">
+                        {client.kpis.proformasAprobadas}
+                      </td>
+                      <td className="py-2.5 px-1 text-center text-red-600 font-semibold">
+                        {client.kpis.proformasRechazadas}
+                      </td>
+                      <td className="py-2.5 px-1 text-center">
+                        <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                          {client.kpis.tasaAprobacion}%
                         </span>
-                      ) : (
-                        <span className="text-amber-700 dark:text-amber-400 font-bold text-[10px]">
-                          Sin asignar
+                      </td>
+                      <td className="py-2.5 px-1 text-center font-mono font-bold text-purple-700 text-[11px]">
+                        {client.kpis.promedioVersiones}v
+                      </td>
+                      <td className="py-2.5 px-1 text-center font-mono text-amber-700 font-bold text-[11px]">
+                        {client.kpis.cantidadReprocesos}
+                      </td>
+                      <td className="py-2.5 px-1 text-center font-mono text-[11px]">
+                        {client.kpis.tiempoPromedioAprobacionDias}d
+                      </td>
+                      <td className="py-2.5 px-1 text-center">
+                        <span
+                          className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${client.estado === 'Activo'
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : 'bg-gray-100 text-gray-600'
+                            }`}
+                        >
+                          {client.estado}
                         </span>
-                      )}
-                    </td>
-
-                    {/* Métricas */}
-                    <td className="py-2.5 px-1 text-center font-bold">
-                      {client.kpis.proformasTotales}
-                    </td>
-                    <td className="py-2.5 px-1 text-center text-emerald-600 font-semibold">
-                      {client.kpis.proformasAprobadas}
-                    </td>
-                    <td className="py-2.5 px-1 text-center text-red-600 font-semibold">
-                      {client.kpis.proformasRechazadas}
-                    </td>
-                    <td className="py-2.5 px-1 text-center">
-                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
-                        {client.kpis.tasaAprobacion}%
-                      </span>
-                    </td>
-                    <td className="py-2.5 px-1 text-center font-mono font-bold text-purple-700 text-[11px]">
-                      {client.kpis.promedioVersiones}v
-                    </td>
-                    <td className="py-2.5 px-1 text-center font-mono text-amber-700 font-bold text-[11px]">
-                      {client.kpis.cantidadReprocesos}
-                    </td>
-                    <td className="py-2.5 px-1 text-center font-mono text-[11px]">
-                      {client.kpis.tiempoPromedioAprobacionDias}d
-                    </td>
-                    <td className="py-2.5 px-1 text-center">
-                      <span
-                        className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${client.estado === 'Activo'
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-gray-100 text-gray-600'
-                          }`}
-                      >
-                        {client.estado}
-                      </span>
-                    </td>
-                  </tr>
-                )))}
+                      </td>
+                    </tr>
+                  )))}
               </tbody>
             </table>
           </div>
