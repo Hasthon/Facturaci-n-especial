@@ -45,7 +45,6 @@ export default function AprobacionesPage() {
   const [proformas, setProformas] = useState<Proforma[]>(MOCK_PROFORMAS);
   const [activeTab, setActiveTab] = useState<FilterTab>('pendientes');
   const [searchTerm, setSearchTerm] = useState('');
-  const [executiveFilter, setExecutiveFilter] = useState('todos');
 
   // Estado para filas expandidas en la tabla de aprobaciones
   const [expandedRowIds, setExpandedRowIds] = useState<Set<string>>(new Set());
@@ -125,10 +124,6 @@ export default function AprobacionesPage() {
       if (activeTab === 'autorizadas' && !isAuthorized) return false;
       if (activeTab === 'devueltas' && !isReturned) return false;
 
-      if (executiveFilter !== 'todos' && p.ejecutivoId !== executiveFilter) {
-        return false;
-      }
-
       if (searchTerm.trim()) {
         const term = searchTerm.toLowerCase();
         const matchId = p.id.toLowerCase().includes(term);
@@ -140,7 +135,7 @@ export default function AprobacionesPage() {
 
       return true;
     });
-  }, [proformas, activeTab, executiveFilter, searchTerm]);
+  }, [proformas, activeTab, searchTerm]);
 
   // Contadores para badges
   const pendingCount = useMemo(
@@ -312,12 +307,12 @@ export default function AprobacionesPage() {
 
       {/* Tabs y Filtros */}
       <div className="bg-white/90 dark:bg-slate-900/90 rounded-2xl border border-purple-100/80 dark:border-white/10 p-4 shadow-xs space-y-3">
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           {/* Tabs */}
-          <div className="flex items-center gap-1.5 p-1 bg-gray-100/80 dark:bg-slate-800/80 rounded-xl overflow-x-auto">
+          <div className="flex items-center gap-1.5 p-1 bg-gray-100/80 dark:bg-slate-800/80 rounded-xl overflow-x-auto shrink-0">
             <button
               onClick={() => setActiveTab('pendientes')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'pendientes'
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${activeTab === 'pendientes'
                   ? 'bg-purple-600 text-white shadow-xs'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
@@ -331,7 +326,7 @@ export default function AprobacionesPage() {
             </button>
             <button
               onClick={() => setActiveTab('autorizadas')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'autorizadas'
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 ${activeTab === 'autorizadas'
                   ? 'bg-purple-600 text-white shadow-xs'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
@@ -340,7 +335,7 @@ export default function AprobacionesPage() {
             </button>
             <button
               onClick={() => setActiveTab('devueltas')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'devueltas'
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 ${activeTab === 'devueltas'
                   ? 'bg-purple-600 text-white shadow-xs'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
@@ -349,7 +344,7 @@ export default function AprobacionesPage() {
             </button>
             <button
               onClick={() => setActiveTab('todas')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'todas'
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 ${activeTab === 'todas'
                   ? 'bg-purple-600 text-white shadow-xs'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
@@ -358,43 +353,27 @@ export default function AprobacionesPage() {
             </button>
           </div>
 
-          {/* Filtro por Ejecutivo */}
-          <div className="w-full md:w-64">
-            <select
-              value={executiveFilter}
-              onChange={(e) => setExecutiveFilter(e.target.value)}
-              className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-200 focus:border-purple-600 outline-none cursor-pointer"
-            >
-              <option value="todos">Filtrar por Ejecutivo (Todos)</option>
-              {MOCK_EXECUTIVES.map((exe) => (
-                <option key={exe.id} value={exe.id}>
-                  👤 {exe.nombre}
-                </option>
-              ))}
-            </select>
+          {/* Input de Búsqueda (subido al lugar del dropdown de ejecutivo) */}
+          <div className="relative w-full lg:w-96 min-w-[280px]">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar por ID Proforma (PF-...), Cliente, RUT o motivo..."
+              className="w-full pl-9 pr-8 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl focus:border-purple-600 outline-none shadow-2xs"
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={() => setSearchTerm('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5 rounded-full hover:bg-gray-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                title="Borrar búsqueda"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
-        </div>
-
-        {/* Input de Búsqueda */}
-        <div className="relative">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Buscar por ID Proforma (PF-...), Cliente, RUT o motivo..."
-            className="w-full pl-9 pr-8 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl focus:border-purple-600 outline-none"
-          />
-          {searchTerm && (
-            <button
-              type="button"
-              onClick={() => setSearchTerm('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5 rounded-full hover:bg-gray-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-              title="Borrar búsqueda"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
         </div>
       </div>
 
