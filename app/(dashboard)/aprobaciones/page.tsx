@@ -598,8 +598,8 @@ export default function AprobacionesPage() {
                                 <GitCompare className="w-3.5 h-3.5" />
                               </button>
 
-                              {/* 2. Icono Rechazar (X) */}
-                              {isPendingVb ? (
+                              {/* 2. Icono Rechazar (X) - solo visible si está pendiente de V°B° */}
+                              {isPendingVb && (
                                 <button
                                   type="button"
                                   onClick={() => {
@@ -612,40 +612,15 @@ export default function AprobacionesPage() {
                                 >
                                   <XCircle className="w-3.5 h-3.5" />
                                 </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  disabled
-                                  className="p-1.5 rounded-lg border border-gray-100 dark:border-white/5 text-gray-300 dark:text-gray-600 opacity-40 cursor-not-allowed"
-                                  title="Rechazar no disponible para este estado"
-                                >
-                                  <XCircle className="w-3.5 h-3.5" />
-                                </button>
                               )}
 
-                              {/* 3. Icono Aprobar (Ticket de línea verde con fondo menta/verde claro, mismo grado iconográfico) */}
-                              {isPendingVb ? (
+                              {/* 3. Icono Aprobar - solo visible si está pendiente de V°B° */}
+                              {isPendingVb && (
                                 <button
                                   type="button"
                                   onClick={() => setApprovingProforma(proforma)}
                                   className="p-1.5 rounded-lg border border-emerald-200/80 dark:border-emerald-800/60 bg-emerald-50/80 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/70 text-emerald-600 dark:text-emerald-400 transition-colors cursor-pointer shadow-2xs"
                                   title="Aprobar V2 (Otorgar V°B° de Jefatura)"
-                                >
-                                  <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                                </button>
-                              ) : proforma.estadoSupervision === 'Autorizada' ? (
-                                <span
-                                  className="p-1.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/40 inline-flex items-center justify-center shadow-2xs"
-                                  title="V°B° ya otorgado"
-                                >
-                                  <CheckCircle2 className="w-3.5 h-3.5" />
-                                </span>
-                              ) : (
-                                <button
-                                  type="button"
-                                  disabled
-                                  className="p-1.5 rounded-lg border border-gray-100 dark:border-white/5 text-gray-300 dark:text-gray-600 opacity-40 cursor-not-allowed"
-                                  title="Aprobación no disponible"
                                 >
                                   <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                                 </button>
