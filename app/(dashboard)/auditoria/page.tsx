@@ -27,7 +27,7 @@ import {
   CreditCard,
 } from 'lucide-react';
 import { useToast } from '@/context/toast-context';
-import { MOCK_AUDIT, MOCK_EXECUTIVES, MOCK_CLIENTS, MOCK_PROFORMAS } from '@/lib/mock-data';
+import { MOCK_AUDIT, MOCK_CLIENTS, MOCK_PROFORMAS } from '@/lib/mock-data';
 import { AuditLog, Proforma, VersionHistoryItem } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
 
@@ -621,8 +621,8 @@ export default function AuditoriaPage() {
             </div>
           </div>
 
-          {/* Grid Gráficos: Causas de Rechazo & Ejecutivos con más Reprocesos */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Causas de Rechazo & Clientes con Modificaciones */}
+          <div className="space-y-6">
             {/* Principales Motivos de Rechazo */}
             <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs space-y-4">
               <div>
@@ -685,70 +685,8 @@ export default function AuditoriaPage() {
               </div>
             </div>
 
-            {/* Reprocesos y Calidad por Ejecutivo */}
-            <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs space-y-4">
-              <div>
-                <h3 className="text-sm font-bold text-gray-900 dark:text-white">
-                  Desempeño de Calidad por Ejecutivo
-                </h3>
-                <p className="text-xs text-gray-500">
-                  Identifica cuellos de botella y necesidades de capacitación en el equipo de ejecutivos.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                {MOCK_EXECUTIVES.map((exe) => (
-                  <div
-                    key={exe.id}
-                    className="p-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-white/5 flex items-center justify-between gap-3 text-xs"
-                  >
-                    <div className="flex items-center gap-2.5 truncate">
-                      <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-950/70 border border-purple-200 dark:border-purple-800/40 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0">
-                        <User className="w-4 h-4" />
-                      </div>
-                      <div className="truncate">
-                        <div className="font-bold text-gray-900 dark:text-white truncate">
-                          {exe.nombre}
-                        </div>
-                        <div className="text-[10px] text-gray-500 truncate">
-                          {exe.proformasTotales} proformas emitidas
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 sm:gap-6 text-right shrink-0">
-                      <div>
-                        <div className="text-[10px] text-gray-500">Rechazos</div>
-                        <div className="font-bold text-rose-600 dark:text-rose-400">
-                          {exe.proformasRechazadas}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500">Reprocesos</div>
-                        <div className="font-bold text-amber-600 dark:text-amber-400">
-                          {exe.cantidadReprocesos}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500">Prom. Versiones</div>
-                        <div className="font-bold text-purple-700 dark:text-purple-300">
-                          {exe.promedioVersiones} v
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500">Tasa Aprobación</div>
-                        <div className="font-bold text-emerald-600 dark:text-emerald-400">
-                          {exe.tasaAprobacion}%
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Clientes con Mayor Cantidad de Modificaciones */}
-            <div className="lg:col-span-2 p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs space-y-4">
+            <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
