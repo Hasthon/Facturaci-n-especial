@@ -22,6 +22,8 @@ import {
   Clock,
   Check,
   X,
+  ChevronLeft,
+  ChevronRight,
   Building2,
   Eye,
   FileDown,
@@ -46,13 +48,31 @@ export default function AuditoriaPage() {
   // Estado para el modal de versiones
   const [selectedVersionLog, setSelectedVersionLog] = useState<AuditLog | null>(null);
 
-  // Top clientes con mayor cantidad de modificaciones / reprocesos
-  const topModifiedClients = useMemo(() => {
+  // Estados y paginación para Clientes con Mayor Cantidad de Modificaciones
+  const [clientSearchTerm, setClientSearchTerm] = useState('');
+  const [clientCurrentPage, setClientCurrentPage] = useState(1);
+  const CLIENTS_PER_PAGE = 10;
+
+  const filteredClients = useMemo(() => {
+    const term = clientSearchTerm.toLowerCase().trim();
     return [...MOCK_CLIENTS]
-      .filter((c) => c.kpis.proformasTotales > 0)
-      .sort((a, b) => (b.kpis.cantidadReprocesos || 0) - (a.kpis.cantidadReprocesos || 0))
-      .slice(0, 5);
-  }, []);
+      .filter((c) => {
+        if (!term) return true;
+        const matchesName = c.razonSocial?.toLowerCase().includes(term);
+        const matchesFantasia = c.nombreFantasia?.toLowerCase().includes(term);
+        const matchesRut = c.rut?.toLowerCase().includes(term);
+        const matchesEjecutivo = c.ejecutivoNombre?.toLowerCase().includes(term);
+        return matchesName || matchesFantasia || matchesRut || matchesEjecutivo;
+      })
+      .sort((a, b) => (b.kpis.cantidadReprocesos || 0) - (a.kpis.cantidadReprocesos || 0));
+  }, [clientSearchTerm]);
+
+  const totalClientPages = Math.max(1, Math.ceil(filteredClients.length / CLIENTS_PER_PAGE));
+  const clientStartIndex = (clientCurrentPage - 1) * CLIENTS_PER_PAGE;
+  const clientEndIndex = Math.min(clientStartIndex + CLIENTS_PER_PAGE, filteredClients.length);
+  const paginatedClients = useMemo(() => {
+    return filteredClients.slice(clientStartIndex, clientStartIndex + CLIENTS_PER_PAGE);
+  }, [filteredClients, clientStartIndex, CLIENTS_PER_PAGE]);
 
   // Métricas financieras y variación en $ para el dashboard de versionamiento
   const financialMetrics = useMemo(() => {
@@ -846,7 +866,7 @@ export default function AuditoriaPage() {
 
             {/* Clientes con Mayor Cantidad de Modificaciones */}
             <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <Building2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
@@ -856,65 +876,166 @@ export default function AuditoriaPage() {
                     Cuentas que registran mayor volumen de reprocesos, discrepancias y ajustes en sus proformas.
                   </p>
                 </div>
-                <span className="text-[11px] font-semibold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2.5 py-1 rounded-lg border border-purple-200/60 dark:border-purple-800/40 w-fit">
-                  Top 5 Cuentas Complejas
-                </span>
+
+                {/* Buscador de clientes por nombre */}
+                <div className="relative w-full sm:w-72 shrink-0">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    value={clientSearchTerm}
+                    onChange={(e) => {
+                      setClientSearchTerm(e.target.value);
+                      setClientCurrentPage(1);
+                    }}
+                    placeholder="Buscar cliente por nombre..."
+                    className="w-full pl-8 pr-8 py-1.5 text-xs rounded-xl bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all shadow-2xs"
+                  />
+                  {clientSearchTerm && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setClientSearchTerm('');
+                        setClientCurrentPage(1);
+                      }}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5 rounded-full"
+                      title="Limpiar búsqueda"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-2">
-                {topModifiedClients.map((client, idx) => (
-                  <div
-                    key={client.id}
-                    className="p-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs"
-                  >
-                    <div className="flex items-center gap-3 truncate min-w-0">
-                      <div className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/70 border border-amber-200 dark:border-amber-800/40 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0 font-bold text-xs">
-                        #{idx + 1}
-                      </div>
-                      <div className="truncate min-w-0">
-                        <div className="font-bold text-gray-900 dark:text-white truncate">
-                          {client.razonSocial}
+                {paginatedClients.length === 0 ? (
+                  <div className="p-8 text-center text-xs text-gray-500 bg-gray-50 dark:bg-slate-800/40 rounded-xl border border-dashed border-gray-200 dark:border-white/10">
+                    No se encontraron clientes que coincidan con &ldquo;{clientSearchTerm}&rdquo;
+                  </div>
+                ) : (
+                  paginatedClients.map((client, idx) => (
+                    <div
+                      key={client.id}
+                      className="p-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs hover:border-purple-200 dark:hover:border-purple-800/40 transition-colors"
+                    >
+                      <div className="flex items-center gap-3 truncate min-w-0">
+                        <div className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/70 border border-amber-200 dark:border-amber-800/40 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0 font-bold text-xs">
+                          #{clientStartIndex + idx + 1}
                         </div>
-                        <div className="text-[10px] text-gray-500 truncate mt-0.5">
-                          {client.nombreFantasia} • <span className="text-purple-700 dark:text-purple-300 font-semibold">Ejecutivo: {client.ejecutivoNombre || 'Sin asignar'}</span>
+                        <div className="truncate min-w-0">
+                          <div className="font-bold text-gray-900 dark:text-white truncate">
+                            {client.razonSocial}
+                          </div>
+                          <div className="text-[10px] text-gray-500 truncate mt-0.5">
+                            {client.nombreFantasia} • <span className="text-purple-700 dark:text-purple-300 font-semibold">Ejecutivo: {client.ejecutivoNombre || 'Sin asignar'}</span>
+                          </div>
                         </div>
                       </div>
+
+                      <div className="flex items-center justify-between md:justify-end gap-4 sm:gap-6 text-right shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-gray-100 dark:border-white/5">
+                        <div>
+                          <div className="text-[10px] text-gray-500">Modificaciones</div>
+                          <div className="font-bold text-amber-600 dark:text-amber-400">
+                            {client.kpis.cantidadReprocesos}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-gray-500">Prom. Versiones</div>
+                          <div className="font-bold text-purple-700 dark:text-purple-300">
+                            {client.kpis.promedioVersiones} v
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-gray-500">Rechazos</div>
+                          <div className="font-bold text-rose-600 dark:text-rose-400">
+                            {client.kpis.proformasRechazadas}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-gray-500">Total PF</div>
+                          <div className="font-bold text-gray-900 dark:text-white">
+                            {client.kpis.proformasTotales}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-[10px] text-gray-500">Tasa Aprobación</div>
+                          <div className="font-bold text-emerald-600 dark:text-emerald-400">
+                            {client.kpis.tasaAprobacion}%
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Paginador */}
+              <div className="pt-3 border-t border-purple-100 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500">
+                <div>
+                  {filteredClients.length > 0 ? (
+                    <span>
+                      Mostrando <span className="font-bold text-gray-900 dark:text-white">{clientStartIndex + 1}</span> a{' '}
+                      <span className="font-bold text-gray-900 dark:text-white">{clientEndIndex}</span> de{' '}
+                      <span className="font-bold text-purple-700 dark:text-purple-300">{filteredClients.length}</span> clientes
+                    </span>
+                  ) : (
+                    <span>0 clientes encontrados</span>
+                  )}
+                </div>
+
+                {totalClientPages > 1 && (
+                  <div className="flex items-center gap-1.5">
+                    {/* Botón Anterior */}
+                    <button
+                      type="button"
+                      onClick={() => setClientCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={clientCurrentPage === 1}
+                      className={`px-2.5 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all ${clientCurrentPage === 1
+                        ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
+                        : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
+                        }`}
+                      title="Página anterior"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                      <span>Anterior</span>
+                    </button>
+
+                    {/* Números de página */}
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: totalClientPages }, (_, i) => i + 1).map((page) => {
+                        const isActive = page === clientCurrentPage;
+                        return (
+                          <button
+                            key={page}
+                            type="button"
+                            onClick={() => setClientCurrentPage(page)}
+                            className={`w-7 h-7 text-xs rounded-lg font-bold flex items-center justify-center transition-all ${isActive
+                              ? 'bg-purple-600 text-white shadow-xs'
+                              : 'border border-purple-200/80 dark:border-white/10 text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 cursor-pointer shadow-2xs'
+                              }`}
+                            title={`Ir a página ${page}`}
+                          >
+                            {page}
+                          </button>
+                        );
+                      })}
                     </div>
 
-                    <div className="flex items-center justify-between md:justify-end gap-4 sm:gap-6 text-right shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-gray-100 dark:border-white/5">
-                      <div>
-                        <div className="text-[10px] text-gray-500">Modificaciones</div>
-                        <div className="font-bold text-amber-600 dark:text-amber-400">
-                          {client.kpis.cantidadReprocesos}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500">Prom. Versiones</div>
-                        <div className="font-bold text-purple-700 dark:text-purple-300">
-                          {client.kpis.promedioVersiones} v
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500">Rechazos</div>
-                        <div className="font-bold text-rose-600 dark:text-rose-400">
-                          {client.kpis.proformasRechazadas}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500">Total PF</div>
-                        <div className="font-bold text-gray-900 dark:text-white">
-                          {client.kpis.proformasTotales}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-gray-500">Tasa Aprobación</div>
-                        <div className="font-bold text-emerald-600 dark:text-emerald-400">
-                          {client.kpis.tasaAprobacion}%
-                        </div>
-                      </div>
-                    </div>
+                    {/* Botón Siguiente */}
+                    <button
+                      type="button"
+                      onClick={() => setClientCurrentPage((p) => Math.min(totalClientPages, p + 1))}
+                      disabled={clientCurrentPage === totalClientPages}
+                      className={`px-2.5 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 transition-all ${clientCurrentPage === totalClientPages
+                        ? 'border-gray-200 dark:border-white/5 text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-slate-800/40 cursor-not-allowed opacity-60'
+                        : 'border-purple-200 dark:border-purple-800/60 text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 shadow-2xs cursor-pointer active:scale-95'
+                        }`}
+                      title="Página siguiente"
+                    >
+                      <span>Siguiente</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
