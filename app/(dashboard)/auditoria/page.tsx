@@ -453,7 +453,7 @@ export default function AuditoriaPage() {
                     <th className="py-3 px-3">Fecha / hora</th>
                     <th className="py-3 px-2">Usuario & rol</th>
                     <th className="py-3 px-2">Acción</th>
-                    <th className="py-3 px-2">Objeto afectado</th>
+                    <th className="py-3 px-2">Cliente</th>
                     <th className="py-3 px-2">Transición de estado</th>
                     <th className="py-3 px-2">Versión</th>
                     <th className="py-3 px-3">Motivo / observaciones</th>
