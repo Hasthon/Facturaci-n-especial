@@ -10,6 +10,7 @@ import {
   Clock,
   Download,
   ChevronDown,
+  ChevronUp,
   FileText,
   X,
   Check,
@@ -33,7 +34,7 @@ import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/context/toast-context';
 import { MOCK_PROFORMAS, MOCK_AUDIT, MOCK_EXECUTIVES } from '@/lib/mock-data';
 import { Proforma } from '@/lib/types';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, cn } from '@/lib/utils';
 
 type FilterTab = 'pendientes' | 'autorizadas' | 'devueltas' | 'todas';
 
@@ -45,6 +46,31 @@ export default function AprobacionesPage() {
   const [activeTab, setActiveTab] = useState<FilterTab>('pendientes');
   const [searchTerm, setSearchTerm] = useState('');
   const [executiveFilter, setExecutiveFilter] = useState('todos');
+
+  // Estado para filas expandidas en la tabla de aprobaciones
+  const [expandedRowIds, setExpandedRowIds] = useState<Set<string>>(new Set());
+
+  const toggleRowExpanded = (id: string) => {
+    setExpandedRowIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  // Simulación de descarga de proforma
+  const handleDescargarProforma = (proforma: Proforma) => {
+    showToast(
+      `Generando documento de proforma ${proforma.id} (${proforma.versionActual || 'v1'}). Descarga completada.`,
+      'info',
+      4000,
+      'Descarga de Proforma'
+    );
+  };
 
   // Modal de Comparador de Versiones (Diff Visual v1 vs v2)
   const [comparingProforma, setComparingProforma] = useState<Proforma | null>(null);
@@ -342,161 +368,298 @@ export default function AprobacionesPage() {
         </div>
       </div>
 
-      {/* Grid de Tarjetas de Proformas para Aprobación */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {filteredProformas.length === 0 ? (
-          <div className="lg:col-span-2 py-12 text-center bg-white/80 dark:bg-slate-900/80 rounded-2xl border border-gray-200/80 dark:border-white/10">
-            <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-2" />
-            <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
-              No hay solicitudes de aprobación bajo los filtros seleccionados
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
-              Todas las proformas que requieren V°B° están al día.
-            </p>
-          </div>
-        ) : (
-          filteredProformas.map((proforma) => {
-            const isV2OrMore = (proforma.historialVersiones?.length || 1) >= 2 || proforma.versionActual === 'v2' || proforma.versionActual === 'v3';
-            const isPendingVb = proforma.estadoSupervision === 'Pendiente_Autorizacion' || proforma.estado === 'Pendiente de validación';
-            const lastVersion = proforma.historialVersiones?.[proforma.historialVersiones.length - 1];
-            const prevVersion = proforma.historialVersiones?.[0];
+      {/* Tabla de Proformas para Aprobación V2 */}
+      <div className="bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100/90 dark:border-white/10 overflow-hidden shadow-xs">
+        <div className="w-full overflow-x-auto">
+          <table className="w-full table-fixed text-left border-collapse text-xs">
+            <colgroup>
+              <col className="w-[16%]" />
+              <col className="w-[24%]" />
+              <col className="w-[16%]" />
+              <col className="w-[16%]" />
+              <col className="w-[13%]" />
+              <col className="w-[15%]" />
+            </colgroup>
+            <thead>
+              <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[11px] font-bold text-gray-600 dark:text-gray-400">
+                <th className="py-3.5 px-4">Proforma ID</th>
+                <th className="py-3.5 px-3">Nombre o razón social</th>
+                <th className="py-3.5 px-3">Fecha y hora última versión</th>
+                <th className="py-3.5 px-3">Ejecutivo responsable</th>
+                <th className="py-3.5 px-3 text-right">Monto actual</th>
+                <th className="py-3.5 px-3 text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 dark:divide-white/5 text-xs text-gray-700 dark:text-gray-300">
+              {filteredProformas.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-12 text-gray-500">
+                    <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-2" />
+                    <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
+                      No hay solicitudes de aprobación bajo los filtros seleccionados
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Todas las proformas que requieren V°B° están al día.
+                    </p>
+                  </td>
+                </tr>
+              ) : (
+                filteredProformas.map((proforma) => {
+                  const isV2OrMore = (proforma.historialVersiones?.length || 1) >= 2 || proforma.versionActual === 'v2' || proforma.versionActual === 'v3';
+                  const isPendingVb = proforma.estadoSupervision === 'Pendiente_Autorizacion' || proforma.estado === 'Pendiente de validación';
+                  const lastVersion = proforma.historialVersiones?.[proforma.historialVersiones.length - 1];
+                  const prevVersion = proforma.historialVersiones?.[0];
+                  const isExpanded = expandedRowIds.has(proforma.id);
 
-            return (
-              <div
-                key={proforma.id}
-                className={`bg-white/95 dark:bg-slate-900/95 rounded-2xl border p-5 shadow-xs flex flex-col justify-between transition-all ${
-                  isPendingVb
-                    ? 'border-amber-300 dark:border-amber-800/80 ring-1 ring-amber-400/20 shadow-md'
-                    : 'border-purple-100 dark:border-white/10'
-                }`}
-              >
-                <div>
-                  {/* Header de la tarjeta (Siempre Visible) */}
-                  <div className="flex items-start justify-between gap-3 mb-3 border-b border-gray-100 dark:border-white/5 pb-3">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-sm text-purple-700 dark:text-purple-300">
-                          {proforma.id}
-                        </span>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300 uppercase">
-                          {proforma.versionActual || 'v1'}
-                        </span>
-                        {isPendingVb && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300 animate-pulse">
-                            ⚡ Requiere V°B°
-                          </span>
+                  return (
+                    <React.Fragment key={proforma.id}>
+                      <tr
+                        className={cn(
+                          'hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors',
+                          isPendingVb && 'bg-amber-50/25 dark:bg-amber-950/10',
+                          isExpanded && 'bg-purple-50/30 dark:bg-purple-950/25'
                         )}
-                      </div>
-                      <h3 className="text-base font-bold text-gray-900 dark:text-white mt-1 leading-tight">
-                        {proforma.cliente}
-                      </h3>
-                      <p className="text-[11px] text-gray-500 font-mono">
-                        RUT: {proforma.rut} • {proforma.cuentaCorrienteNombre || proforma.cuentaCorrienteId}
-                      </p>
-                    </div>
-
-                    <div className="text-right">
-                      <div className="text-xs text-gray-500">Monto Actual</div>
-                      <div className="text-lg font-black text-gray-900 dark:text-white">
-                        {proforma.montoFormatted}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Detalle del Ejecutivo & Fechas */}
-                  <div className="grid grid-cols-2 gap-2 p-2.5 bg-gray-50 dark:bg-slate-800/60 rounded-xl mb-3 text-xs">
-                    <div>
-                      <span className="text-[10px] text-gray-500 block">Ejecutivo Responsable:</span>
-                      <strong className="text-gray-900 dark:text-gray-100">
-                        {proforma.ejecutivoNombre || 'Ana Valenzuela'}
-                      </strong>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-gray-500 block">Fecha Última Versión:</span>
-                      <strong className="text-gray-900 dark:text-gray-100 font-mono">
-                        {lastVersion?.fechaCreacion || proforma.fecha}
-                      </strong>
-                    </div>
-                  </div>
-
-                  {/* Alertas de Elaboración (Punto 3 Requerimiento Jira) */}
-                  {proforma.alertasElaboracion && proforma.alertasElaboracion.length > 0 && (
-                    <div className="mb-3 p-3 bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-900/40 rounded-xl space-y-1">
-                      <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-900 dark:text-amber-300">
-                        <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                        Alertas y Observaciones de Elaboración:
-                      </div>
-                      {proforma.alertasElaboracion.map((alerta, idx) => (
-                        <p key={idx} className="text-[11px] text-amber-800 dark:text-amber-300/90 leading-tight">
-                          • {alerta}
-                        </p>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Resumen de Versiones Anteriores */}
-                  {isV2OrMore && prevVersion && (
-                    <div className="mb-3 p-2.5 bg-purple-50/40 dark:bg-purple-950/20 border border-purple-100 dark:border-white/5 rounded-xl text-xs space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-purple-900 dark:text-purple-300 uppercase tracking-wider">
-                          Motivo Rechazo en Versión 1 (Cliente):
-                        </span>
-                        <span className="text-[10px] font-mono text-gray-500">
-                          Monto anterior: {formatCurrency(prevVersion.monto)}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-gray-700 dark:text-gray-300 italic">
-                        &quot;{prevVersion.motivo || proforma.motivoRechazoPrincipal || 'Discrepancia en tarifario comercial'}&quot;
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Acciones de Jefatura (Siempre Visibles en la parte inferior) */}
-                <div className="mt-auto pt-3 border-t border-gray-100 dark:border-white/5 flex flex-wrap items-center justify-between gap-2">
-                  {/* Botón Comparar Versiones (Diff) */}
-                  <button
-                    onClick={() => setComparingProforma(proforma)}
-                    className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 dark:hover:bg-purple-900/60 font-semibold text-xs rounded-xl border border-purple-200/60 dark:border-purple-800/40 transition-colors cursor-pointer flex items-center gap-1.5"
-                  >
-                    <GitCompare className="w-3.5 h-3.5" />
-                    <span>Comparar Versiones (Diff)</span>
-                  </button>
-
-                  {/* Botones de Decisión Jefatura */}
-                  {isPendingVb ? (
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setRejectingProforma(proforma);
-                          setRejectionReason('Inconsistencia en Tarifas / Descuentos');
-                          setRejectionObservations('');
-                        }}
-                        className="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300 text-xs font-semibold rounded-xl border border-red-200 dark:border-red-900/40 transition-colors cursor-pointer flex items-center gap-1"
                       >
-                        <XCircle className="w-3.5 h-3.5" />
-                        <span>Rechazar V2</span>
-                      </button>
+                        {/* Proforma ID */}
+                        <td className="py-3.5 px-4 align-middle">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="font-mono font-bold text-xs text-purple-700 dark:text-purple-300">
+                                {proforma.id}
+                              </span>
+                              <span className="px-1.5 py-0.2 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300 uppercase">
+                                {proforma.versionActual || 'v1'}
+                              </span>
+                            </div>
+                            {isPendingVb ? (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 dark:bg-amber-950/80 dark:text-amber-300 animate-pulse">
+                                <span>⚡ Requiere V°B°</span>
+                              </span>
+                            ) : proforma.estadoSupervision === 'Autorizada' ? (
+                              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                                <CheckCircle2 className="w-3 h-3" />
+                                <span>Autorizada</span>
+                              </span>
+                            ) : proforma.estadoSupervision === 'Devuelta_Analista' ? (
+                              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-rose-600 dark:text-rose-400">
+                                <RotateCcw className="w-3 h-3" />
+                                <span>Devuelta</span>
+                              </span>
+                            ) : null}
+                          </div>
+                        </td>
 
-                      <button
-                        onClick={() => handleAprobarV2(proforma.id)}
-                        className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
-                      >
-                        <Check className="w-4 h-4" />
-                        <span>Aprobar V2 (V°B°)</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>{proforma.estadoSupervision === 'Autorizada' ? 'V°B° Concedido' : proforma.estado}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })
-        )}
+                        {/* Nombre o razón social */}
+                        <td className="py-3.5 px-3 align-middle">
+                          <div className="font-bold text-gray-900 dark:text-white leading-tight truncate" title={proforma.cliente}>
+                            {proforma.cliente}
+                          </div>
+                          <div className="text-[11px] text-gray-500 dark:text-gray-400 font-mono truncate mt-0.5">
+                            RUT: {proforma.rut} {proforma.cuentaCorrienteNombre ? `• ${proforma.cuentaCorrienteNombre}` : ''}
+                          </div>
+                        </td>
+
+                        {/* Fecha y hora última versión */}
+                        <td className="py-3.5 px-3 align-middle">
+                          <div className="flex items-center gap-1.5 text-gray-700 dark:text-gray-300 font-mono text-[11px]">
+                            <Clock className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                            <span>{lastVersion?.fechaCreacion || proforma.fecha}</span>
+                          </div>
+                        </td>
+
+                        {/* Ejecutivo responsable */}
+                        <td className="py-3.5 px-3 align-middle">
+                          <div className="flex items-center gap-1.5 text-gray-900 dark:text-gray-100 font-medium truncate">
+                            <div className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 flex items-center justify-center text-[10px] font-bold shrink-0">
+                              {(proforma.ejecutivoNombre || 'Ana Valenzuela').slice(0, 1)}
+                            </div>
+                            <span className="truncate">{proforma.ejecutivoNombre || 'Ana Valenzuela'}</span>
+                          </div>
+                        </td>
+
+                        {/* Monto actual */}
+                        <td className="py-3.5 px-3 align-middle text-right">
+                          <div className="font-black text-xs text-gray-900 dark:text-white">
+                            {proforma.montoFormatted}
+                          </div>
+                          {isV2OrMore && prevVersion && prevVersion.monto !== proforma.monto && (
+                            <div className="text-[10px] text-gray-400 line-through">
+                              {formatCurrency(prevVersion.monto)}
+                            </div>
+                          )}
+                        </td>
+
+                        {/* Acciones (solo iconos según especificación) */}
+                        <td className="py-3.5 px-3 align-middle text-center">
+                          <div className="inline-flex items-center justify-center gap-1">
+                            {/* 1. Icono Derivadas / Comparar Versiones (Diff) */}
+                            <button
+                              type="button"
+                              onClick={() => setComparingProforma(proforma)}
+                              className="p-1.5 rounded-lg border border-purple-200/80 dark:border-purple-800/60 hover:bg-purple-100 dark:hover:bg-purple-950/70 text-purple-700 dark:text-purple-300 transition-colors cursor-pointer shadow-2xs"
+                              title="Comparar Versiones (Diff) / Derivadas"
+                            >
+                              <GitCompare className="w-3.5 h-3.5" />
+                            </button>
+
+                            {/* 2. Icono Rechazar (X) */}
+                            {isPendingVb ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setRejectingProforma(proforma);
+                                  setRejectionReason('Inconsistencia en Tarifas / Descuentos');
+                                  setRejectionObservations('');
+                                }}
+                                className="p-1.5 rounded-lg border border-rose-200/80 dark:border-rose-900/50 hover:bg-rose-100 dark:hover:bg-rose-950/70 text-rose-600 dark:text-rose-400 transition-colors cursor-pointer shadow-2xs"
+                                title="Rechazar / Devolver V2 con observaciones"
+                              >
+                                <XCircle className="w-3.5 h-3.5" />
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                disabled
+                                className="p-1.5 rounded-lg border border-gray-100 dark:border-white/5 text-gray-300 dark:text-gray-600 opacity-40 cursor-not-allowed"
+                                title="Rechazar no disponible para este estado"
+                              >
+                                <XCircle className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+
+                            {/* 3. Icono Aprobar (Ticket / Check V°B°) */}
+                            {isPendingVb ? (
+                              <button
+                                type="button"
+                                onClick={() => handleAprobarV2(proforma.id)}
+                                className="p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xs transition-colors cursor-pointer"
+                                title="Aprobar V2 (Otorgar V°B° de Jefatura)"
+                              >
+                                <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                              </button>
+                            ) : proforma.estadoSupervision === 'Autorizada' ? (
+                              <span
+                                className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40 inline-flex items-center justify-center"
+                                title="V°B° ya otorgado"
+                              >
+                                <CheckCircle2 className="w-3.5 h-3.5" />
+                              </span>
+                            ) : (
+                              <button
+                                type="button"
+                                disabled
+                                className="p-1.5 rounded-lg border border-gray-100 dark:border-white/5 text-gray-300 dark:text-gray-600 opacity-40 cursor-not-allowed"
+                                title="Aprobación no disponible"
+                              >
+                                <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                              </button>
+                            )}
+
+                            {/* 4. Icono Descarga */}
+                            <button
+                              type="button"
+                              onClick={() => handleDescargarProforma(proforma)}
+                              className="p-1.5 rounded-lg border border-gray-200/80 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-600 dark:text-gray-300 transition-colors cursor-pointer shadow-2xs"
+                              title="Descargar proforma (PDF / Excel)"
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                            </button>
+
+                            {/* 5. Icono Chevron para desplegar información extendida */}
+                            <button
+                              type="button"
+                              onClick={() => toggleRowExpanded(proforma.id)}
+                              className={cn(
+                                'p-1.5 rounded-lg border transition-all cursor-pointer shadow-2xs',
+                                isExpanded
+                                  ? 'bg-purple-100 dark:bg-purple-900/60 border-purple-300 text-purple-700 dark:text-purple-200'
+                                  : 'border-gray-200/80 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-500 hover:text-gray-800 dark:hover:text-white'
+                              )}
+                              title={isExpanded ? 'Ocultar información detallada' : 'Ver alertas, observaciones y motivo de rechazo'}
+                            >
+                              <ChevronDown
+                                className={cn(
+                                  'w-3.5 h-3.5 transition-transform duration-200',
+                                  isExpanded && 'rotate-180 text-purple-700 dark:text-purple-200'
+                                )}
+                              />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* Fila expandible con el resto de la información */}
+                      {isExpanded && (
+                        <tr className="bg-purple-50/30 dark:bg-slate-800/40 border-b border-purple-100 dark:border-white/5">
+                          <td colSpan={6} className="py-3.5 px-6">
+                            <div className="space-y-3 animate-in fade-in slide-in-from-top-1 duration-150">
+                              {/* Alertas y Observaciones de Elaboración */}
+                              {proforma.alertasElaboracion && proforma.alertasElaboracion.length > 0 && (
+                                <div className="p-3 bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/50 rounded-xl space-y-1">
+                                  <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900 dark:text-amber-300">
+                                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                                    <span>Alertas y Observaciones de Elaboración:</span>
+                                  </div>
+                                  <div className="space-y-0.5 pl-5">
+                                    {proforma.alertasElaboracion.map((alerta, idx) => (
+                                      <p key={idx} className="text-[11px] text-amber-800 dark:text-amber-300/90 leading-relaxed">
+                                        • {alerta}
+                                      </p>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Resumen de Rechazo en Versión 1 */}
+                              {isV2OrMore && prevVersion && (
+                                <div className="p-3 bg-purple-50/60 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/40 rounded-xl text-xs space-y-1">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-[11px] font-bold text-purple-900 dark:text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+                                      <Layers className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                                      <span>Motivo Rechazo en Versión 1 (Cliente):</span>
+                                    </span>
+                                    <span className="text-[10px] font-mono text-gray-500 dark:text-gray-400">
+                                      Monto anterior: <strong className="text-gray-700 dark:text-gray-300">{formatCurrency(prevVersion.monto)}</strong>
+                                    </span>
+                                  </div>
+                                  <p className="text-[11px] text-gray-700 dark:text-gray-300 italic pl-5 bg-white/70 dark:bg-slate-900/60 p-2 rounded-lg border border-purple-100/60 dark:border-white/5">
+                                    &quot;{prevVersion.motivo || proforma.motivoRechazoPrincipal || 'Discrepancia en tarifario comercial'}&quot;
+                                  </p>
+                                </div>
+                              )}
+
+                              {/* Detalles complementarios */}
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
+                                <div className="p-2.5 bg-white/70 dark:bg-slate-900/50 rounded-xl border border-gray-100 dark:border-white/5">
+                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Tipo de Acuerdo:</span>
+                                  <span className="text-gray-800 dark:text-gray-200 font-semibold">{proforma.tipoAcuerdo || 'Acuerdo Comercial Estándar'}</span>
+                                </div>
+                                <div className="p-2.5 bg-white/70 dark:bg-slate-900/50 rounded-xl border border-gray-100 dark:border-white/5">
+                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Cuenta Corriente:</span>
+                                  <span className="text-gray-800 dark:text-gray-200 font-mono font-semibold">{proforma.cuentaCorrienteNombre || proforma.cuentaCorrienteId || 'Cuenta Principal'}</span>
+                                </div>
+                                <div className="p-2.5 bg-white/70 dark:bg-slate-900/50 rounded-xl border border-gray-100 dark:border-white/5">
+                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Estado de Supervisión:</span>
+                                  <span className="font-semibold text-purple-700 dark:text-purple-300">
+                                    {proforma.estadoSupervision === 'Autorizada'
+                                      ? `Autorizada por ${lastVersion?.aprobadoPorSupervisor || 'Jefatura'} (${lastVersion?.fechaSupervision || 'Reciente'})`
+                                      : proforma.estadoSupervision === 'Devuelta_Analista'
+                                      ? `Devuelta al ejecutivo (${lastVersion?.motivo || 'Observaciones'})`
+                                      : 'Pendiente de Autorización / V°B°'}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* ========================================================================= */}
