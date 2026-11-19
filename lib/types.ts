@@ -198,7 +198,7 @@ export interface HistorialModificacionCliente {
   id: string;
   fecha: string;
   usuario: string;
-  tipoModificacion: 'Asignación Ejecutivo' | 'Condición Comercial' | 'Datos Empresa' | 'Estado' | 'Ajuste Pricing';
+  tipoModificacion: 'Asignación de ejecutivo' | 'Condición comercial' | 'Datos de empresa' | 'Estado' | 'Ajuste de pricing' | 'Asignación Ejecutivo' | 'Condición Comercial' | 'Datos Empresa' | 'Ajuste Pricing';
   detalle: string;
   valorAnterior?: string;
   valorNuevo?: string;

@@ -81,7 +81,7 @@ export const InconsistenciasVolumetricasModal: React.FC<InconsistenciasVolumetri
             className="p-3 bg-white dark:bg-slate-900/50 border border-purple-200 dark:border-white/10 hover:border-purple-600 rounded-xl text-xs font-bold text-purple-900 dark:text-purple-200 hover:bg-purple-50 transition-all flex items-center justify-center gap-2 shadow-2xs group cursor-pointer"
           >
             <Download className="w-4 h-4 text-purple-600 group-hover:scale-110 transition-transform" />
-            <span>Descargar Proforma</span>
+            <span>Descargar proforma</span>
           </button>
 
           {/* BOTÓN 2: ENVIAR VÍA OUTLOOK */}

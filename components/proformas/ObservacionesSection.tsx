@@ -28,7 +28,7 @@ export const ObservacionesSection: React.FC<ObservacionesSectionProps> = ({
           <FileText className="w-5 h-5 text-purple-600 dark:text-emerald-400" />
           <div>
             <h3 className="text-eyebrow font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider">
-              Observaciones para Aprobación de Jefatura
+              Observaciones para aprobación de jefatura
             </h3>
             <span className="text-caption text-gray-600 dark:text-gray-400 font-medium block">
               Comentarios y notas internas para el flujo de aprobación comercial
@@ -56,7 +56,7 @@ export const ObservacionesSection: React.FC<ObservacionesSectionProps> = ({
           className="px-4 h-10 border border-purple-900/20 dark:border-white/10 text-gray-700 dark:text-gray-300 text-body font-semibold rounded-lg hover:bg-purple-50 dark:hover:bg-white/5 transition-colors inline-flex items-center gap-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Volver al Paso 3</span>
+          <span>Volver al paso 3</span>
         </button>
 
         <div className="flex gap-3">
@@ -66,7 +66,7 @@ export const ObservacionesSection: React.FC<ObservacionesSectionProps> = ({
             disabled={isSubmitting}
             className="px-4 h-11 border border-purple-900/20 dark:border-white/10 text-gray-700 dark:text-gray-300 text-body font-semibold rounded-lg hover:bg-purple-50 dark:hover:bg-white/5 transition-colors inline-flex items-center gap-1.5"
           >
-            <Save className="w-4 h-4" /> Guardar Borrador
+            <Save className="w-4 h-4" /> Guardar borrador
           </button>
           <button
             type="submit"
@@ -76,12 +76,12 @@ export const ObservacionesSection: React.FC<ObservacionesSectionProps> = ({
             {isSubmitting ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin text-white" />
-                <span>Validando Proforma...</span>
+                <span>Validando proforma...</span>
               </>
             ) : (
               <>
                 <Send className="w-4 h-4" />
-                <span>Crear Proforma</span>
+                <span>Crear proforma</span>
               </>
             )}
           </button>

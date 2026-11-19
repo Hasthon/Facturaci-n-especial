@@ -361,7 +361,7 @@ export default function AprobacionesPage() {
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
             >
-              Autorizadas por Jefatura
+              Autorizadas por jefatura
             </button>
             <button
               onClick={() => setActiveTab('devueltas')}
@@ -370,7 +370,7 @@ export default function AprobacionesPage() {
                 : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
                 }`}
             >
-              Rechazadas / Derivadas
+              Rechazadas / derivadas
             </button>
           </div>
 
@@ -437,7 +437,7 @@ export default function AprobacionesPage() {
             </colgroup>
             <thead>
               <tr className="bg-purple-50/60 dark:bg-purple-950/40 border-b border-purple-100 dark:border-white/5 text-[11px] font-bold text-gray-600 dark:text-gray-400">
-                <th className="py-3.5 px-4">Proforma ID</th>
+                <th className="py-3.5 px-4">ID proforma</th>
                 <th className="py-3.5 px-3">Nombre o razón social</th>
                 <th className="py-3.5 px-3">Fecha y hora última versión</th>
                 {activeTab !== 'pendientes' && (
@@ -688,7 +688,7 @@ export default function AprobacionesPage() {
                                   <div className="flex items-center justify-between">
                                     <span className="text-[11px] font-bold text-purple-900 dark:text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
                                       <Layers className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                                      <span>Motivo Rechazo en Versión 1 (Cliente):</span>
+                                      <span>Motivo de rechazo en versión 1 (cliente):</span>
                                     </span>
                                     <span className="text-[10px] font-mono text-gray-500 dark:text-gray-400">
                                       Monto anterior: <strong className="text-gray-700 dark:text-gray-300">{formatCurrency(prevVersion.monto)}</strong>
@@ -703,21 +703,21 @@ export default function AprobacionesPage() {
                               {/* Detalles complementarios */}
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
                                 <div className="p-2.5 bg-white/70 dark:bg-slate-900/50 rounded-xl border border-gray-100 dark:border-white/5">
-                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Tipo de Acuerdo:</span>
-                                  <span className="text-gray-800 dark:text-gray-200 font-semibold">{proforma.tipoAcuerdo || 'Acuerdo Comercial Estándar'}</span>
+                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Tipo de acuerdo:</span>
+                                  <span className="text-gray-800 dark:text-gray-200 font-semibold">{proforma.tipoAcuerdo || 'Acuerdo comercial estándar'}</span>
                                 </div>
                                 <div className="p-2.5 bg-white/70 dark:bg-slate-900/50 rounded-xl border border-gray-100 dark:border-white/5">
-                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Cuenta Corriente:</span>
-                                  <span className="text-gray-800 dark:text-gray-200 font-mono font-semibold">{proforma.cuentaCorrienteNombre || proforma.cuentaCorrienteId || 'Cuenta Principal'}</span>
+                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Cuenta corriente:</span>
+                                  <span className="text-gray-800 dark:text-gray-200 font-mono font-semibold">{proforma.cuentaCorrienteNombre || proforma.cuentaCorrienteId || 'Cuenta principal'}</span>
                                 </div>
                                 <div className="p-2.5 bg-white/70 dark:bg-slate-900/50 rounded-xl border border-gray-100 dark:border-white/5">
-                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Estado de Supervisión:</span>
+                                  <span className="text-[10px] text-gray-500 block uppercase font-bold">Estado de supervisión:</span>
                                   <span className="font-semibold text-purple-700 dark:text-purple-300">
                                     {proforma.estadoSupervision === 'Autorizada'
                                       ? `Autorizada por ${lastVersion?.aprobadoPorSupervisor || 'Jefatura'} (${lastVersion?.fechaSupervision || 'Reciente'})`
                                       : proforma.estadoSupervision === 'Devuelta_Analista'
                                         ? `Devuelta al ejecutivo (${lastVersion?.motivo || 'Observaciones'})`
-                                        : 'Pendiente de Autorización / V°B°'}
+                                        : 'Pendiente de autorización / V°B°'}
                                   </span>
                                 </div>
                               </div>
@@ -998,13 +998,13 @@ export default function AprobacionesPage() {
                 </span>
               </div>
               <div className="flex items-start justify-between text-xs gap-2">
-                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / Razón Social:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / razón social:</span>
                 <span className="font-bold text-gray-900 dark:text-white text-right">
                   {approvingProforma.cliente}
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo Responsable:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo responsable:</span>
                 <span className="font-semibold text-purple-700 dark:text-purple-300">
                   {approvingProforma.ejecutivoNombre || 'Ana Valenzuela'}
                 </span>
@@ -1084,13 +1084,13 @@ export default function AprobacionesPage() {
                 </span>
               </div>
               <div className="flex items-start justify-between text-xs gap-2">
-                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / Razón Social:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / razón social:</span>
                 <span className="font-bold text-gray-900 dark:text-white text-right">
                   {rejectingProforma.cliente}
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo Responsable:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo responsable:</span>
                 <span className="font-semibold text-purple-700 dark:text-purple-300">
                   {rejectingProforma.ejecutivoNombre || 'Ana Valenzuela'}
                 </span>
@@ -1101,7 +1101,7 @@ export default function AprobacionesPage() {
               {/* Motivo de Rechazo Principal */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Motivo de Rechazo / Corrección: *
+                  Motivo de rechazo / corrección: *
                 </label>
                 <select
                   value={rejectionReason}
@@ -1109,19 +1109,19 @@ export default function AprobacionesPage() {
                   required
                   className="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none cursor-pointer font-medium"
                 >
-                  <option value="Inconsistencia en Tarifas / Descuentos">Inconsistencia en Tarifas / Descuentos</option>
+                  <option value="Inconsistencia en tarifas / descuentos">Inconsistencia en tarifas / descuentos</option>
                   <option value="Diferencia en recubitaje / medidas de SKUs">Diferencia en recubitaje / medidas de SKUs</option>
-                  <option value="Error en la selección de Cuentas Corrientes">Error en la selección de Cuentas Corrientes</option>
-                  <option value="Falta de Respaldo de Orden de Compra">Falta de Respaldo de Orden de Compra</option>
-                  <option value="Requiere Derivación a Negociación KAM">Requiere Derivación a Negociación KAM</option>
-                  <option value="Otro Motivo Operacional">Otro Motivo Operacional</option>
+                  <option value="Error en la selección de cuentas corrientes">Error en la selección de cuentas corrientes</option>
+                  <option value="Falta de respaldo de orden de compra">Falta de respaldo de orden de compra</option>
+                  <option value="Requiere derivación a negociación KAM">Requiere derivación a negociación KAM</option>
+                  <option value="Otro motivo operacional">Otro motivo operacional</option>
                 </select>
               </div>
 
               {/* Observaciones Obligatorias */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Observaciones Detalladas para el Ejecutivo ({rejectingProforma.ejecutivoNombre}): *
+                  Observaciones detalladas para el ejecutivo ({rejectingProforma.ejecutivoNombre}): *
                 </label>
                 <textarea
                   value={rejectionObservations}

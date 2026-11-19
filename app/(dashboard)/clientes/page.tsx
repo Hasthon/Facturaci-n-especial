@@ -191,7 +191,7 @@ export default function ClientesPage() {
       id: `hm-${Date.now()}`,
       fecha: nowStr,
       usuario: user?.name || 'Carlos Muñoz (Jefatura)',
-      tipoModificacion: 'Asignación Ejecutivo',
+      tipoModificacion: 'Asignación de ejecutivo',
       detalle: detalleModificacion,
       valorAnterior: previousExeName,
       valorNuevo: targetExe.nombre,
@@ -250,7 +250,7 @@ export default function ClientesPage() {
       `Cliente ${clientName} asignado exitosamente a ${targetExe.nombre}. Trazabilidad registrada.`,
       'success',
       5000,
-      'Asignación Actualizada'
+      'Asignación actualizada'
     );
 
     setReassignModalClient(null);
@@ -278,7 +278,7 @@ export default function ClientesPage() {
       id: `hm-${Date.now()}`,
       fecha: nowStr,
       usuario: user?.name || 'Carlos Muñoz (Jefatura)',
-      tipoModificacion: 'Datos Empresa',
+      tipoModificacion: 'Datos de empresa',
       detalle: `Cambio de cuenta corriente activa a N° ${newAccount.numero} (${newAccount.banco}). ${accountChangeReason ? `Motivo: ${accountChangeReason}` : ''}`.trim(),
       valorAnterior: `N° ${previousAccountNum} (${previousBank})`,
       valorNuevo: `N° ${newAccount.numero} (${newAccount.banco})`,
@@ -307,7 +307,7 @@ export default function ClientesPage() {
       fechaHora: nowStr,
       usuario: user?.name || 'Carlos Muñoz',
       rol: 'Jefatura',
-      accion: 'Modificación Cliente',
+      accion: 'Modificación de cliente',
       recurso: accountModalClient.id,
       objetoAfectado: `${clientName} (${accountModalClient.rut})`,
       estadoAnterior: `Cuenta: ${previousAccountNum} (${previousBank})`,
@@ -320,7 +320,7 @@ export default function ClientesPage() {
       `Cuenta corriente activa de ${clientName} actualizada a N° ${newAccount.numero} (${newAccount.banco}).`,
       'success',
       5000,
-      'Cuenta Actualizada'
+      'Cuenta actualizada'
     );
 
     setAccountModalClient(null);
@@ -347,7 +347,7 @@ export default function ClientesPage() {
         {/* Resumen Métricas Rápidas */}
         <div className="flex items-center gap-3">
           <div className="text-right px-3 py-1.5 bg-purple-50/80 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-900/40 rounded-xl">
-            <div className="text-[11px] font-semibold text-gray-500 dark:text-gray-400">Total Clientes</div>
+            <div className="text-[11px] font-semibold text-gray-500 dark:text-gray-400">Total clientes</div>
             <div className="text-lg font-bold text-purple-900 dark:text-purple-200">{clients.length}</div>
           </div>
           <div className="text-right px-3 py-1.5 bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/40 rounded-xl">
@@ -360,7 +360,7 @@ export default function ClientesPage() {
             ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-200 dark:border-amber-900/50 animate-pulse'
             : 'bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-white/10'
             }`}>
-            <div className="text-[11px] font-bold text-amber-800 dark:text-amber-400">Sin Ejecutivo</div>
+            <div className="text-[11px] font-bold text-amber-800 dark:text-amber-400">Sin ejecutivo</div>
             <div className="text-lg font-bold text-amber-700 dark:text-amber-300">{unassignedClients.length}</div>
           </div>
         </div>
@@ -432,7 +432,7 @@ export default function ClientesPage() {
             <div className="flex p-1 bg-gray-100/80 dark:bg-slate-800/80 rounded-xl">
               <span className="px-3.5 py-1 text-xs font-bold rounded-lg bg-purple-600 text-white shadow-xs flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5" />
-                <span>Directorio Clientes</span>
+                <span>Directorio de clientes</span>
               </span>
             </div>
           </div>
@@ -667,7 +667,7 @@ export default function ClientesPage() {
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-gray-900 dark:text-white">
-                    {reassignModalClient.ejecutivoId ? 'Reasignar Ejecutivo Responsable' : 'Asignar Ejecutivo Responsable'}
+                    {reassignModalClient.ejecutivoId ? 'Reasignar ejecutivo responsable' : 'Asignar ejecutivo responsable'}
                   </h3>
                   <p className="text-xs text-gray-500">
                     Impactará directamente en la gestión de las proformas asociadas.
@@ -899,7 +899,7 @@ export default function ClientesPage() {
                       : 'cuentas disponibles'}
                   </div>
                   <div className="pt-1 text-[11px] flex justify-between">
-                    <span className="text-gray-500">Línea Crédito:</span>
+                    <span className="text-gray-500">Línea de crédito:</span>
                     <span className="font-semibold text-gray-800 dark:text-gray-200">
                       {formatCurrency(selectedClientDetail.cuentaCorriente.lineaCredito)}
                     </span>
@@ -961,13 +961,13 @@ export default function ClientesPage() {
                   </strong>
                 </div>
                 <div>
-                  <span className="text-gray-500 text-[11px] block">Descuento Negociado:</span>
+                  <span className="text-gray-500 text-[11px] block">Descuento negociado:</span>
                   <strong className="text-purple-600 dark:text-purple-400 font-bold">
                     {selectedClientDetail.condicionesComerciales.descuentoAcordado}
                   </strong>
                 </div>
                 <div>
-                  <span className="text-gray-500 text-[11px] block">Plazo de Pago:</span>
+                  <span className="text-gray-500 text-[11px] block">Plazo de pago:</span>
                   <strong className="text-gray-900 dark:text-white">
                     {selectedClientDetail.condicionesComerciales.plazoPagoDias} días (Vigencia hasta {selectedClientDetail.condicionesComerciales.validezHasta})
                   </strong>
@@ -983,29 +983,29 @@ export default function ClientesPage() {
             {/* KPIs Históricos del Cliente (Punto 7 Requerimiento Jira) */}
             <div>
               <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">
-                Desempeño y Comportamiento Histórico de Proformas
+                Desempeño y comportamiento histórico de proformas
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div className="p-3 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
-                  <div className="text-[10px] text-gray-500">Proformas Generadas</div>
+                  <div className="text-[10px] text-gray-500">Proformas generadas</div>
                   <div className="text-base font-bold text-gray-900 dark:text-white">
                     {selectedClientDetail.kpis.proformasTotales}
                   </div>
                 </div>
                 <div className="p-3 bg-emerald-50/40 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 rounded-xl text-center">
-                  <div className="text-[10px] text-emerald-700 dark:text-emerald-400">Tasa Aprobación</div>
+                  <div className="text-[10px] text-emerald-700 dark:text-emerald-400">Tasa de aprobación</div>
                   <div className="text-base font-bold text-emerald-600 dark:text-emerald-300">
                     {selectedClientDetail.kpis.tasaAprobacion}%
                   </div>
                 </div>
                 <div className="p-3 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
-                  <div className="text-[10px] text-gray-500">Promedio Versiones</div>
+                  <div className="text-[10px] text-gray-500">Promedio de versiones</div>
                   <div className="text-base font-bold text-purple-700 dark:text-purple-300">
                     {selectedClientDetail.kpis.promedioVersiones} v
                   </div>
                 </div>
                 <div className="p-3 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
-                  <div className="text-[10px] text-gray-500">Tiempo Aprobación</div>
+                  <div className="text-[10px] text-gray-500">Tiempo de aprobación</div>
                   <div className="text-base font-bold text-gray-900 dark:text-white">
                     {selectedClientDetail.kpis.tiempoPromedioAprobacionDias} días
                   </div>
@@ -1017,7 +1017,7 @@ export default function ClientesPage() {
             <div>
               <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <History className="w-4 h-4 text-purple-600" />
-                Historial de Modificaciones de la Ficha
+                Historial de modificaciones de la ficha
               </h3>
               <div className="space-y-2 max-h-40 overflow-y-auto">
                 {selectedClientDetail.historialModificaciones.length === 0 ? (

@@ -141,7 +141,7 @@ export default function LoginPage() {
             <div>
               <h2 className="text-[18px] font-bold text-gray-900 leading-none">Starken</h2>
               <span className="login-sub-brand block mt-1">
-                Facturación Especial
+                Facturación especial
               </span>
             </div>
           </div>

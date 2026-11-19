@@ -701,10 +701,10 @@ export function PricingDashboard() {
       rol: 'Pricing',
       accion:
         resolucionAccion === 'Validada'
-          ? 'Validación Tarifa'
+          ? 'Validación tarifa'
           : resolucionAccion === 'Solicitar_KAM'
           ? 'Solicitud a KAM'
-          : 'Resolución Pricing',
+          : 'Resolución de pricing',
       recurso: selectedProformaResolucion.id,
       objetoAfectado: selectedProformaResolucion.cliente,
       cliente: selectedProformaResolucion.cliente,
@@ -719,7 +719,7 @@ export function PricingDashboard() {
     setAuditLogs((prev) => [newAudit, ...prev]);
 
     showToast(
-      'Resolución de Pricing registrada',
+      'Resolución de pricing registrada',
       `La proforma ${selectedProformaResolucion.id} fue actualizada a "${nuevoEstado}".`,
       'success'
     );
@@ -755,16 +755,16 @@ export function PricingDashboard() {
       )
     );
 
-    let accionNombre = 'Excepción Aprobada';
+    let accionNombre = 'Excepción aprobada';
     let estadoDisplay = 'Aprobada';
     if (excepcionDecision === 'Rechazada') {
-      accionNombre = 'Excepción Rechazada';
+      accionNombre = 'Excepción rechazada';
       estadoDisplay = 'Rechazada';
     } else if (excepcionDecision === 'Solicitar_Modificacion') {
-      accionNombre = 'Modificación de Proforma Solicitada';
-      estadoDisplay = 'Modificación Solicitada';
+      accionNombre = 'Modificación de proforma solicitada';
+      estadoDisplay = 'Modificación solicitada';
     } else if (excepcionDecision === 'Solicitud_KAM') {
-      accionNombre = 'Revisión Solicitada a KAM';
+      accionNombre = 'Revisión solicitada a KAM';
       estadoDisplay = 'Solicitud KAM';
     }
 
@@ -1141,11 +1141,11 @@ export function PricingDashboard() {
                         className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
                       >
                         <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                        <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
-                        <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
-                        <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                        <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta semana</option>
+                        <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este mes</option>
+                        <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer trimestre (Q3)</option>
                         <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                        <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                        <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el historial</option>
                       </select>
                     </div>
 
@@ -1556,7 +1556,7 @@ export function PricingDashboard() {
                 <div>
                   <h2 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <TrendingUp className="w-4 h-4 text-purple-600 shrink-0" />
-                    <span>Indicadores Globales de Pricing (12 KPIs)</span>
+                    <span>Indicadores globales de pricing (12 KPIs)</span>
                   </h2>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Visión global del comportamiento de Pricing: volumen auditado, tasas de rechazo, excepciones, reprocesos, tiempos de resolución, causas principales y ranking de incidencias
@@ -1621,7 +1621,7 @@ export function PricingDashboard() {
                 >
                   <div className="flex items-center justify-between gap-1 mb-1">
                     <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
-                      Total Proformas
+                      Total proformas
                     </span>
                     <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center justify-center ${
                       kpiFilter === 'todos'
@@ -1728,7 +1728,7 @@ export function PricingDashboard() {
                     </div>
                   </div>
                   <div className="text-[11px] text-amber-700 dark:text-amber-400 font-medium leading-tight">
-                    Por Autorizar
+                    Por autorizar
                   </div>
                 </div>
 
@@ -1827,7 +1827,7 @@ export function PricingDashboard() {
                 >
                   <div className="flex items-center justify-between gap-1 mb-1">
                     <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
-                      T. Aprobación
+                      T. aprobación
                     </span>
                     <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 text-indigo-700 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/60 flex items-center gap-0.5">
                       <span>Ejecutivos</span>
@@ -2186,7 +2186,7 @@ export function PricingDashboard() {
                         <button
                           onClick={() => {
                             setNuevoMensajeKam(kam.nombre);
-                            setNuevoMensajeCliente(kam.clientesMayorIncidencia[0] || 'Cliente Corporativo');
+                            setNuevoMensajeCliente(kam.clientesMayorIncidencia[0] || 'Cliente corporativo');
                             setNuevoMensajeAsunto(`Revisión incidencias de pricing - ${kam.nombre}`);
                             setNuevoMensajeOpen(true);
                           }}
@@ -2215,10 +2215,10 @@ export function PricingDashboard() {
 
                   <div className="space-y-2.5">
                     {[
-                      { condicion: 'Descuento Escalonado >15%', rechazos: 11, pct: '44%', impacto: '$21.4M', motivo: 'Descuento sin visado de Gerencia' },
-                      { condicion: 'Addendum Distribución Retail', rechazos: 7, pct: '28%', impacto: '$14.8M', motivo: 'Tarifa base desactualizada en anexo' },
-                      { condicion: 'Recargo Aéreo Zonas Extremas', rechazos: 4, pct: '16%', impacto: '$7.2M', motivo: 'Flete aéreo sin código de ruta' },
-                      { condicion: 'Cubicaje Especial Pallet', rechazos: 3, pct: '12%', impacto: '$4.8M', motivo: 'Factor estiba > 2.5 m³ no visado' },
+                      { condicion: 'Descuento escalonado >15%', rechazos: 11, pct: '44%', impacto: '$21.4M', motivo: 'Descuento sin visado de Gerencia' },
+                      { condicion: 'Addendum distribución retail', rechazos: 7, pct: '28%', impacto: '$14.8M', motivo: 'Tarifa base desactualizada en anexo' },
+                      { condicion: 'Recargo aéreo zonas extremas', rechazos: 4, pct: '16%', impacto: '$7.2M', motivo: 'Flete aéreo sin código de ruta' },
+                      { condicion: 'Cubicaje especial pallet', rechazos: 3, pct: '12%', impacto: '$4.8M', motivo: 'Factor estiba > 2.5 m³ no visado' },
                     ].map((cond, idx) => (
                       <div
                         key={idx}
@@ -2362,7 +2362,7 @@ export function PricingDashboard() {
                 <div>
                   <h2 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <Building2 className="w-4 h-4 text-purple-600 shrink-0" />
-                    <span>Indicadores de Comportamiento Tarifario por Cliente (11 KPIs)</span>
+                    <span>Indicadores de comportamiento tarifario por cliente (11 KPIs)</span>
                   </h2>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Monitoreo consolidado de cartera: volumen, rechazos, excepciones, reprocesos, tarifas aplicadas y variación vs tarifa configurada
@@ -2687,7 +2687,7 @@ export function PricingDashboard() {
                 <div>
                   <h2 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <Briefcase className="w-4 h-4 text-purple-600 shrink-0" />
-                    <span>Indicadores de Comportamiento Tarifario por KAM (11 KPIs)</span>
+                    <span>Indicadores de comportamiento tarifario por KAM (11 KPIs)</span>
                   </h2>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Monitoreo consolidado de cartera: volumen, rechazos, excepciones, reprocesos, tarifas aplicadas y variación vs tarifa estándar
@@ -2723,8 +2723,8 @@ export function PricingDashboard() {
                     className="px-3 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl text-gray-500 dark:text-gray-400 font-normal outline-none cursor-pointer shadow-2xs whitespace-nowrap shrink-0 min-w-[140px]"
                   >
                     <option value="todos">Todos los KAMs</option>
-                    <option value="alta">⚠️ Tasa Alta (&gt; 10%)</option>
-                    <option value="baja">✓ Tasa Controlada (≤ 10%)</option>
+                    <option value="alta">⚠️ Tasa alta (&gt; 10%)</option>
+                    <option value="baja">✓ Tasa controlada (≤ 10%)</option>
                   </select>
                 </div>
               </div>
@@ -2955,7 +2955,7 @@ export function PricingDashboard() {
                               <button
                                 onClick={() => {
                                   setNuevoMensajeKam(kam.nombre);
-                                  setNuevoMensajeCliente(kam.clientesMayorIncidencia[0] || 'Cliente Corporativo');
+                                  setNuevoMensajeCliente(kam.clientesMayorIncidencia[0] || 'Cliente corporativo');
                                   setNuevoMensajeAsunto(`Revisión de comportamiento tarifario cartera - ${kam.nombre}`);
                                   setNuevoMensajeOpen(true);
                                 }}
@@ -2982,7 +2982,7 @@ export function PricingDashboard() {
                 <div>
                   <h2 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <ShieldAlert className="w-4 h-4 text-purple-600" />
-                    <span>Auditoría Inmutable de Decisiones Tarifarias de Pricing</span>
+                    <span>Auditoría inmutable de decisiones tarifarias de pricing</span>
                   </h2>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Registro inmutable de usuario, fecha/hora, cliente, KAM, proforma, versión, acción y estado
@@ -3014,7 +3014,7 @@ export function PricingDashboard() {
                   <button
                     onClick={() => {
                       showToast(
-                        'Bitácora Exportada',
+                        'Bitácora exportada',
                         'El reporte de auditoría de pricing fue descargado en formato CSV.',
                         'success'
                       );
@@ -3127,7 +3127,7 @@ export function PricingDashboard() {
             p.estado.includes('Derivada') ||
             p.motivoRechazoPrincipal ||
             p.motivoRechazoPricing ||
-            p.estado.includes('Tarifas Corregidas') ||
+            p.estado.toLowerCase().includes('tarifas corregidas') ||
             excepciones.some((e) => e.proformaCodigo === p.id || e.proformaId === p.id)
         );
 
@@ -3136,7 +3136,7 @@ export function PricingDashboard() {
         ).length;
         const rechazosDerivadasCount = baseRechazosList.filter((p) => p.estado.includes('Derivada')).length;
         const rechazosCorregidasCount = baseRechazosList.filter(
-          (p) => p.estado.includes('Tarifas Corregidas') || p.estadoSupervision === 'Pricing_Resuelto'
+          (p) => p.estado.toLowerCase().includes('tarifas corregidas') || p.estadoSupervision === 'Pricing_Resuelto'
         ).length;
         const rechazosValidacionCount = baseRechazosList.filter(
           (p) => (p.estado.includes('Pendiente') && !p.estado.includes('Rechazada')) || p.estado === 'Pendiente'
@@ -3154,7 +3154,7 @@ export function PricingDashboard() {
               return p.estado.includes('Derivada');
             }
             if (rechazosStatusTab === 'corregidas') {
-              return p.estado.includes('Tarifas Corregidas') || p.estadoSupervision === 'Pricing_Resuelto';
+              return p.estado.toLowerCase().includes('tarifas corregidas') || p.estadoSupervision === 'Pricing_Resuelto';
             }
             if (rechazosStatusTab === 'validacion') {
               return p.estado.includes('Pendiente') && !p.estado.includes('Rechazada');
@@ -3412,7 +3412,7 @@ export function PricingDashboard() {
                                 <span className="whitespace-nowrap font-extrabold">Derivada</span>
                                 <span className="text-[9px] font-normal opacity-90 whitespace-nowrap">(A KAM)</span>
                               </span>
-                            ) : pf.estado.includes('Tarifas Corregidas') || pf.estadoSupervision === 'Pricing_Resuelto' ? (
+                            ) : pf.estado.toLowerCase().includes('tarifas corregidas') || pf.estadoSupervision === 'Pricing_Resuelto' ? (
                               <span className="w-full max-w-[130px] mx-auto py-1 px-1.5 rounded-lg text-[10px] font-bold bg-emerald-50 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900 inline-flex flex-col items-center justify-center leading-tight text-center shadow-2xs">
                                 <span className="whitespace-nowrap font-extrabold">Corregida</span>
                                 <span className="text-[9px] font-normal opacity-90 whitespace-nowrap">(Por pricing)</span>
@@ -3747,7 +3747,7 @@ export function PricingDashboard() {
                                   {pf.id}
                                 </td>
                                 <td className="py-2.5 px-3 text-gray-700 dark:text-gray-300 font-medium">
-                                  {pf.servicio || 'Facturación Especial Mensual'}
+                                  {pf.servicio || 'Facturación especial mensual'}
                                   <span className="block text-[10px] text-gray-500 font-normal">Emisión: {pf.fecha}</span>
                                 </td>
                                 <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">
@@ -4345,14 +4345,14 @@ export function PricingDashboard() {
 
               <div>
                 <label className="font-bold text-gray-700 dark:text-gray-200 block mb-2">
-                  Acción de Resolución de Pricing
+                  Acción de resolución de pricing
                 </label>
                 <div className="grid grid-cols-2 gap-2.5">
                   {[
-                    { id: 'Validada', label: 'Validar Condición Tarifaria', desc: 'Aprueba tarifas y libera emisión' },
-                    { id: 'Corregida', label: 'Solicitar Corrección a FE', desc: 'Devuelve con notas al ejecutivo' },
-                    { id: 'Solicitar_KAM', label: 'Solicitar Revisión al KAM', desc: 'Deriva a negociación comercial' },
-                    { id: 'Rechazada_Definitiva', label: 'Rechazo Definitivo', desc: 'Tarifa inviable / sin margen' },
+                    { id: 'Validada', label: 'Validar condición tarifaria', desc: 'Aprueba tarifas y libera emisión' },
+                    { id: 'Corregida', label: 'Solicitar corrección a FE', desc: 'Devuelve con notas al ejecutivo' },
+                    { id: 'Solicitar_KAM', label: 'Solicitar revisión al KAM', desc: 'Deriva a negociación comercial' },
+                    { id: 'Rechazada_Definitiva', label: 'Rechazo definitivo', desc: 'Tarifa inviable / sin margen' },
                   ].map((act) => (
                     <button
                       key={act.id}
@@ -4442,11 +4442,11 @@ export function PricingDashboard() {
             <div className="p-3.5 bg-purple-50/70 dark:bg-slate-800/80 rounded-xl border border-purple-100 dark:border-white/10 space-y-2 text-xs">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div>
-                  <span className="text-[10px] text-gray-500 block">Tarifa Estándar</span>
+                  <span className="text-[10px] text-gray-500 block">Tarifa estándar</span>
                   <span className="font-bold text-gray-700 dark:text-gray-300">{formatCurrency(selectedExcepcion.tarifaEstandar)}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-gray-500 block">Tarifa Solicitada</span>
+                  <span className="text-[10px] text-gray-500 block">Tarifa solicitada</span>
                   <span className="font-black text-purple-900 dark:text-purple-300">{formatCurrency(selectedExcepcion.tarifaSolicitada)}</span>
                 </div>
                 <div>
@@ -4454,7 +4454,7 @@ export function PricingDashboard() {
                   <span className="font-bold text-amber-600">{selectedExcepcion.descuentoSolicitadoPct}% (Base: {selectedExcepcion.descuentoEstandarPct}%)</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-gray-500 block">Impacto Estimado</span>
+                  <span className="text-[10px] text-gray-500 block">Impacto estimado</span>
                   <span className="font-bold text-rose-600 dark:text-rose-400">{formatCurrency(selectedExcepcion.impactoFinancieroEstimado)}</span>
                 </div>
               </div>
@@ -4470,7 +4470,7 @@ export function PricingDashboard() {
               {/* 2. Indicar si la condición tarifaria es válida (Decisión formal) */}
               <div>
                 <label className="font-bold text-gray-800 dark:text-gray-200 block mb-1.5 flex items-center justify-between">
-                  <span>Dictamen y Validación de Condición Tarifaria:</span>
+                  <span>Dictamen y validación de condición tarifaria:</span>
                   <span className="text-[10px] text-purple-600 font-semibold">Selecciona la resolución correspondiente</span>
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -4491,11 +4491,11 @@ export function PricingDashboard() {
                     }`}>
                       <CheckCircle2 className="w-4.5 h-4.5" />
                     </div>
-                    <span className="font-bold text-xs leading-tight">Condición Válida</span>
+                    <span className="font-bold text-xs leading-tight">Condición válida</span>
                     <span className={`text-[10px] font-medium leading-tight ${
                       excepcionDecision === 'Aprobada' ? 'text-emerald-700 dark:text-emerald-300' : 'text-gray-500'
                     }`}>
-                      (Aprobar Excepción)
+                      (Aprobar excepción)
                     </span>
                   </button>
 
@@ -4516,11 +4516,11 @@ export function PricingDashboard() {
                     }`}>
                       <XCircle className="w-4.5 h-4.5" />
                     </div>
-                    <span className="font-bold text-xs leading-tight">Condición No Válida</span>
+                    <span className="font-bold text-xs leading-tight">Condición no válida</span>
                     <span className={`text-[10px] font-medium leading-tight ${
                       excepcionDecision === 'Rechazada' ? 'text-rose-700 dark:text-rose-300' : 'text-gray-500'
                     }`}>
-                      (Rechazar Excepción)
+                      (Rechazar excepción)
                     </span>
                   </button>
 
@@ -4541,11 +4541,11 @@ export function PricingDashboard() {
                     }`}>
                       <RotateCcw className="w-4.5 h-4.5" />
                     </div>
-                    <span className="font-bold text-xs leading-tight">Modificar Proforma</span>
+                    <span className="font-bold text-xs leading-tight">Modificar proforma</span>
                     <span className={`text-[10px] font-medium leading-tight ${
                       excepcionDecision === 'Solicitar_Modificacion' ? 'text-amber-700 dark:text-amber-300' : 'text-gray-500'
                     }`}>
-                      (Devolver a Facturación)
+                      (Devolver a facturación)
                     </span>
                   </button>
 
@@ -4628,7 +4628,7 @@ export function PricingDashboard() {
                 className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
               >
                 <Check className="w-4 h-4" />
-                <span>Guardar Dictamen y Registrar Trazabilidad</span>
+                <span>Guardar dictamen y registrar trazabilidad</span>
               </button>
             </div>
           </div>
@@ -4760,7 +4760,7 @@ export function PricingDashboard() {
                   className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>Guardar y Registrar Observación de Pricing</span>
+                  <span>Guardar y registrar observación de pricing</span>
                 </button>
               </div>
             </form>
@@ -4807,32 +4807,32 @@ export function PricingDashboard() {
               <div>
                 <h4 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
                   <Briefcase className="w-3.5 h-3.5 text-purple-600" />
-                  <span>Desempeño Tarifario y Métricas Consolidadas</span>
+                  <span>Desempeño tarifario y métricas consolidadas</span>
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
-                    <span className="text-[10px] text-gray-500 block font-medium">1. Cartera Clientes</span>
+                    <span className="text-[10px] text-gray-500 block font-medium">1. Cartera clientes</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       {selectedKamModal.carteraClientesCount} cuentas
                     </span>
                   </div>
 
                   <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
-                    <span className="text-[10px] text-gray-500 block font-medium">2. Proformas Totales</span>
+                    <span className="text-[10px] text-gray-500 block font-medium">2. Proformas totales</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       {selectedKamModal.proformasTotales} proformas
                     </span>
                   </div>
 
                   <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
-                    <span className="text-[10px] text-gray-500 block font-medium">3. Rechazos Tarifa</span>
+                    <span className="text-[10px] text-gray-500 block font-medium">3. Rechazos tarifa</span>
                     <span className="text-sm font-bold text-rose-600 dark:text-rose-400 mt-0.5 block">
                       {selectedKamModal.proformasRechazadasTarifa} casos
                     </span>
                   </div>
 
                   <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
-                    <span className="text-[10px] text-gray-500 block font-medium">4. Tasa Rechazo %</span>
+                    <span className="text-[10px] text-gray-500 block font-medium">4. Tasa rechazo %</span>
                     <span
                       className={`text-sm font-black mt-0.5 block ${
                         selectedKamModal.tasaRechazoTarifario > 10
@@ -4866,21 +4866,21 @@ export function PricingDashboard() {
                   </div>
 
                   <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
-                    <span className="text-[10px] text-gray-500 block font-medium">8. Tiempo Resol.</span>
+                    <span className="text-[10px] text-gray-500 block font-medium">8. Tiempo resol.</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       {selectedKamModal.tiempoPromedioResolucionDias} días
                     </span>
                   </div>
 
                   <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5 col-span-2">
-                    <span className="text-[10px] text-gray-500 block font-medium">10. Descuento Promedio Cartera</span>
+                    <span className="text-[10px] text-gray-500 block font-medium">10. Descuento promedio cartera</span>
                     <span className="text-sm font-bold text-purple-700 dark:text-purple-300 mt-0.5 block">
                       {selectedKamModal.descuentoPromedioCarteraPct}% descuento comercial
                     </span>
                   </div>
 
                   <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5 col-span-2">
-                    <span className="text-[10px] text-gray-500 block font-medium">11. Variación vs Tarifa Estándar</span>
+                    <span className="text-[10px] text-gray-500 block font-medium">11. Variación vs tarifa estándar</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       +{selectedKamModal.variacionPromedioTarifaPct}% respecto a tarifa base configurada
                     </span>
@@ -4893,7 +4893,7 @@ export function PricingDashboard() {
                 <div className="flex items-center justify-between">
                   <h4 className="text-xs font-bold text-rose-900 dark:text-rose-300 flex items-center gap-1.5 uppercase tracking-wider">
                     <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-                    <span>9. Clientes con Mayor Cantidad de Incidencias Tarifarias</span>
+                    <span>9. Clientes con mayor cantidad de incidencias tarifarias</span>
                   </h4>
                   <span className="text-[10px] font-bold text-rose-700 bg-rose-100 dark:bg-rose-900/60 px-2 py-0.5 rounded-full">
                     {selectedKamModal.clientesMayorIncidencia.length} cuentas críticas
@@ -4945,14 +4945,14 @@ export function PricingDashboard() {
                   className="px-3.5 py-2 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-800 dark:bg-purple-950 dark:hover:bg-purple-900 dark:text-purple-300 font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                 >
                   <Search className="w-3.5 h-3.5" />
-                  <span>Ver Proformas Rechazadas</span>
+                  <span>Ver proformas rechazadas</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => {
                     const kamName = selectedKamModal.nombre;
-                    const clienteSugerido = selectedKamModal.clientesMayorIncidencia[0] || 'Cliente Corporativo';
+                    const clienteSugerido = selectedKamModal.clientesMayorIncidencia[0] || 'Cliente corporativo';
                     setSelectedKamModal(null);
                     setNuevoMensajeKam(kamName);
                     setNuevoMensajeCliente(clienteSugerido);
@@ -4962,7 +4962,7 @@ export function PricingDashboard() {
                   className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>Registrar Requerimiento / Gestión con KAM</span>
+                  <span>Registrar requerimiento / gestión con KAM</span>
                 </button>
               </div>
             </div>

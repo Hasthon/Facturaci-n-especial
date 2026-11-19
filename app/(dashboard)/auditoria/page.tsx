@@ -200,7 +200,7 @@ export default function AuditoriaPage() {
             ],
             items: [
               { id: 'it-301', codigo: 'SRV-STK-01', descripcion: 'Flete Express RM a Regiones', cantidad: 350, tarifaBase: 7200, descuentoPct: 15, total: 2142000 },
-              { id: 'it-302', codigo: 'SRV-VOL-02', descripcion: 'Ajuste Volumétrico Negociado', cantidad: 60, tarifaBase: 11000, descuentoPct: 20, total: 528000 },
+              { id: 'it-302', codigo: 'SRV-VOL-02', descripcion: 'Ajuste volumétrico negociado', cantidad: 60, tarifaBase: 11000, descuentoPct: 20, total: 528000 },
             ],
           },
           {
@@ -239,7 +239,7 @@ export default function AuditoriaPage() {
               'Ajuste de descuento en Paquetería B2B de 7% -> 10% (-$120.000)',
             ],
             items: [
-              { id: 'it-201', codigo: 'SRV-PAL-01', descripcion: 'Distribución Carga Paletizada Zona Central', cantidad: 80, tarifaBase: 50000, descuentoPct: 12, total: 3520000, ajustadoEnV2: true },
+              { id: 'it-201', codigo: 'SRV-PAL-01', descripcion: 'Distribución carga paletizada zona central', cantidad: 80, tarifaBase: 50000, descuentoPct: 12, total: 3520000, ajustadoEnV2: true },
               { id: 'it-202', codigo: 'SRV-PAQ-02', descripcion: 'Paquetería Consolidada B2B', cantidad: 320, tarifaBase: 12500, descuentoPct: 10, total: 3600000, ajustadoEnV2: true },
             ],
           },
@@ -253,7 +253,7 @@ export default function AuditoriaPage() {
             observaciones: 'El cliente solicitó revisión por anexo comercial corporativo no aplicado.',
             monto: 7400000,
             items: [
-              { id: 'it-101', codigo: 'SRV-PAL-01', descripcion: 'Distribución Carga Paletizada Zona Central', cantidad: 80, tarifaBase: 50000, descuentoPct: 8, total: 3680000 },
+              { id: 'it-101', codigo: 'SRV-PAL-01', descripcion: 'Distribución carga paletizada zona central', cantidad: 80, tarifaBase: 50000, descuentoPct: 8, total: 3680000 },
               { id: 'it-102', codigo: 'SRV-PAQ-02', descripcion: 'Paquetería Consolidada B2B', cantidad: 320, tarifaBase: 12500, descuentoPct: 7, total: 3720000 },
             ],
           },
@@ -318,7 +318,7 @@ export default function AuditoriaPage() {
       `Versión ${ver.version} de ${proformaCode} descargada exitosamente en CSV.`,
       'success',
       4000,
-      'Descarga de Versión'
+      'Descarga de versión'
     );
   };
 
@@ -355,7 +355,7 @@ export default function AuditoriaPage() {
       `Expediente completo con ${versions.length} versión(es) descargado exitosamente.`,
       'success',
       4500,
-      'Expediente Descargado'
+      'Expediente descargado'
     );
   };
 
@@ -378,7 +378,7 @@ export default function AuditoriaPage() {
     link.click();
     document.body.removeChild(link);
 
-    showToast('Bitácora de auditoría exportada exitosamente en formato CSV.', 'success', 4000, 'Exportación Completa');
+    showToast('Bitácora de auditoría exportada exitosamente en formato CSV.', 'success', 4000, 'Exportación completa');
   };
 
   return (
@@ -389,7 +389,7 @@ export default function AuditoriaPage() {
           <ShieldAlert className="w-7 h-7 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Auditoría Operacional y Dashboard de Versionamiento
+              Auditoría operacional y dashboard de versionamiento
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
               Bitácora inmutable de eventos sobre proformas, clientes y asignaciones.
@@ -404,7 +404,7 @@ export default function AuditoriaPage() {
             className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
-            <span>Exportar Bitácora (CSV)</span>
+            <span>Exportar bitácora (CSV)</span>
           </button>
         </div>
       </div>
@@ -420,7 +420,7 @@ export default function AuditoriaPage() {
           }`}
         >
           <ShieldAlert className="w-4 h-4" />
-          <span>Bitácora de Eventos ({filteredLogs.length})</span>
+          <span>Bitácora de eventos ({filteredLogs.length})</span>
         </button>
         <button
           onClick={() => setActiveTab('dashboard_calidad')}
@@ -431,7 +431,7 @@ export default function AuditoriaPage() {
           }`}
         >
           <BarChart3 className="w-4 h-4" />
-          <span>Dashboard de Versionamiento & Reprocesos</span>
+          <span>Dashboard de versionamiento y reprocesos</span>
         </button>
       </div>
 
@@ -469,16 +469,16 @@ export default function AuditoriaPage() {
               >
                 <option value="todos">Todas las acciones</option>
                 <option value="Aprobación">Aprobación de V°B°</option>
-                <option value="Rechazo">Rechazo de Versión</option>
-                <option value="Validación Tarifa">Validación Tarifa (Pricing)</option>
-                <option value="Excepción Aprobada">Excepción Aprobada</option>
-                <option value="Excepción Rechazada">Excepción Rechazada</option>
+                <option value="Rechazo">Rechazo de versión</option>
+                <option value="Validación Tarifa">Validación de tarifa (Pricing)</option>
+                <option value="Excepción Aprobada">Excepción aprobada</option>
+                <option value="Excepción Rechazada">Excepción rechazada</option>
                 <option value="Solicitud a KAM">Solicitud a KAM</option>
                 <option value="Sincronización Salesforce">Sincronización Salesforce</option>
-                <option value="Reasignación de Ejecutivo">Reasignación de Ejecutivo</option>
-                <option value="Creación Nueva Versión">Creación Nueva Versión</option>
-                <option value="Cambio Condiciones Comerciales">Cambio Condiciones Comerciales</option>
-                <option value="Envío Proforma">Envío de Proforma</option>
+                <option value="Reasignación de Ejecutivo">Reasignación de ejecutivo</option>
+                <option value="Creación Nueva Versión">Creación de nueva versión</option>
+                <option value="Cambio Condiciones Comerciales">Cambio de condiciones comerciales</option>
+                <option value="Envío Proforma">Envío de proforma</option>
                 <option value="Facturación">Facturación</option>
               </select>
             </div>
@@ -650,7 +650,7 @@ export default function AuditoriaPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
               <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                First-Time Right (Aprobadas en v1)
+                First-time right (aprobadas en v1)
               </div>
               <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-2">
                 78.4%
@@ -662,7 +662,7 @@ export default function AuditoriaPage() {
 
             <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
               <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Requieren 2 o Más Versiones
+                Requieren 2 o más versiones
               </div>
               <div className="text-3xl font-black text-amber-600 dark:text-amber-400 mt-2">
                 21.6%
@@ -674,7 +674,7 @@ export default function AuditoriaPage() {
 
             <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
               <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Promedio de Versiones / Proforma
+                Promedio de versiones / proforma
               </div>
               <div className="text-3xl font-black text-purple-700 dark:text-purple-300 mt-2">
                 1.3 v
@@ -686,7 +686,7 @@ export default function AuditoriaPage() {
 
             <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
               <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Tiempo Promedio Entre Versiones
+                Tiempo promedio entre versiones
               </div>
               <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400 mt-2">
                 1.2 días
@@ -702,7 +702,7 @@ export default function AuditoriaPage() {
             <div className="flex items-center gap-2">
               <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <h3 className="text-sm font-bold text-gray-900 dark:text-white">
-                KPIs Financieros de Versionamiento y Reprocesos (en $)
+                KPIs financieros de versionamiento y reprocesos (en $)
               </h3>
               <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/40">
                 Montos $
@@ -712,7 +712,7 @@ export default function AuditoriaPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
                 <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Monto Total en Reprocesos (v2+)
+                  Monto total en reprocesos (v2+)
                 </div>
                 <div className="text-3xl font-black text-purple-700 dark:text-purple-300 mt-2">
                   {formatCurrency(financialMetrics.totalMontoActualReprocesos)}
@@ -724,7 +724,7 @@ export default function AuditoriaPage() {
 
               <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
                 <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Monto Aprobado / Recuperado en V2
+                  Monto aprobado / recuperado en v2
                 </div>
                 <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-2">
                   {formatCurrency(financialMetrics.totalMontoRecuperado)}
@@ -736,7 +736,7 @@ export default function AuditoriaPage() {
 
               <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
                 <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Ajuste Económico Total Acumulado
+                  Ajuste económico total acumulado
                 </div>
                 <div className="text-3xl font-black text-amber-600 dark:text-amber-400 mt-2">
                   {formatCurrency(financialMetrics.totalVariaciones)}
@@ -753,17 +753,17 @@ export default function AuditoriaPage() {
             <div className="flex items-center gap-2">
               <ArrowDownRight className="w-4 h-4 text-purple-600 dark:text-purple-400" />
               <h3 className="text-sm font-bold text-gray-900 dark:text-white">
-                Promedio de Variación entre Versiones de Proformas (en $)
+                Promedio de variación entre versiones de proformas (en $)
               </h3>
               <span className="text-[10px] font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-200 dark:border-purple-800/40">
-                Variación Promedio $
+                Variación promedio $
               </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
                 <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Promedio de Variación por Proforma
+                  Promedio de variación por proforma
                 </div>
                 <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400 mt-2 flex items-baseline gap-2">
                   <span>{formatCurrency(Math.round(financialMetrics.promedioVariacion))}</span>
@@ -776,7 +776,7 @@ export default function AuditoriaPage() {
 
               <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
                 <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Variación Porcentual Media
+                  Variación porcentual media
                 </div>
                 <div className="text-3xl font-black text-purple-700 dark:text-purple-300 mt-2">
                   {financialMetrics.porcentajeVariacionGlobal.toFixed(1)}%
@@ -788,7 +788,7 @@ export default function AuditoriaPage() {
 
               <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs">
                 <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Mayor Variación Registrada
+                  Mayor variación registrada
                 </div>
                 <div className="text-3xl font-black text-rose-600 dark:text-rose-400 mt-2">
                   {formatCurrency(financialMetrics.maxVariacionMonto)}
@@ -806,7 +806,7 @@ export default function AuditoriaPage() {
             <div className="p-5 bg-white/95 dark:bg-slate-900/95 rounded-2xl border border-purple-100 dark:border-white/10 shadow-xs space-y-4">
               <div>
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white">
-                  Principales Causas Raíz de Rechazo (Cliente)
+                  Principales causas raíz de rechazo (cliente)
                 </h3>
                 <p className="text-xs text-gray-500">
                   Distribución porcentual de motivos de discrepancia que generan versión 2.
@@ -829,7 +829,7 @@ export default function AuditoriaPage() {
                 <div>
                   <div className="flex justify-between text-xs font-medium mb-1">
                     <span className="text-gray-700 dark:text-gray-300">
-                      2. Inconsistencia en Tarifas / Descuentos negociados
+                      2. Inconsistencia en tarifas / descuentos negociados
                     </span>
                     <strong className="text-purple-700 dark:text-purple-300">28% (9 casos)</strong>
                   </div>
@@ -841,7 +841,7 @@ export default function AuditoriaPage() {
                 <div>
                   <div className="flex justify-between text-xs font-medium mb-1">
                     <span className="text-gray-700 dark:text-gray-300">
-                      3. Error en selección de Cuentas Corrientes
+                      3. Error en selección de cuentas corrientes
                     </span>
                     <strong className="text-purple-700 dark:text-purple-300">18% (6 casos)</strong>
                   </div>
@@ -870,7 +870,7 @@ export default function AuditoriaPage() {
                 <div>
                   <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <Building2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                    Clientes con Mayor Cantidad de Modificaciones
+                    Clientes con mayor cantidad de modificaciones
                   </h3>
                   <p className="text-xs text-gray-500">
                     Cuentas que registran mayor volumen de reprocesos, discrepancias y ajustes en sus proformas.
@@ -939,7 +939,7 @@ export default function AuditoriaPage() {
                           </div>
                         </div>
                         <div>
-                          <div className="text-[10px] text-gray-500">Prom. Versiones</div>
+                          <div className="text-[10px] text-gray-500">Prom. versiones</div>
                           <div className="font-bold text-purple-700 dark:text-purple-300">
                             {client.kpis.promedioVersiones} v
                           </div>
@@ -957,7 +957,7 @@ export default function AuditoriaPage() {
                           </div>
                         </div>
                         <div>
-                          <div className="text-[10px] text-gray-500">Tasa Aprobación</div>
+                          <div className="text-[10px] text-gray-500">Tasa aprobación</div>
                           <div className="font-bold text-emerald-600 dark:text-emerald-400">
                             {client.kpis.tasaAprobacion}%
                           </div>
@@ -1055,7 +1055,7 @@ export default function AuditoriaPage() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h2 className="text-base font-bold text-gray-900 dark:text-white">
-                      Expediente de Versiones — {versionModalData.proformaCode}
+                      Expediente de versiones — {versionModalData.proformaCode}
                     </h2>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950/70 dark:text-purple-300">
                       {versionModalData.versions.length} {versionModalData.versions.length === 1 ? 'versión' : 'versiones'}
@@ -1083,22 +1083,22 @@ export default function AuditoriaPage() {
               {/* Tarjeta de Resumen Rápido */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3.5 rounded-xl bg-purple-50/40 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/30 text-xs">
                 <div>
-                  <div className="text-[10px] text-gray-500 uppercase font-semibold">Proforma / Recurso</div>
+                  <div className="text-[10px] text-gray-500 uppercase font-semibold">Proforma / recurso</div>
                   <div className="font-bold text-gray-900 dark:text-white mt-0.5">{versionModalData.proformaCode}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] text-gray-500 uppercase font-semibold">Versión Consultada</div>
+                  <div className="text-[10px] text-gray-500 uppercase font-semibold">Versión consultada</div>
                   <div className="font-bold text-purple-700 dark:text-purple-300 mt-0.5 flex items-center gap-1">
                     <span>{versionModalData.selectedVersion || 'v1'}</span>
                     <span className="text-[10px] text-gray-500 font-normal">(Evento bitácora)</span>
                   </div>
                 </div>
                 <div>
-                  <div className="text-[10px] text-gray-500 uppercase font-semibold">Usuario Registrado</div>
+                  <div className="text-[10px] text-gray-500 uppercase font-semibold">Usuario registrado</div>
                   <div className="font-bold text-gray-900 dark:text-white mt-0.5 truncate">{selectedVersionLog.usuario}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] text-gray-500 uppercase font-semibold">Acción de Bitácora</div>
+                  <div className="text-[10px] text-gray-500 uppercase font-semibold">Acción de bitácora</div>
                   <div className="font-bold text-gray-900 dark:text-white mt-0.5">{selectedVersionLog.accion}</div>
                 </div>
               </div>
@@ -1108,7 +1108,7 @@ export default function AuditoriaPage() {
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 flex items-center gap-2">
                     <Clock className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-                    Detalle de Versión Actual y Anteriores
+                    Detalle de versión actual y anteriores
                   </h3>
                   <span className="text-[11px] text-gray-500">
                     Ordenado de la más reciente a la más antigua
@@ -1141,7 +1141,7 @@ export default function AuditoriaPage() {
                           )}
                           {isSelectedInLog && (
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-950/70 dark:text-purple-300">
-                              Versión del Registro
+                              Versión del registro
                             </span>
                           )}
                           {ver.fechaRechazo && (
@@ -1248,7 +1248,7 @@ export default function AuditoriaPage() {
                                     <th className="py-1.5 px-2.5">Código</th>
                                     <th className="py-1.5 px-2">Descripción</th>
                                     <th className="py-1.5 px-2 text-right">Cant.</th>
-                                    <th className="py-1.5 px-2 text-right">Tarifa Base</th>
+                                    <th className="py-1.5 px-2 text-right">Tarifa base</th>
                                     <th className="py-1.5 px-2 text-right">Desc. %</th>
                                     <th className="py-1.5 px-2.5 text-right">Total</th>
                                   </tr>

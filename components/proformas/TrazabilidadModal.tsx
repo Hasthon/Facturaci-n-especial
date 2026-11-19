@@ -64,7 +64,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
       `Descargando documento oficial: ${docNombre}`,
       'success',
       4000,
-      'Descarga de Factura Iniciada'
+      'Descarga de factura iniciada'
     );
   };
 
@@ -111,10 +111,10 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
             </span>
           </div>
           <h3 className="text-h2 font-semibold text-gray-900 dark:text-gray-100">
-            Trazabilidad Comercial y Versiones
+            Trazabilidad comercial y versiones
           </h3>
           <p className="text-caption text-gray-500 dark:text-gray-400">
-            Cliente: <span className="font-semibold text-gray-800 dark:text-gray-200">{proforma.cliente}</span> · Monto Total:{' '}
+            Cliente: <span className="font-semibold text-gray-800 dark:text-gray-200">{proforma.cliente}</span> · Monto total:{' '}
             <span className="font-mono font-bold text-purple-900 dark:text-purple-300">
               {proforma.montoFormatted || formatCurrency(proforma.monto)}
             </span>
@@ -126,7 +126,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
           <div className="p-4 bg-amber-500/10 dark:bg-amber-500/15 border border-amber-400 dark:border-amber-500/30 rounded-xl space-y-1.5 animate-in fade-in duration-200">
             <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-extrabold text-caption">
               <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0" />
-              <span>PROFORMA DERIVADA AUTOMÁTICAMENTE A KAM (RESOLUCIÓN COMERCIAL)</span>
+              <span>Proforma derivada automáticamente a KAM (resolución comercial)</span>
             </div>
             <p className="text-body text-gray-700 dark:text-gray-300 leading-relaxed pl-7">
               Esta proforma alcanzó el límite máximo de iteraciones (Versión V3). Conforme a las normas de gobernanza de Facturación Especial, no se emitirán versiones adicionales (máximo V3) y la gestión ha sido traspasada formalmente a la <strong>Subgerencia / Ejecutivo KAM</strong>.
@@ -248,7 +248,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                       className="text-[11px] font-bold text-purple-700 dark:text-purple-300 hover:text-purple-900 hover:underline inline-flex items-center gap-1.5 cursor-pointer py-1"
                     >
                       <Download className="w-3.5 h-3.5" />
-                      <span>Descargar Proforma ({item.version.toUpperCase()})</span>
+                      <span>Descargar proforma ({item.version.toUpperCase()})</span>
                     </button>
                   </div>
                 </div>
@@ -273,10 +273,10 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                     </span>
                     <div>
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 dark:text-purple-300 block">
-                        Hito Final · Cierre Comercial
+                        Hito final · Cierre comercial
                       </span>
                       <h4 className="font-extrabold text-sm text-gray-900 dark:text-gray-100 leading-tight">
-                        Facturación Registrada
+                        Facturación registrada
                       </h4>
                     </div>
                   </div>
@@ -291,7 +291,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-caption">
                   <div className="bg-white/80 dark:bg-slate-800 p-2.5 rounded-lg border border-purple-100 dark:border-white/10 space-y-0.5">
                     <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-purple-600" /> Fecha de Registro / Emisión
+                      <Calendar className="w-3 h-3 text-purple-600" /> Fecha de registro / emisión
                     </span>
                     <strong className="text-gray-900 dark:text-gray-100 font-mono text-xs block">
                       {proforma.fechaFacturacion || proforma.fecha || new Date().toLocaleDateString('es-CL')}
@@ -300,7 +300,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
 
                   <div className="bg-white/80 dark:bg-slate-800 p-2.5 rounded-lg border border-purple-100 dark:border-white/10 space-y-0.5">
                     <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block flex items-center gap-1">
-                      <DollarSign className="w-3 h-3 text-purple-600" /> Monto Facturado Oficial
+                      <DollarSign className="w-3 h-3 text-purple-600" /> Monto facturado oficial
                     </span>
                     <strong className="text-purple-700 dark:text-purple-300 font-mono text-xs font-extrabold block">
                       {proforma.montoFormatted || formatCurrency(proforma.monto)}
@@ -332,7 +332,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                   className="w-full py-2.5 px-4 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white rounded-xl text-xs font-extrabold shadow-md shadow-purple-700/20 transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-98"
                 >
                   <Download className="w-4 h-4" />
-                  <span>Descargar Factura Emitida (PDF)</span>
+                  <span>Descargar factura emitida (PDF)</span>
                 </button>
               </div>
             </div>

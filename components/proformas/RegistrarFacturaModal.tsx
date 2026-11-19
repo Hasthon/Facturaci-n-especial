@@ -247,7 +247,7 @@ export function RegistrarFacturaModal({
           {/* Observaciones Opcionales */}
           <div>
             <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-              Observaciones / Comentarios Adicionales (Opcional)
+              Observaciones / comentarios adicionales (opcional)
             </label>
             <textarea
               value={observaciones}

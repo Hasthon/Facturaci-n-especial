@@ -872,7 +872,7 @@ export default function NuevaProformaPage() {
                         }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-body font-bold">Rango Personalizado</span>
+                        <span className="text-body font-bold">Rango personalizado</span>
                         {filtroPeriodo === 'personalizado' && <CheckCircle2 className={`w-4 h-4 ${theme.accentText}`} />}
                       </div>
                       <span className="text-caption text-gray-600 dark:text-gray-400 font-medium">Elegir fechas exactas</span>
@@ -885,7 +885,7 @@ export default function NuevaProformaPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-purple-50/30 dark:bg-white/5 border border-purple-100 dark:border-white/10 rounded-lg">
                     <div>
                       <label className="block text-eyebrow font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">
-                        Fecha Desde
+                        Fecha desde
                       </label>
                       <input
                         type="date"
@@ -898,7 +898,7 @@ export default function NuevaProformaPage() {
                     </div>
                     <div>
                       <label className="block text-eyebrow font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">
-                        Fecha Hasta
+                        Fecha hasta
                       </label>
                       <input
                         type="date"
@@ -1111,7 +1111,7 @@ export default function NuevaProformaPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5 font-bold text-gray-900 dark:text-gray-100">
                       <span className={`w-1.5 h-1.5 rounded-full ${selectedCliente.condicionesGenerales.tieneCargaValorada ? theme.accentBg : 'bg-amber-500'} shrink-0`} />
-                      <span>Carga Valorada</span>
+                      <span>Carga valorada</span>
                     </div>
                     {selectedCliente.condicionesGenerales.tieneCargaValorada ? (
                       <span className="text-micro font-extrabold text-emerald-800 dark:text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-2xs">
@@ -1121,7 +1121,7 @@ export default function NuevaProformaPage() {
                     ) : (
                       <span className="text-micro font-extrabold text-amber-900 dark:text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-2xs">
                         <X className="w-3 h-3 text-amber-700" />
-                        No Aplica
+                        No aplica
                       </span>
                     )}
                   </div>

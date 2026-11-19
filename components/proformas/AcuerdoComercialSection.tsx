@@ -37,7 +37,7 @@ export const AcuerdoComercialSection: React.FC<AcuerdoComercialSectionProps> = (
           <FileText className={`w-5 h-5 ${theme.accentText}`} />
           <div>
             <h3 className="text-eyebrow font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider">
-              Tipo de Acuerdo Comercial
+              Tipo de acuerdo comercial
             </h3>
             <span className="text-caption text-gray-600 dark:text-gray-400 font-medium block">
               Modalidad de tarifa y condiciones comerciales pactadas con el cliente
@@ -52,7 +52,7 @@ export const AcuerdoComercialSection: React.FC<AcuerdoComercialSectionProps> = (
             </span>
           ) : (
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${theme.badgeBg}`}>
-              Precargado del Cliente
+              Precargado del cliente
             </span>
           )}
         </div>
@@ -61,7 +61,7 @@ export const AcuerdoComercialSection: React.FC<AcuerdoComercialSectionProps> = (
       {/* SELECTOR DE ACUERDO */}
       <div>
         <label className="block text-eyebrow font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">
-          Seleccionar Tipo de Acuerdo Comercial *
+          Seleccionar tipo de acuerdo comercial *
         </label>
         <select
           value={tipoAcuerdo}
@@ -74,7 +74,7 @@ export const AcuerdoComercialSection: React.FC<AcuerdoComercialSectionProps> = (
           <option value="Acuerdo marco">Acuerdo marco</option>
           <option value="Tarifa especial regional">Tarifa especial regional</option>
           <option value="Tarifa Especial Personalizada (vía Excel)">
-            Tarifa Especial Personalizada (vía Excel)
+            Tarifa especial personalizada (vía Excel)
           </option>
         </select>
 
@@ -97,7 +97,7 @@ export const AcuerdoComercialSection: React.FC<AcuerdoComercialSectionProps> = (
         <div className="p-4 bg-purple-50/50 dark:bg-purple-500/10 border border-purple-200 dark:border-white/10 rounded-xl space-y-3 shadow-2xs mt-2">
           <div>
             <label className="text-eyebrow font-bold text-purple-950 dark:text-purple-200 uppercase tracking-wider block">
-              Carga de Tarifario por Modificación de Acuerdo Comercial
+              Carga de tarifario por modificación de acuerdo comercial
             </label>
             <span className="text-caption text-gray-600 dark:text-gray-400 font-medium">
               Al modificar el tipo de acuerdo comercial precargado del cliente, puedes adjuntar la plantilla o archivo Excel (.xlsx, .xls) con las tarifas especiales acordadas.
@@ -119,7 +119,7 @@ export const AcuerdoComercialSection: React.FC<AcuerdoComercialSectionProps> = (
                   <div>
                     <span className="font-bold text-emerald-950 dark:text-emerald-300 block">{archivoExcelTarifa.nombre}</span>
                     <span className="text-micro text-emerald-700 dark:text-emerald-400 font-medium">
-                      Plantilla de Tarifa Especial ({archivoExcelTarifa.tamano})
+                      Plantilla de tarifa especial ({archivoExcelTarifa.tamano})
                     </span>
                   </div>
                 </div>
@@ -138,7 +138,7 @@ export const AcuerdoComercialSection: React.FC<AcuerdoComercialSectionProps> = (
               >
                 <FileSpreadsheet className="w-4.5 h-4.5 text-purple-700 dark:text-purple-400" />
                 <span className="text-body font-bold text-purple-950 dark:text-purple-200">
-                  + Subir Archivo de Tarifario Especial en formato Excel (.xlsx, .xls)
+                  + Subir archivo de tarifario especial en formato Excel (.xlsx, .xls)
                 </span>
               </div>
             )}

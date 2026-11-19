@@ -44,7 +44,7 @@ export const CargaValoradaSection: React.FC<CargaValoradaSectionProps> = ({
           <Coins className={`w-5 h-5 ${theme.accentText}`} />
           <div>
             <h3 className="text-eyebrow font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider">
-              Carga Valorada (en UF)
+              Carga valorada (en UF)
             </h3>
             <span className="text-caption text-gray-600 dark:text-gray-400 font-medium block">
               Parámetros y valorización en UF asignados para la cuenta corriente del cliente
@@ -59,11 +59,11 @@ export const CargaValoradaSection: React.FC<CargaValoradaSectionProps> = ({
             </span>
           ) : isEditingCargaValorada ? (
             <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-100 dark:bg-purple-500/10 text-purple-800 dark:text-purple-400 border border-purple-300 dark:border-white/10">
-              En Edición
+              En edición
             </span>
           ) : (
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${theme.badgeBg}`}>
-              Precargado del Cliente
+              Precargado del cliente
             </span>
           )}
         </div>
@@ -72,7 +72,7 @@ export const CargaValoradaSection: React.FC<CargaValoradaSectionProps> = ({
       {/* VISTA Y EDICIÓN IN-PLACE */}
       <div className="p-4 bg-purple-50/50 dark:bg-purple-500/10 border border-purple-100/90 dark:border-white/10 rounded-lg text-xs space-y-3">
         <div className="flex items-center justify-between font-bold text-purple-950 dark:text-purple-200">
-          <span>Condición Comercial Registrada:</span>
+          <span>Condición comercial registrada:</span>
           <span className={`text-[11px] ${theme.accentText} font-medium`}>UF Referencial Hoy: ${valorUf}</span>
         </div>
         <p className="text-gray-700 dark:text-gray-300 font-medium leading-relaxed bg-white dark:bg-slate-900/50 p-3 rounded-md border border-purple-100 dark:border-white/10 shadow-2xs">
@@ -83,7 +83,7 @@ export const CargaValoradaSection: React.FC<CargaValoradaSectionProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs">
           <div className="bg-white dark:bg-slate-900/50 p-3 rounded-md border border-purple-100 dark:border-white/10 space-y-1">
             <label className="text-gray-600 dark:text-gray-400 font-bold block text-[11px] uppercase tracking-wider">
-              Valor UF Aplicable ($ CLP)
+              Valor UF aplicable ($ CLP)
             </label>
             {isEditingCargaValorada ? (
               <input
@@ -103,7 +103,7 @@ export const CargaValoradaSection: React.FC<CargaValoradaSectionProps> = ({
 
           <div className="bg-white dark:bg-slate-900/50 p-3 rounded-md border border-purple-100 dark:border-white/10 space-y-1">
             <label className="text-gray-600 dark:text-gray-400 font-bold block text-[11px] uppercase tracking-wider">
-              Tasa / Cobertura Carga Valorada (%)
+              Tasa / cobertura de carga valorada (%)
             </label>
             {isEditingCargaValorada ? (
               <input
@@ -129,7 +129,7 @@ export const CargaValoradaSection: React.FC<CargaValoradaSectionProps> = ({
               onClick={onResetCargaValorada}
               className="text-xs font-bold text-purple-700 dark:text-purple-400 underline hover:text-purple-950 dark:hover:text-purple-300 transition-colors py-0.5 px-1.5 rounded hover:bg-purple-50 dark:hover:bg-white/5"
             >
-              Restablecer Carga Valorada
+              Restablecer carga valorada
             </button>
           )}
           <button
@@ -140,7 +140,7 @@ export const CargaValoradaSection: React.FC<CargaValoradaSectionProps> = ({
               : 'bg-white dark:bg-slate-900/50 text-purple-700 dark:text-purple-400 border-purple-300 dark:border-white/10 hover:bg-purple-50 dark:hover:bg-white/5 shadow-2xs'
               }`}
           >
-            {isEditingCargaValorada ? 'Listo / Finalizar Edición' : 'Editar Carga Valorada'}
+            {isEditingCargaValorada ? 'Listo / finalizar edición' : 'Editar carga valorada'}
           </button>
         </div>
       </div>

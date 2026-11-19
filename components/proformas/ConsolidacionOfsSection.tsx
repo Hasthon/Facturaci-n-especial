@@ -56,11 +56,11 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
             </span>
           ) : isEditingConsolidado ? (
             <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-100 dark:bg-purple-500/10 text-purple-800 dark:text-purple-400 border border-purple-300 dark:border-white/10">
-              En Edición
+              En edición
             </span>
           ) : (
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${theme.badgeBg}`}>
-              Precargado del Cliente
+              Precargado del cliente
             </span>
           )}
         </div>
@@ -69,8 +69,8 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
       {/* VISTA Y EDICIÓN IN-PLACE */}
       <div className="p-4 bg-purple-50/50 dark:bg-purple-500/10 border border-purple-100/90 dark:border-white/10 rounded-lg text-xs space-y-3">
         <div className="flex items-center justify-between font-bold text-purple-950 dark:text-purple-200">
-          <span>Condición Comercial Registrada:</span>
-          <span className={`text-[11px] ${theme.accentText} font-medium`}>Acuerdo Consolidación</span>
+          <span>Condición comercial registrada:</span>
+          <span className={`text-[11px] ${theme.accentText} font-medium`}>Acuerdo de consolidación</span>
         </div>
         <p className="text-gray-700 dark:text-gray-300 font-medium leading-relaxed bg-white dark:bg-slate-900/50 p-3 rounded-md border border-purple-100 dark:border-white/10 shadow-2xs">
           {detalleConsolidado}
@@ -78,11 +78,11 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
 
         {/* MODALIDAD ACTIVA (SIEMPRE VISIBLE) */}
         <div className="bg-white dark:bg-slate-900/50 p-3 rounded-md border border-purple-100 dark:border-white/10 text-xs space-y-1">
-          <span className="text-gray-500 dark:text-gray-400 font-medium block text-[11px]">Modalidad de Consolidación Activa:</span>
+          <span className="text-gray-500 dark:text-gray-400 font-medium block text-[11px]">Modalidad de consolidación activa:</span>
           <span className="font-extrabold text-purple-950 dark:text-purple-200 text-sm block">
-            {consolidarOfs === 'SI-EXACTO' && 'Mismo Destino & Fecha de Entrega'}
-            {consolidarOfs === 'SI-SOLO NOMBRE' && 'Por Cliente Final'}
-            {consolidarOfs === 'NO' && 'No Consolidar (OFs Individuales)'}
+            {consolidarOfs === 'SI-EXACTO' && 'Mismo destino y fecha de entrega'}
+            {consolidarOfs === 'SI-SOLO NOMBRE' && 'Por cliente final'}
+            {consolidarOfs === 'NO' && 'No consolidar (OFs individuales)'}
           </span>
         </div>
 
@@ -90,7 +90,7 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
         {isEditingConsolidado && (
           <div className="space-y-2 pt-2 border-t border-purple-100/60 dark:border-white/10">
             <label className="block text-eyebrow font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-[11px]">
-              Selecciona Nueva Modalidad de Consolidación:
+              Selecciona nueva modalidad de consolidación:
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <button
@@ -101,7 +101,7 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
                   : 'bg-white dark:bg-slate-900/50 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-white/10 hover:bg-purple-50 dark:hover:bg-white/5'
                   }`}
               >
-                <span>Mismo Destino & Fecha</span>
+                <span>Mismo destino y fecha</span>
               </button>
 
               <button
@@ -112,7 +112,7 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
                   : 'bg-white dark:bg-slate-900/50 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-white/10 hover:bg-purple-50 dark:hover:bg-white/5'
                   }`}
               >
-                <span>Por Cliente Final</span>
+                <span>Por cliente final</span>
               </button>
 
               <button
@@ -123,7 +123,7 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
                   : 'bg-white dark:bg-slate-900/50 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-white/10 hover:bg-purple-50 dark:hover:bg-white/5'
                   }`}
               >
-                <span>No Consolidar</span>
+                <span>No consolidar</span>
               </button>
             </div>
           </div>
@@ -137,7 +137,7 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
               onClick={onResetConsolidado}
               className="text-xs font-bold text-purple-700 dark:text-purple-400 underline hover:text-purple-950 dark:hover:text-purple-300 transition-colors py-0.5 px-1.5 rounded hover:bg-purple-50 dark:hover:bg-white/5"
             >
-              Restablecer Consolidación precargada
+              Restablecer consolidación precargada
             </button>
           )}
           <button
@@ -148,7 +148,7 @@ export const ConsolidacionOfsSection: React.FC<ConsolidacionOfsSectionProps> = (
               : 'bg-white dark:bg-slate-900/50 text-purple-700 dark:text-purple-400 border-purple-300 dark:border-white/10 hover:bg-purple-50 dark:hover:bg-white/5 shadow-2xs'
               }`}
           >
-            {isEditingConsolidado ? 'Listo / Finalizar Edición' : 'Editar Consolidación'}
+            {isEditingConsolidado ? 'Listo / finalizar edición' : 'Editar consolidación'}
           </button>
         </div>
       </div>

@@ -428,7 +428,7 @@ function EjecutivoDashboardContent() {
       `Se ha descargado el documento ${filename} correctamente.`,
       'info',
       4000,
-      'Descarga Completada'
+      'Descarga completada'
     );
   };
 
@@ -553,7 +553,7 @@ function EjecutivoDashboardContent() {
             <p className="text-2xl font-extrabold text-orange-600 dark:text-orange-400 leading-none mb-1">
               {countRechazadas}
             </p>
-            <p className="text-[11px] text-gray-600 dark:text-gray-400 font-medium leading-tight">Rechazadas V1/V2</p>
+            <p className="text-[11px] text-gray-600 dark:text-gray-400 font-medium leading-tight">Rechazadas v1/v2</p>
           </div>
         </div>
 
@@ -590,7 +590,7 @@ function EjecutivoDashboardContent() {
             <p className="text-2xl font-extrabold text-sky-600 dark:text-sky-400 leading-none mb-1">
               {countPricing}
             </p>
-            <p className="text-[11px] text-gray-600 dark:text-gray-400 font-medium leading-tight">En Pricing</p>
+            <p className="text-[11px] text-gray-600 dark:text-gray-400 font-medium leading-tight">En pricing</p>
           </div>
         </div>
 
@@ -801,11 +801,11 @@ function EjecutivoDashboardContent() {
                   : esDerivadaKAM
                   ? 'Derivada a KAM'
                   : esAprobada
-                  ? 'Aprobada por Cliente'
+                  ? 'Aprobada por cliente'
                   : esEnviadoPricing
-                  ? 'Enviado a Pricing'
+                  ? 'Enviado a pricing'
                   : esPricingResuelto
-                  ? 'Tarifas Corregidas'
+                  ? 'Tarifas corregidas'
                   : p.estado === 'Rechazada v1' || p.estado === 'Rechazada'
                   ? 'Rechazada v1'
                   : p.estado === 'Rechazada v2'

@@ -220,11 +220,11 @@ function DashboardFiltersPanel({
                     className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
                   >
                     <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                    <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
-                    <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
-                    <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                    <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta semana</option>
+                    <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este mes</option>
+                    <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer trimestre (Q3)</option>
                     <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el historial</option>
                   </select>
                 </div>
 
@@ -365,11 +365,11 @@ function DashboardFiltersPanel({
                   className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
                 >
                   <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                  <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
-                  <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
-                  <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                  <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta semana</option>
+                  <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este mes</option>
+                  <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer trimestre (Q3)</option>
                   <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el historial</option>
                 </select>
               </div>
 
@@ -430,11 +430,11 @@ function DashboardFiltersPanel({
                   className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
                 >
                   <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                  <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta Semana</option>
-                  <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este Mes</option>
-                  <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer Trimestre (Q3)</option>
+                  <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta semana</option>
+                  <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este mes</option>
+                  <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer trimestre (Q3)</option>
                   <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el Historial</option>
+                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el historial</option>
                 </select>
               </div>
 
@@ -1279,7 +1279,7 @@ export function JefeDashboard() {
             }`}
         >
           <TrendingUp className="w-4 h-4" />
-          <span>Dashboard Comercial</span>
+          <span>Dashboard comercial</span>
         </button>
 
         <button
@@ -1290,7 +1290,7 @@ export function JefeDashboard() {
             }`}
         >
           <Users className="w-4 h-4" />
-          <span>KPIs por Ejecutivo ({filteredEjecutivosData.length})</span>
+          <span>KPIs por ejecutivo ({filteredEjecutivosData.length})</span>
         </button>
 
         <button
@@ -1301,7 +1301,7 @@ export function JefeDashboard() {
             }`}
         >
           <Building2 className="w-4 h-4" />
-          <span>KPIs por Cliente ({filteredClientesData.length})</span>
+          <span>KPIs por cliente ({filteredClientesData.length})</span>
         </button>
       </div>
 
@@ -1326,7 +1326,7 @@ export function JefeDashboard() {
             >
               <div className="flex items-start justify-between gap-1 mb-1">
                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200 leading-tight">
-                  Total Proformas
+                  Total proformas
                 </span>
                 <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 flex items-center gap-0.5 ${kpiFilter === 'todos'
                   ? 'bg-purple-600 text-white shadow-2xs'
@@ -1426,7 +1426,7 @@ export function JefeDashboard() {
                 </div>
               </div>
               <div className="text-[11px] text-amber-700 dark:text-amber-400 font-bold leading-tight">
-                Por Autorizar
+                Por autorizar
               </div>
             </div>
 
@@ -1514,12 +1514,12 @@ export function JefeDashboard() {
               tabIndex={0}
               onClick={() => setActiveTab('ejecutivos')}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setActiveTab('ejecutivos'); }}
-              title="Haz clic para ver el detalle de desempeño por Ejecutivo"
+              title="Haz clic para ver el detalle de desempeño por ejecutivo"
               className="p-3.5 rounded-2xl border relative overflow-hidden group transition-all cursor-pointer select-none flex flex-col justify-between shadow-2xs bg-white dark:bg-slate-900 border-purple-900/10 dark:border-white/10 hover:border-purple-300 dark:hover:border-purple-600/40 hover:shadow-sm"
             >
               <div className="flex items-start justify-between gap-1 mb-1">
                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200 leading-tight">
-                  T. Aprobación
+                  T. aprobación
                 </span>
                 <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap shrink-0 text-indigo-700 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-950/60 flex items-center gap-0.5">
                   <span>Ejecutivos</span>
@@ -2241,19 +2241,19 @@ export function JefeDashboard() {
             {/* Ficha resumen: ID de la proforma, Cliente y Ejecutivo */}
             <div className="p-4 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 rounded-xl space-y-2.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500 dark:text-gray-400 font-bold">ID Proforma:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold">ID proforma:</span>
                 <span className="font-mono font-bold text-purple-700 dark:text-purple-300">
                   {approvingProforma.id}
                 </span>
               </div>
               <div className="flex items-start justify-between text-xs gap-2">
-                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / Razón Social:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / razón social:</span>
                 <span className="font-bold text-gray-900 dark:text-white text-right">
                   {approvingProforma.cliente}
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo Responsable:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo responsable:</span>
                 <span className="font-semibold text-purple-700 dark:text-purple-300">
                   {approvingProforma.ejecutivoNombre || 'Ana Valenzuela'}
                 </span>
@@ -2327,19 +2327,19 @@ export function JefeDashboard() {
             {/* Ficha resumen con los datos requeridos: ID, Cliente y Ejecutivo */}
             <div className="p-4 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 rounded-xl space-y-2.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500 dark:text-gray-400 font-bold">ID Proforma:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold">ID proforma:</span>
                 <span className="font-mono font-bold text-purple-700 dark:text-purple-300">
                   {rejectingProforma.id}
                 </span>
               </div>
               <div className="flex items-start justify-between text-xs gap-2">
-                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / Razón Social:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold shrink-0">Cliente / razón social:</span>
                 <span className="font-bold text-gray-900 dark:text-white text-right">
                   {rejectingProforma.cliente}
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo Responsable:</span>
+                <span className="text-gray-500 dark:text-gray-400 font-bold">Ejecutivo responsable:</span>
                 <span className="font-semibold text-purple-700 dark:text-purple-300">
                   {rejectingProforma.ejecutivoNombre || 'Ana Valenzuela'}
                 </span>
@@ -2350,7 +2350,7 @@ export function JefeDashboard() {
               {/* Motivo de Rechazo Principal */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Motivo de Rechazo / Corrección: *
+                  Motivo de rechazo / corrección: *
                 </label>
                 <select
                   value={rejectionReason}
@@ -2358,19 +2358,19 @@ export function JefeDashboard() {
                   required
                   className="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none cursor-pointer font-medium"
                 >
-                  <option value="Inconsistencia en Tarifas / Descuentos">Inconsistencia en Tarifas / Descuentos</option>
+                  <option value="Inconsistencia en tarifas / descuentos">Inconsistencia en tarifas / descuentos</option>
                   <option value="Diferencia en recubitaje / medidas de SKUs">Diferencia en recubitaje / medidas de SKUs</option>
-                  <option value="Error en la selección de Cuentas Corrientes">Error en la selección de Cuentas Corrientes</option>
-                  <option value="Falta de Respaldo de Orden de Compra">Falta de Respaldo de Orden de Compra</option>
-                  <option value="Requiere Derivación a Negociación KAM">Requiere Derivación a Negociación KAM</option>
-                  <option value="Otro Motivo Operacional">Otro Motivo Operacional</option>
+                  <option value="Error en la selección de cuentas corrientes">Error en la selección de cuentas corrientes</option>
+                  <option value="Falta de respaldo de orden de compra">Falta de respaldo de orden de compra</option>
+                  <option value="Requiere derivación a negociación KAM">Requiere derivación a negociación KAM</option>
+                  <option value="Otro motivo operacional">Otro motivo operacional</option>
                 </select>
               </div>
 
               {/* Observaciones Obligatorias */}
               <div>
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Observaciones Detalladas para el Ejecutivo ({rejectingProforma.ejecutivoNombre || 'Asignado'}): *
+                  Observaciones detalladas para el ejecutivo ({rejectingProforma.ejecutivoNombre || 'Asignado'}): *
                 </label>
                 <textarea
                   value={rejectionObservations}

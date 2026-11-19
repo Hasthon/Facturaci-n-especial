@@ -134,7 +134,7 @@ function SidebarContent() {
 
   const roleLabel = isPricing ? 'pricing' : isJefatura ? 'jefatura' : 'ejecutivo';
   const roleBadgeText = isPricing ? 'Pricing' : isJefatura ? 'Jefe' : 'Ejecutivo';
-  const roleTitle = isPricing ? 'Encargado de Pricing' : isJefatura ? 'Jefatura de Facturación' : 'Ejecutivo de Facturación';
+  const roleTitle = isPricing ? 'Encargado de pricing' : isJefatura ? 'Jefatura de facturación' : 'Ejecutivo de facturación';
 
   return (
     <aside className={`w-[250px] h-screen bg-gradient-to-b ${theme.sidebarBgGradient} border-r border-purple-900/15 dark:border-white/5 flex flex-col fixed top-0 left-0 z-50 shadow-[4px_0_24px_rgba(0,0,0,0.06)] overflow-hidden`}>
@@ -161,7 +161,7 @@ function SidebarContent() {
         </div>
         <div className="flex flex-col min-w-0">
           <span className="text-sm font-bold text-gray-900 dark:text-gray-100 leading-none truncate">Starken</span>
-          <span className={`text-[9px] font-semibold ${theme.accentText} capitalize tracking-wider leading-tight truncate`}>
+          <span className={`text-[9px] font-semibold ${theme.accentText} tracking-wider leading-tight truncate`}>
             Facturación especial
           </span>
         </div>
@@ -170,7 +170,7 @@ function SidebarContent() {
       {/* Nav Menu */}
       <nav className="flex-1 p-2.5 flex flex-col gap-1 relative z-10 overflow-y-auto">
         <div className="flex items-center justify-between px-2 pt-1.5 pb-1">
-          <span className="text-micro font-semibold text-gray-600 dark:text-gray-400 capitalize tracking-wide">
+          <span className="text-micro font-semibold text-gray-600 dark:text-gray-400 tracking-wide">
             Menú {roleLabel}
           </span>
           <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300">

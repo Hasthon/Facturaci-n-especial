@@ -205,14 +205,14 @@ export function RespuestaClienteModal({
         `Respuesta registrada: Proforma ${proforma.id} Aprobada por el cliente.`,
         'success',
         5500,
-        'Aprobación Registrada'
+        'Aprobación registrada'
       );
     } else {
       showToast(
         `Rechazo registrado para Proforma ${proforma.id}. Habilitada para edición de siguiente versión.`,
         'info',
         5500,
-        'Rechazo Registrado'
+        'Rechazo registrado'
       );
     }
 
@@ -442,7 +442,7 @@ export function RespuestaClienteModal({
                         onClick={handleSimulateDefaultFile}
                         className="px-3 py-1.5 bg-white dark:bg-slate-700 border border-gray-200 dark:border-white/10 hover:bg-gray-50 text-gray-700 dark:text-gray-200 font-bold text-micro rounded-lg transition-all cursor-pointer"
                       >
-                        Usar Imagen Demo
+                        Usar imagen demo
                       </button>
                     </div>
                   </div>
@@ -467,7 +467,7 @@ export function RespuestaClienteModal({
               className="px-5 py-2 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-caption rounded-xl transition-all shadow-sm cursor-pointer inline-flex items-center gap-2"
             >
               <CheckCircle2 className="w-4 h-4" />
-              <span>Guardar Respuesta y Respaldo</span>
+              <span>Guardar respuesta y respaldo</span>
             </button>
           </div>
 
@@ -487,7 +487,7 @@ export function RespuestaClienteModal({
                   {popupAviso.proforma.id}
                 </span>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight mt-0.5">
-                  Actualización de Medidas Requerida
+                  Actualización de medidas requerida
                 </h3>
               </div>
             </div>
@@ -528,7 +528,7 @@ export function RespuestaClienteModal({
                 }}
                 className="w-full sm:w-1/2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white rounded-xl text-caption font-bold transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5"
               >
-                <span>Actualizar Ahora</span>
+                <span>Actualizar ahora</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

@@ -402,7 +402,7 @@ function EditarProformaContent() {
       `Medidas modificadas manualmente por ejecutivo para ${editingIaItem.sku}. Registrado en auditoría como cambio manual sobre IA (${editingIaItem.totalOfs} OFs).`,
       'success',
       5000,
-      'Modificación Manual Registrada'
+      'Modificación manual registrada'
     );
   };
 
@@ -484,7 +484,7 @@ function EditarProformaContent() {
         : `Evidencia web registrada para ${manualEvidenceItem.sku}. Se aplicaron las medidas a las ${manualEvidenceItem.totalOfs} OFs.`,
       'success',
       5000,
-      sinEvidenciaEncontrada ? 'Ajuste s/Cliente Aplicado' : 'Evidencia Registrada'
+      sinEvidenciaEncontrada ? 'Ajuste s/cliente aplicado' : 'Evidencia registrada'
     );
   };
 
@@ -513,7 +513,7 @@ function EditarProformaContent() {
       `Se aprobaron todas las sugerencias de IA con alta confianza (${totalIas} SKUs resueltos).`,
       'success',
       5500,
-      'Validación Masiva de IA'
+      'Validación masiva de IA'
     );
   };
 
@@ -544,7 +544,7 @@ function EditarProformaContent() {
         `Aún tienes ${totalSkus - skusValidados} SKUs pendientes de validación o evidencia. Debes completar el 100%.`,
         'warning',
         6000,
-        'Validación Incompleta'
+        'Validación incompleta'
       );
       return;
     }
@@ -959,7 +959,7 @@ function EditarProformaContent() {
                   <FileSpreadsheet className="w-4 h-4" />
                 </div>
                 <h3 className="text-h2 font-bold text-gray-900 dark:text-gray-100">
-                  Detalle de la Proforma Actual
+                  Detalle de la proforma actual
                 </h3>
               </div>
               <span className="text-micro font-extrabold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/30 px-2 py-0.5 rounded">
@@ -977,7 +977,7 @@ function EditarProformaContent() {
               </div>
 
               <div>
-                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Cuenta Corriente</span>
+                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Cuenta corriente</span>
                 <span className="font-mono font-bold text-purple-700 dark:text-purple-400 text-body block">
                   CTA-001
                 </span>
@@ -985,14 +985,14 @@ function EditarProformaContent() {
               </div>
 
               <div>
-                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Total OFs Involucradas</span>
+                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Total OFs involucradas</span>
                 <span className="font-mono font-extrabold text-gray-900 dark:text-gray-100 text-body">
                   {totalOfsCount} Órdenes de Flete
                 </span>
               </div>
 
               <div>
-                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Monto Original Facturado</span>
+                <span className="text-micro text-gray-500 dark:text-gray-400 block font-medium">Monto original facturado</span>
                 <span className="font-mono font-extrabold text-gray-900 dark:text-gray-100 text-body">
                   {formatCurrency(montoOriginal)}
                 </span>
@@ -1025,7 +1025,7 @@ function EditarProformaContent() {
                   <UploadCloud className="w-4 h-4" />
                 </div>
                 <h3 className="text-h2 font-bold text-gray-900 dark:text-gray-100">
-                  Carga de Planilla con Mediciones
+                  Carga de planilla con mediciones
                 </h3>
               </div>
 
@@ -1490,7 +1490,7 @@ function EditarProformaContent() {
                                 onClick={() => handleOpenManualEvidenceModal(item)}
                                 className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-micro font-bold transition-all shadow-2xs whitespace-nowrap cursor-pointer"
                               >
-                                {item.evidenciaManual ? 'Editar Evidencia' : '+ Adjuntar Evidencia'}
+                                {item.evidenciaManual ? 'Editar evidencia' : '+ Adjuntar evidencia'}
                               </button>
                             )}
 
@@ -1579,7 +1579,7 @@ function EditarProformaContent() {
                     {editingIaItem.sku}
                   </span>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">
-                    Ajustar Medidas del SKU (Sobrescribir IA)
+                    Ajustar medidas del SKU (sobrescribir IA)
                   </h3>
                 </div>
               </div>
@@ -1597,7 +1597,7 @@ function EditarProformaContent() {
             <div className="p-3 bg-amber-50/80 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-800/40 text-caption flex items-start gap-2.5 text-amber-900 dark:text-amber-200">
               <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
               <div className="text-micro leading-relaxed">
-                <span className="font-bold block text-amber-950 dark:text-amber-100">Registro de Cambio Manual:</span>
+                <span className="font-bold block text-amber-950 dark:text-amber-100">Registro de cambio manual:</span>
                 Al guardar modificaciones aquí, este SKU quedará registrado con trazabilidad como <strong>Modificado manualmente por Ejecutivo</strong> y no como validado por IA.
               </div>
             </div>
@@ -1605,7 +1605,7 @@ function EditarProformaContent() {
             {/* Ficha técnica web encontrada por IA */}
             <div className="p-3 bg-purple-50/60 dark:bg-purple-950/20 rounded-xl border border-purple-200 dark:border-purple-800/30 text-caption space-y-1">
               <span className="font-bold text-purple-950 dark:text-purple-200 block text-micro">
-                Fuente Web Encontrada por IA:
+                Fuente web encontrada por IA:
               </span>
               <a
                 href={editingIaItem.datosIa?.fuenteUrl}
@@ -1625,7 +1625,7 @@ function EditarProformaContent() {
 
             <div className="space-y-3">
               <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
-                Nuevas Medidas Definitivas (Ajuste Manual)
+                Nuevas medidas definitivas (ajuste manual)
               </label>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -1708,7 +1708,7 @@ function EditarProformaContent() {
                     {manualEvidenceItem.sku}
                   </span>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">
-                    Gestión de SKU Manual ({manualEvidenceItem.totalOfs} OFs)
+                    Gestión de SKU manual ({manualEvidenceItem.totalOfs} OFs)
                   </h3>
                 </div>
               </div>
@@ -1749,7 +1749,7 @@ function EditarProformaContent() {
                 {/* Campo 2: Screenshot / Captura de Pantalla */}
                 <div className="space-y-1.5">
                   <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
-                    Captura / Pantallazo de Respaldo <span className="text-rose-500">*</span>
+                    Captura / pantallazo de respaldo <span className="text-rose-500">*</span>
                   </label>
 
                   {manualFilePreview || manualFile ? (
@@ -1805,7 +1805,7 @@ function EditarProformaContent() {
                             }}
                             className="px-2.5 py-1 bg-white dark:bg-slate-700 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-200 rounded-lg text-micro font-bold cursor-pointer"
                           >
-                            Usar Demo
+                            Usar demo
                           </button>
                         </div>
                       </div>
