@@ -1029,7 +1029,7 @@ function EjecutivoDashboardContent() {
                             </Link>
                           )}
 
-                          {/* Icono 2: Ver Historial / Versiones (Layers) */}
+                          {/* Icono 2: Desplegar Historial / Versiones (Chevron) */}
                           <button
                             type="button"
                             onClick={() => toggleExpandProforma(p.id)}
@@ -1038,13 +1038,17 @@ function EjecutivoDashboardContent() {
                                 ? 'Ocultar historial de versiones'
                                 : `Ver historial de versiones (${versionesLista.length} ${versionesLista.length === 1 ? 'versión' : 'versiones'})`
                             }
-                            className={`px-2.5 py-1.5 rounded-lg border transition-all inline-flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 text-micro font-extrabold ${
+                            className={`p-2 rounded-lg border transition-all inline-flex items-center justify-center shadow-2xs cursor-pointer active:scale-95 ${
                               isExpanded
                                 ? 'bg-purple-700 border-purple-700 text-white shadow-sm ring-2 ring-purple-400/30'
                                 : 'border-purple-200 dark:border-white/10 bg-white dark:bg-slate-800 text-purple-800 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-500/20 hover:border-purple-400 hover:scale-105'
                             }`}
                           >
-                            <Layers className="w-3.5 h-3.5" />
+                            <ChevronDown
+                              className={`w-4 h-4 transition-transform duration-200 ${
+                                isExpanded ? 'rotate-180 text-white' : ''
+                              }`}
+                            />
                           </button>
                         </div>
                       </td>

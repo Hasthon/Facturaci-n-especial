@@ -128,11 +128,11 @@ export default function AprobacionesPage() {
           const updatedHist = hist.map((h, i) =>
             i === hist.length - 1
               ? {
-                  ...h,
-                  estadoSupervision: 'Autorizada' as const,
-                  aprobadoPorSupervisor: user?.name || 'Carlos Muñoz (Jefatura)',
-                  fechaSupervision: nowStr,
-                }
+                ...h,
+                estadoSupervision: 'Autorizada' as const,
+                aprobadoPorSupervisor: user?.name || 'Carlos Muñoz (Jefatura)',
+                fechaSupervision: nowStr,
+              }
               : h
           );
 
@@ -189,12 +189,12 @@ export default function AprobacionesPage() {
           const updatedHist = hist.map((h, i) =>
             i === hist.length - 1
               ? {
-                  ...h,
-                  estadoSupervision: 'Devuelta_Analista' as const,
-                  motivo: rejectionReason,
-                  observaciones: rejectionObservations,
-                  fechaSupervision: nowStr,
-                }
+                ...h,
+                estadoSupervision: 'Devuelta_Analista' as const,
+                motivo: rejectionReason,
+                observaciones: rejectionObservations,
+                fechaSupervision: nowStr,
+              }
               : h
           );
 
@@ -283,11 +283,10 @@ export default function AprobacionesPage() {
           <div className="flex items-center gap-1.5 p-1 bg-gray-100/80 dark:bg-slate-800/80 rounded-xl overflow-x-auto">
             <button
               onClick={() => setActiveTab('pendientes')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
-                activeTab === 'pendientes'
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${activeTab === 'pendientes'
                   ? 'bg-purple-600 text-white shadow-xs'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-              }`}
+                }`}
             >
               <span>Pendientes V°B°</span>
               {pendingCount > 0 && (
@@ -298,31 +297,28 @@ export default function AprobacionesPage() {
             </button>
             <button
               onClick={() => setActiveTab('autorizadas')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activeTab === 'autorizadas'
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'autorizadas'
                   ? 'bg-purple-600 text-white shadow-xs'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-              }`}
+                }`}
             >
               Autorizadas por Jefatura
             </button>
             <button
               onClick={() => setActiveTab('devueltas')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activeTab === 'devueltas'
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'devueltas'
                   ? 'bg-purple-600 text-white shadow-xs'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-              }`}
+                }`}
             >
               Rechazadas / Derivadas
             </button>
             <button
               onClick={() => setActiveTab('todas')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activeTab === 'todas'
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'todas'
                   ? 'bg-purple-600 text-white shadow-xs'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
-              }`}
+                }`}
             >
               Todas las Proformas ({proformas.length})
             </button>
@@ -644,8 +640,8 @@ export default function AprobacionesPage() {
                                     {proforma.estadoSupervision === 'Autorizada'
                                       ? `Autorizada por ${lastVersion?.aprobadoPorSupervisor || 'Jefatura'} (${lastVersion?.fechaSupervision || 'Reciente'})`
                                       : proforma.estadoSupervision === 'Devuelta_Analista'
-                                      ? `Devuelta al ejecutivo (${lastVersion?.motivo || 'Observaciones'})`
-                                      : 'Pendiente de Autorización / V°B°'}
+                                        ? `Devuelta al ejecutivo (${lastVersion?.motivo || 'Observaciones'})`
+                                        : 'Pendiente de Autorización / V°B°'}
                                   </span>
                                 </div>
                               </div>
@@ -667,7 +663,7 @@ export default function AprobacionesPage() {
       {/* ========================================================================= */}
       {comparingProforma && (() => {
         const versions = comparingProforma.historialVersiones || [];
-        
+
         // Determinar índice de la versión objetivo (la más reciente o versión actual)
         const targetIndex = versions.length > 1 ? versions.length - 1 : 1;
         // Determinar índice de la versión fuente (la versión inmediatamente anterior)
@@ -693,11 +689,11 @@ export default function AprobacionesPage() {
         const vTargetVersion = vTarget.version || (comparingProforma.versionActual && comparingProforma.versionActual !== vSourceVersion ? comparingProforma.versionActual : 'v2');
         const vTargetNum = vTarget.numeroVersion || (vTargetVersion === 'v3' ? 3 : vTargetVersion === 'v2' ? 2 : 2);
 
-        const itemsToRender = (vTarget.items && vTarget.items.length > 0) 
-          ? vTarget.items 
+        const itemsToRender = (vTarget.items && vTarget.items.length > 0)
+          ? vTarget.items
           : (vSource?.items && vSource.items.length > 0)
-          ? vSource.items
-          : [];
+            ? vSource.items
+            : [];
 
         return (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
