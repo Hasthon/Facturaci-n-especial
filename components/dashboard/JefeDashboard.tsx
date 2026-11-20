@@ -2393,18 +2393,18 @@ export function JefeDashboard() {
       {/* ========================================================================= */}
       {approvingProforma && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-emerald-200 dark:border-emerald-900/50 p-6 max-w-lg w-full shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-emerald-200 dark:border-emerald-900/50 p-5 max-w-lg w-full max-h-[95vh] overflow-y-auto shadow-2xl space-y-3 animate-in fade-in zoom-in-95 duration-200">
             {/* Cabecera del modal */}
-            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-3">
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
-                  <Check className="w-5 h-5 stroke-[2.5]" />
+                <div className="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold">
+                  <Check className="w-4 h-4 stroke-[2.5]" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white">
                     ¿Estás seguro de aceptar la proforma?
                   </h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-[11px] text-gray-500">
                     Doble validación de autorización comercial y V°B° de jefatura
                   </p>
                 </div>
@@ -2419,7 +2419,7 @@ export function JefeDashboard() {
             </div>
 
             {/* Ficha resumen: ID de la proforma, Cliente y Ejecutivo */}
-            <div className="p-4 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 rounded-xl space-y-2.5">
+            <div className="p-3 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 rounded-xl space-y-1.5">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-gray-500 dark:text-gray-400 font-bold">ID proforma:</span>
                 <span className="font-mono font-bold text-purple-700 dark:text-purple-300">
@@ -2451,11 +2451,11 @@ export function JefeDashboard() {
             </p>
 
             {/* Botones de acción: Cancelar (rojo secundario con contorno y texto) y Sí, aceptar (verde) */}
-            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-gray-100 dark:border-white/10">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-white/10">
               <button
                 type="button"
                 onClick={() => setApprovingProforma(null)}
-                className="px-4 py-2 text-xs font-semibold rounded-xl border border-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 transition-colors cursor-pointer"
+                className="px-3.5 py-1.5 text-xs font-semibold rounded-xl border border-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 transition-colors cursor-pointer"
               >
                 Cancelar
               </button>
@@ -2465,7 +2465,7 @@ export function JefeDashboard() {
                   handleAprobarProforma(approvingProforma.id);
                   setApprovingProforma(null);
                 }}
-                className="px-5 py-2 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
+                className="px-4 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
               >
                 <Check className="w-4 h-4 stroke-[2.5]" />
                 <span>Sí, aceptar</span>
@@ -2480,17 +2480,17 @@ export function JefeDashboard() {
       {/* ========================================================================= */}
       {rejectingProforma && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-red-200 dark:border-red-900/50 p-6 max-w-lg w-full shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-3">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-red-200 dark:border-red-900/50 p-5 max-w-lg w-full max-h-[95vh] overflow-y-auto shadow-2xl space-y-3 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-red-100 dark:bg-red-950/70 text-red-700 dark:text-red-300 flex items-center justify-center font-bold">
-                  <XCircle className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-xl bg-red-100 dark:bg-red-950/70 text-red-700 dark:text-red-300 flex items-center justify-center font-bold">
+                  <XCircle className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white">
                     ¿Estás seguro de rechazar la proforma?
                   </h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-[11px] text-gray-500">
                     Doble validación de devolución con observaciones
                   </p>
                 </div>
@@ -2505,7 +2505,7 @@ export function JefeDashboard() {
             </div>
 
             {/* Ficha resumen con los datos requeridos: ID, Cliente y Ejecutivo */}
-            <div className="p-4 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 rounded-xl space-y-2.5">
+            <div className="p-3 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900/40 rounded-xl space-y-1.5">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-gray-500 dark:text-gray-400 font-bold">ID proforma:</span>
                 <span className="font-mono font-bold text-purple-700 dark:text-purple-300">
@@ -2526,17 +2526,17 @@ export function JefeDashboard() {
               </div>
             </div>
 
-            <form onSubmit={handleConfirmRechazo} className="space-y-4">
+            <form onSubmit={handleConfirmRechazo} className="space-y-3">
               {/* Motivo de Rechazo Principal */}
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
                   Motivo de rechazo / corrección: *
                 </label>
                 <select
                   value={rejectionReason}
                   onChange={(e) => setRejectionReason(e.target.value)}
                   required
-                  className="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none cursor-pointer font-medium"
+                  className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none cursor-pointer font-medium"
                 >
                   <option value="Inconsistencia en tarifas / descuentos">Inconsistencia en tarifas / descuentos</option>
                   <option value="Diferencia en recubitaje / medidas de SKUs">Diferencia en recubitaje / medidas de SKUs</option>
@@ -2549,7 +2549,7 @@ export function JefeDashboard() {
 
               {/* Observaciones Obligatorias */}
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
                   Observaciones detalladas para el ejecutivo ({rejectingProforma.ejecutivoNombre || 'Asignado'}): *
                 </label>
                 <textarea
@@ -2557,24 +2557,24 @@ export function JefeDashboard() {
                   onChange={(e) => setRejectionObservations(e.target.value)}
                   required
                   placeholder="Detalla qué correcciones debe aplicar el ejecutivo antes de volver a solicitar V°B°..."
-                  rows={3}
-                  className="w-full p-3 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none resize-none"
+                  rows={2}
+                  className="w-full p-2.5 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none resize-none"
                 />
               </div>
 
               {/* Botones de confirmación: Cancelar (rojo secundario con contorno y texto) y Sí, rechazar (verde) */}
-              <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-gray-100 dark:border-white/10">
+              <div className="flex items-center justify-end gap-2 pt-1 border-t border-gray-100 dark:border-white/10">
                 <button
                   type="button"
                   onClick={() => setRejectingProforma(null)}
-                  className="px-4 py-2 text-xs font-semibold rounded-xl border border-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 transition-colors cursor-pointer"
+                  className="px-3.5 py-1.5 text-xs font-semibold rounded-xl border border-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={!rejectionObservations.trim()}
-                  className="px-5 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                  className="px-4 py-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                 >
                   <Check className="w-4 h-4 stroke-[2.5]" />
                   <span>Sí, rechazar</span>

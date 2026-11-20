@@ -223,18 +223,18 @@ export function RespuestaClienteModal({
     <>
       {/* Modal Principal de Respuesta */}
       <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 relative flex flex-col max-h-[90vh]">
+        <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 relative flex flex-col max-h-[95vh]">
 
           {/* Header Limpio */}
-          <div className="px-6 pt-6 pb-4 border-b border-gray-100 dark:border-white/10 flex items-start justify-between bg-gradient-to-b from-purple-50/40 to-transparent dark:from-white/5">
-            <div className="space-y-1">
+          <div className="px-5 pt-4 pb-3 border-b border-gray-100 dark:border-white/10 flex items-start justify-between bg-gradient-to-b from-purple-50/40 to-transparent dark:from-white/5">
+            <div className="space-y-0.5">
               <div className="flex items-center gap-2">
                 <span className="font-mono font-extrabold text-micro bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300 px-2 py-0.5 rounded-md">
                   {proforma.id}
                 </span>
                 <span className="text-micro text-gray-500 font-medium">Validación de cliente</span>
               </div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              <h3 className="text-base font-bold text-gray-900 dark:text-gray-100">
                 Registrar respuesta del cliente
               </h3>
               <p className="text-caption text-gray-500 dark:text-gray-400">
@@ -252,23 +252,23 @@ export function RespuestaClienteModal({
           </div>
 
           {/* Contenido con scroll limpio */}
-          <div className="p-6 space-y-5 overflow-y-auto">
+          <div className="p-5 space-y-3.5 overflow-y-auto">
 
             {/* Selector de Estado: Tarjetas Claras */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
                 Resultado de la respuesta <span className="text-purple-600">*</span>
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2.5">
                 <button
                   type="button"
                   onClick={() => setTipoRespuesta('Aprobada')}
-                  className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer ${tipoRespuesta === 'Aprobada'
+                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2.5 cursor-pointer ${tipoRespuesta === 'Aprobada'
                     ? 'bg-emerald-50/80 dark:bg-emerald-500/15 border-emerald-500 ring-2 ring-emerald-500/20 text-emerald-950 dark:text-emerald-200 shadow-xs'
                     : 'bg-white dark:bg-slate-900/40 border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-emerald-300'
                     }`}
                 >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${tipoRespuesta === 'Aprobada'
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${tipoRespuesta === 'Aprobada'
                     ? 'bg-emerald-600 text-white'
                     : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600'
                     }`}>
@@ -283,12 +283,12 @@ export function RespuestaClienteModal({
                 <button
                   type="button"
                   onClick={() => setTipoRespuesta('Rechazada')}
-                  className={`p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer ${tipoRespuesta === 'Rechazada'
+                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2.5 cursor-pointer ${tipoRespuesta === 'Rechazada'
                     ? 'bg-rose-50/80 dark:bg-rose-500/15 border-rose-500 ring-2 ring-rose-500/20 text-rose-950 dark:text-rose-200 shadow-xs'
                     : 'bg-white dark:bg-slate-900/40 border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-rose-300'
                     }`}
                 >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${tipoRespuesta === 'Rechazada'
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${tipoRespuesta === 'Rechazada'
                     ? 'bg-rose-600 text-white'
                     : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600'
                     }`}>
@@ -304,8 +304,8 @@ export function RespuestaClienteModal({
 
             {/* Selector de Motivo de Rechazo */}
             {tipoRespuesta === 'Rechazada' && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <div className="relative space-y-1.5">
+              <div className="space-y-2.5 animate-in fade-in duration-200">
+                <div className="relative space-y-1">
                   <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
                     Motivo del rechazo <span className="text-rose-500">*</span>
                   </label>
@@ -313,7 +313,7 @@ export function RespuestaClienteModal({
                   <button
                     type="button"
                     onClick={() => setMotivoSelectOpen(!motivoSelectOpen)}
-                    className="w-full p-3 bg-white dark:bg-slate-900/60 border border-purple-900/20 dark:border-white/15 hover:border-purple-600 rounded-xl text-body text-gray-900 dark:text-gray-100 font-semibold text-left outline-none shadow-2xs flex items-center justify-between cursor-pointer transition-all"
+                    className="w-full p-2.5 bg-white dark:bg-slate-900/60 border border-purple-900/20 dark:border-white/15 hover:border-purple-600 rounded-xl text-body text-gray-900 dark:text-gray-100 font-semibold text-left outline-none shadow-2xs flex items-center justify-between cursor-pointer transition-all"
                   >
                     <span className="truncate pr-2">{motivoRechazoSelect}</span>
                     <ChevronDown
@@ -353,10 +353,10 @@ export function RespuestaClienteModal({
 
                 {/* Advertencia si es Rechazo en V3 (por medidas o precio -> KAM automático) */}
                 {esRechazoEnV3 && (
-                  <div className="p-3.5 bg-amber-50 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/30 rounded-xl text-caption text-amber-900 dark:text-amber-300 flex items-start gap-2.5 animate-in fade-in duration-200">
+                  <div className="p-3 bg-amber-50 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/30 rounded-xl text-caption text-amber-900 dark:text-amber-300 flex items-start gap-2.5 animate-in fade-in duration-200">
                     <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="block font-bold">Límite de iteraciones alcanzado (Versión V3)</strong>
+                      <strong className="block font-bold">Límite de iteraciones alcanzado (versión V3)</strong>
                       <p className="mt-0.5 leading-relaxed text-micro text-amber-800 dark:text-amber-300">
                         Al rechazar la versión V3 (ya sea por medidas, tarifas o discrepancia comercial), la proforma será derivada automáticamente a la <strong>Subgerencia / Ejecutivo KAM</strong> para resolución directa. No se generará una versión V4.
                       </p>
@@ -367,7 +367,7 @@ export function RespuestaClienteModal({
             )}
 
             {/* Adjunto de Pantallazo del Correo */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
                   Pantallazo del correo de respaldo <span className="text-purple-600">*</span>
@@ -377,10 +377,10 @@ export function RespuestaClienteModal({
 
               {previewUrl || archivoRespaldo ? (
                 /* Tarjeta limpia de archivo cargado */
-                <div className="p-3.5 bg-purple-50/50 dark:bg-purple-900/10 border border-purple-200 dark:border-white/10 rounded-xl flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 flex items-center justify-center shrink-0 border border-emerald-200 dark:border-emerald-500/30">
-                      <FileCheck className="w-5 h-5" />
+                <div className="p-3 bg-purple-50/50 dark:bg-purple-900/10 border border-purple-200 dark:border-white/10 rounded-xl flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 flex items-center justify-center shrink-0 border border-emerald-200 dark:border-emerald-500/30">
+                      <FileCheck className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
                       <p className="font-bold text-caption text-gray-900 dark:text-gray-100 truncate">
@@ -399,14 +399,14 @@ export function RespuestaClienteModal({
                       setPreviewUrl(null);
                     }}
                     title="Eliminar archivo"
-                    className="p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer shrink-0"
+                    className="p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer shrink-0"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               ) : (
                 /* Dropzone Minimalista */
-                <div className="border border-dashed border-gray-300 dark:border-white/20 hover:border-purple-500 rounded-xl p-4 bg-gray-50/50 dark:bg-white/5 text-center transition-all">
+                <div className="border border-dashed border-gray-300 dark:border-white/20 hover:border-purple-500 rounded-xl p-3 bg-gray-50/50 dark:bg-white/5 text-center transition-all">
                   <input
                     type="file"
                     accept="image/*,.pdf"
@@ -414,8 +414,8 @@ export function RespuestaClienteModal({
                     className="hidden"
                     id="pantallazo-upload-input"
                   />
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-9 h-9 rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                       <Upload className="w-4 h-4" />
                     </div>
                     <div>
@@ -424,7 +424,7 @@ export function RespuestaClienteModal({
                       </p>
                       <p className="text-micro text-gray-400 mt-0.5">Máximo 10 MB</p>
                     </div>
-                    <div className="flex items-center gap-2 pt-1">
+                    <div className="flex items-center gap-2 pt-0.5">
                       <label
                         htmlFor="pantallazo-upload-input"
                         className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-micro rounded-lg transition-all cursor-pointer shadow-2xs"
@@ -447,7 +447,7 @@ export function RespuestaClienteModal({
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-white/5 flex items-center justify-end gap-3">
+          <div className="px-5 py-3 border-t border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-white/5 flex items-center justify-end gap-2.5">
             <button
               type="button"
               onClick={onClose}
@@ -471,22 +471,22 @@ export function RespuestaClienteModal({
       {/* ─── POPUP APARTE 1: Aviso de Medidas / Cubitaje ─── */}
       {popupAviso && popupAviso.tipo === 'medidas' && (
         <div className="fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-60 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 p-6 space-y-5 text-left">
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0 shadow-xs">
-                <FileSpreadsheet className="w-6 h-6" />
+          <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 p-5 space-y-3.5 text-left max-h-[95vh] overflow-y-auto">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0 shadow-xs">
+                <FileSpreadsheet className="w-5 h-5" />
               </div>
               <div>
                 <span className="font-mono text-micro font-bold text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 px-2 py-0.5 rounded">
                   {popupAviso.proforma.id}
                 </span>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight mt-0.5">
+                <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 leading-tight mt-0.5">
                   Actualización de medidas requerida
                 </h3>
               </div>
             </div>
 
-            <div className="space-y-2.5 text-body text-gray-700 dark:text-gray-300 bg-purple-50/50 dark:bg-white/5 p-4 rounded-xl border border-purple-100 dark:border-white/5 text-caption leading-relaxed">
+            <div className="space-y-2 text-body text-gray-700 dark:text-gray-300 bg-purple-50/50 dark:bg-white/5 p-3.5 rounded-xl border border-purple-100 dark:border-white/5 text-caption leading-relaxed">
               <p>
                 El cliente rechazó la proforma por <strong>diferencias en recubitaje o medidas de SKUs</strong>.
               </p>
@@ -509,7 +509,7 @@ export function RespuestaClienteModal({
                   );
                   onSuccess(popupAviso.proforma);
                 }}
-                className="w-full sm:w-1/2 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/15 text-gray-700 dark:text-gray-300 rounded-xl text-caption font-bold transition-all cursor-pointer text-center"
+                className="w-full sm:w-1/2 px-3.5 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/15 text-gray-700 dark:text-gray-300 rounded-xl text-caption font-bold transition-all cursor-pointer text-center"
               >
                 Entendido, lo haré después
               </button>
@@ -520,7 +520,7 @@ export function RespuestaClienteModal({
                   onSuccess(popupAviso.proforma);
                   router.push(`/proformas/editar?id=${popupAviso.proforma.id}`);
                 }}
-                className="w-full sm:w-1/2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white rounded-xl text-caption font-bold transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5"
+                className="w-full sm:w-1/2 px-3.5 py-2 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white rounded-xl text-caption font-bold transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5"
               >
                 <span>Actualizar ahora</span>
                 <ArrowRight className="w-4 h-4" />
@@ -533,22 +533,22 @@ export function RespuestaClienteModal({
       {/* ─── POPUP APARTE 2: Aviso de Pricing ─── */}
       {popupAviso && popupAviso.tipo === 'pricing' && (
         <div className="fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-60 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 p-6 space-y-5 text-left">
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 flex items-center justify-center shrink-0 font-bold text-xl shadow-xs">
+          <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 p-5 space-y-3.5 text-left max-h-[95vh] overflow-y-auto">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 flex items-center justify-center shrink-0 font-bold text-lg shadow-xs">
                 $
               </div>
               <div>
                 <span className="font-mono text-micro font-bold text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded">
                   {popupAviso.proforma.id}
                 </span>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight mt-0.5">
-                  Derivación al Área de Pricing
+                <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 leading-tight mt-0.5">
+                  Derivación al área de Pricing
                 </h3>
               </div>
             </div>
 
-            <div className="space-y-2.5 text-body text-gray-700 dark:text-gray-300 bg-blue-50/50 dark:bg-white/5 p-4 rounded-xl border border-blue-100 dark:border-white/5 text-caption leading-relaxed">
+            <div className="space-y-2 text-body text-gray-700 dark:text-gray-300 bg-blue-50/50 dark:bg-white/5 p-3.5 rounded-xl border border-blue-100 dark:border-white/5 text-caption leading-relaxed">
               <p>
                 El rechazo por inconsistencia en tarifas o precios ha sido derivado automáticamente al área de <strong>Pricing</strong> para su análisis y ajuste.
               </p>
@@ -571,7 +571,7 @@ export function RespuestaClienteModal({
                   );
                   onSuccess(popupAviso.proforma);
                 }}
-                className="w-full px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-xl text-caption font-bold transition-all shadow-sm cursor-pointer"
+                className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-xl text-caption font-bold transition-all shadow-sm cursor-pointer"
               >
                 Entendido
               </button>

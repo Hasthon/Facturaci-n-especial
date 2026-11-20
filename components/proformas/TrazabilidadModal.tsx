@@ -90,7 +90,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
 
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-slate-800 border border-purple-900/15 dark:border-white/10 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in duration-150 relative max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-slate-800 border border-purple-900/15 dark:border-white/10 rounded-2xl max-w-2xl w-full p-5 shadow-2xl space-y-3.5 animate-in fade-in zoom-in duration-150 relative max-h-[95vh] overflow-y-auto">
         {/* Botón Cerrar */}
         <button
           type="button"
@@ -101,7 +101,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
         </button>
 
         {/* Header */}
-        <div className="border-b border-gray-100 dark:border-white/10 pb-3 pr-6">
+        <div className="border-b border-gray-100 dark:border-white/10 pb-2.5 pr-6">
           <div className="flex items-center gap-2 mb-1">
             <span className="font-mono font-bold text-micro bg-purple-100 dark:bg-purple-900/40 text-purple-900 dark:text-purple-300 px-2 py-0.5 rounded">
               {proforma.id}
@@ -110,7 +110,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
               RUT: {proforma.rut}
             </span>
           </div>
-          <h3 className="text-h2 font-semibold text-gray-900 dark:text-gray-100">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Trazabilidad comercial y versiones
           </h3>
           <p className="text-caption text-gray-500 dark:text-gray-400">
@@ -123,25 +123,25 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
 
         {/* Banner Especial si fue Derivada a KAM */}
         {esDerivadaKAM && (
-          <div className="p-4 bg-amber-500/10 dark:bg-amber-500/15 border border-amber-400 dark:border-amber-500/30 rounded-xl space-y-1.5 animate-in fade-in duration-200">
+          <div className="p-3 bg-amber-500/10 dark:bg-amber-500/15 border border-amber-400 dark:border-amber-500/30 rounded-xl space-y-1 animate-in fade-in duration-200">
             <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-extrabold text-caption">
-              <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0" />
+              <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
               <span>Proforma derivada automáticamente a KAM (resolución comercial)</span>
             </div>
-            <p className="text-body text-gray-700 dark:text-gray-300 leading-relaxed pl-7">
-              Esta proforma alcanzó el límite máximo de iteraciones (Versión V3). Conforme a las normas de gobernanza de Facturación Especial, no se emitirán versiones adicionales (máximo V3) y la gestión ha sido traspasada formalmente a la <strong>Subgerencia / Ejecutivo KAM</strong>.
+            <p className="text-body text-gray-700 dark:text-gray-300 leading-relaxed pl-6 text-caption">
+              Esta proforma alcanzó el límite máximo de iteraciones (versión V3). Conforme a las normas de gobernanza de facturación especial, no se emitirán versiones adicionales (máximo V3) y la gestión ha sido traspasada formalmente a la <strong>Subgerencia / Ejecutivo KAM</strong>.
             </p>
           </div>
         )}
 
         {/* Timeline de Versiones */}
-        <div className="space-y-4 relative before:absolute before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-purple-200 dark:before:bg-white/10">
+        <div className="space-y-3 relative before:absolute before:left-5 before:top-3 before:bottom-3 before:w-0.5 before:bg-purple-200 dark:before:bg-white/10">
           {historial.map((item, idx) => {
             const isRechazado = !!item.fechaRechazo;
             const isAprobado = !!item.fechaAprobacion;
 
             return (
-              <div key={idx} className="relative pl-12 space-y-2">
+              <div key={idx} className="relative pl-12 space-y-1.5">
                 {/* Node Icon */}
                 <div
                   className={`absolute left-2.5 top-0 -translate-x-1/2 w-6 h-6 rounded-full border-2 flex items-center justify-center font-bold text-micro shadow-2xs ${
@@ -156,8 +156,8 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                 </div>
 
                 {/* Card de la Versión */}
-                <div className="bg-purple-50/40 dark:bg-slate-900/50 border border-purple-900/10 dark:border-white/10 rounded-xl p-4 space-y-3">
-                  <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-2">
+                <div className="bg-purple-50/40 dark:bg-slate-900/50 border border-purple-900/10 dark:border-white/10 rounded-xl p-3 space-y-2">
+                  <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-1.5">
                     <div className="flex items-center gap-2">
                       <span className="font-extrabold text-caption uppercase tracking-wider text-purple-950 dark:text-purple-200">
                         Proforma {item.version.toUpperCase()}
@@ -185,8 +185,8 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                   </div>
 
                   {/* Grid de Fechas Auditables */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-caption">
-                    <div className="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-purple-900/10 dark:border-white/10 space-y-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-caption">
+                    <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-purple-900/10 dark:border-white/10 space-y-0.5">
                       <span className="text-micro font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block flex items-center gap-1">
                         <Calendar className="w-3 h-3 text-purple-600" /> Fecha y hora de creación
                       </span>
@@ -195,7 +195,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                       </strong>
                     </div>
 
-                    <div className="bg-white dark:bg-slate-800 p-2.5 rounded-lg border border-purple-900/10 dark:border-white/10 space-y-1">
+                    <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-purple-900/10 dark:border-white/10 space-y-0.5">
                       <span className="text-micro font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block flex items-center gap-1">
                         <Clock className="w-3 h-3 text-purple-600" /> Fecha y hora de respuesta
                       </span>
@@ -215,14 +215,14 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
 
                   {/* Motivo de rechazo si aplica */}
                   {item.motivo && (
-                    <div className="p-2.5 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-lg text-caption text-rose-800 dark:text-rose-300">
+                    <div className="p-2 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-lg text-caption text-rose-800 dark:text-rose-300">
                       <strong>Motivo registrado por el cliente:</strong> {item.motivo}
                     </div>
                   )}
 
                   {/* Comprobante del Correo */}
                   {item.respaldoCorreoUrl && (
-                    <div className="p-2.5 bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-lg flex items-center justify-between">
+                    <div className="p-2 bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-lg flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <FileImage className="w-4 h-4 text-purple-600 shrink-0" />
                         <span className="text-caption font-bold text-gray-800 dark:text-gray-200">
@@ -241,11 +241,11 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                   )}
 
                   {/* Botón Descargar Copia de Proforma */}
-                  <div className="pt-1 flex justify-end">
+                  <div className="pt-0.5 flex justify-end">
                     <button
                       type="button"
                       onClick={() => handleDescargarProformaVersion(item.version)}
-                      className="text-[11px] font-bold text-purple-700 dark:text-purple-300 hover:text-purple-900 hover:underline inline-flex items-center gap-1.5 cursor-pointer py-1"
+                      className="text-[11px] font-bold text-purple-700 dark:text-purple-300 hover:text-purple-900 hover:underline inline-flex items-center gap-1.5 cursor-pointer py-0.5"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span>Descargar proforma ({item.version.toUpperCase()})</span>
@@ -258,15 +258,15 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
 
           {/* Hito Final: Card Dedicada de Facturación Registrada */}
           {esFacturado && (
-            <div className="relative pl-12 space-y-2 pt-1 animate-in fade-in duration-300">
+            <div className="relative pl-12 space-y-1.5 pt-0.5 animate-in fade-in duration-300">
               {/* Node Icon de Facturación */}
               <div className="absolute left-2.5 top-1 -translate-x-1/2 w-6 h-6 rounded-full bg-emerald-600 border-2 border-white text-white flex items-center justify-center shadow-xs">
                 <Receipt className="w-3.5 h-3.5" />
               </div>
 
-              <div className="bg-gradient-to-br from-purple-50 via-white to-indigo-50/40 dark:from-slate-900 dark:via-purple-950/20 dark:to-slate-900 border-2 border-purple-300 dark:border-purple-800/60 rounded-xl p-4 space-y-3 shadow-xs">
+              <div className="bg-gradient-to-br from-purple-50 via-white to-indigo-50/40 dark:from-slate-900 dark:via-purple-950/20 dark:to-slate-900 border-2 border-purple-300 dark:border-purple-800/60 rounded-xl p-3 space-y-2.5 shadow-xs">
                 {/* Cabecera de la Card de Facturación */}
-                <div className="flex items-center justify-between border-b border-purple-100 dark:border-purple-900/40 pb-2.5">
+                <div className="flex items-center justify-between border-b border-purple-100 dark:border-purple-900/40 pb-2">
                   <div className="flex items-center gap-2">
                     <span className="w-7 h-7 rounded-lg bg-purple-700 text-white flex items-center justify-center shrink-0">
                       <Receipt className="w-4 h-4" />
@@ -281,15 +281,15 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                     </div>
                   </div>
 
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-micro font-extrabold bg-emerald-100 text-emerald-900 dark:bg-emerald-500/20 dark:text-emerald-300 border border-emerald-300 shadow-2xs">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-micro font-extrabold bg-emerald-100 text-emerald-900 dark:bg-emerald-500/20 dark:text-emerald-300 border border-emerald-300 shadow-2xs">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                     Facturado · N° {proforma.numeroFactura || '890214'}
                   </span>
                 </div>
 
                 {/* Grid de Metadatos de la Factura */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-caption">
-                  <div className="bg-white/80 dark:bg-slate-800 p-2.5 rounded-lg border border-purple-100 dark:border-white/10 space-y-0.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-caption">
+                  <div className="bg-white/80 dark:bg-slate-800 p-2 rounded-lg border border-purple-100 dark:border-white/10 space-y-0.5">
                     <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block flex items-center gap-1">
                       <Calendar className="w-3 h-3 text-purple-600" /> Fecha de registro / emisión
                     </span>
@@ -298,7 +298,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                     </strong>
                   </div>
 
-                  <div className="bg-white/80 dark:bg-slate-800 p-2.5 rounded-lg border border-purple-100 dark:border-white/10 space-y-0.5">
+                  <div className="bg-white/80 dark:bg-slate-800 p-2 rounded-lg border border-purple-100 dark:border-white/10 space-y-0.5">
                     <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block flex items-center gap-1">
                       <DollarSign className="w-3 h-3 text-purple-600" /> Monto facturado oficial
                     </span>
@@ -309,10 +309,10 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                 </div>
 
                 {/* Ficha Documento Adjunto */}
-                <div className="p-3 bg-white dark:bg-slate-800/90 border border-purple-200 dark:border-purple-800/40 rounded-xl flex items-center justify-between gap-2">
+                <div className="p-2.5 bg-white dark:bg-slate-800/90 border border-purple-200 dark:border-purple-800/40 rounded-xl flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5 overflow-hidden">
-                    <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0">
-                      <FileText className="w-4 h-4" />
+                    <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0">
+                      <FileText className="w-3.5 h-3.5" />
                     </div>
                     <div className="truncate">
                       <span className="text-xs font-bold text-gray-900 dark:text-gray-100 block truncate">
@@ -329,7 +329,7 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                 <button
                   type="button"
                   onClick={handleDescargarFactura}
-                  className="w-full py-2.5 px-4 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white rounded-xl text-xs font-extrabold shadow-md shadow-purple-700/20 transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-98"
+                  className="w-full py-2 px-3.5 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white rounded-xl text-xs font-extrabold shadow-md shadow-purple-700/20 transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-98"
                 >
                   <Download className="w-4 h-4" />
                   <span>Descargar factura emitida (PDF)</span>

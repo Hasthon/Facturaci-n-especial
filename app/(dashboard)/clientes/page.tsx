@@ -659,17 +659,17 @@ export default function ClientesPage() {
       {/* ========================================================================= */}
       {reassignModalClient && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-purple-200 dark:border-white/10 p-6 max-w-lg w-full shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-3">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-purple-200 dark:border-white/10 p-5 max-w-lg w-full max-h-[95vh] overflow-y-auto shadow-2xl space-y-3.5 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
-                  <UserPlus className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
+                  <UserPlus className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white">
                     {reassignModalClient.ejecutivoId ? 'Reasignar ejecutivo responsable' : 'Asignar ejecutivo responsable'}
                   </h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-[11px] text-gray-500">
                     Impactará directamente en la gestión de las proformas asociadas.
                   </p>
                 </div>
@@ -683,27 +683,27 @@ export default function ClientesPage() {
             </div>
 
             {/* Datos del Cliente */}
-            <div className="p-3 bg-purple-50/60 dark:bg-purple-950/30 rounded-xl border border-purple-100 dark:border-purple-900/30 text-xs space-y-1">
+            <div className="p-2.5 bg-purple-50/60 dark:bg-purple-950/30 rounded-xl border border-purple-100 dark:border-purple-900/30 text-xs space-y-0.5">
               <div className="font-bold text-gray-900 dark:text-white">
                 {reassignModalClient.razonSocial}
               </div>
-              <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400 text-[11px]">
                 <span>RUT: <strong className="font-mono">{reassignModalClient.rut}</strong></span>
                 <span>Ejecutivo actual: <strong>{reassignModalClient.ejecutivoNombre || 'Sin asignar'}</strong></span>
               </div>
             </div>
 
-            <form onSubmit={handleConfirmAssignment} className="space-y-4">
+            <form onSubmit={handleConfirmAssignment} className="space-y-3">
               {/* Selector de Nuevo Ejecutivo */}
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
-                  Seleccionar Ejecutivo de Facturación Especial: *
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+                  Seleccionar ejecutivo de facturación especial: *
                 </label>
                 <select
                   value={targetExecutiveId}
                   onChange={(e) => setTargetExecutiveId(e.target.value)}
                   required
-                  className="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none cursor-pointer font-medium"
+                  className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none cursor-pointer font-medium"
                 >
                   <option value="">-- Seleccionar un ejecutivo --</option>
                   {executives.map((exe) => (
@@ -715,7 +715,7 @@ export default function ClientesPage() {
               </div>
 
               {/* Período de asignación */}
-              <div className="space-y-3 p-3.5 bg-gray-50/80 dark:bg-slate-800/40 rounded-xl border border-gray-200/80 dark:border-white/5">
+              <div className="space-y-2.5 p-3 bg-gray-50/80 dark:bg-slate-800/40 rounded-xl border border-gray-200/80 dark:border-white/5">
                 <div className="flex items-center gap-1.5 text-xs font-bold text-gray-800 dark:text-gray-200">
                   <Calendar className="w-3.5 h-3.5 text-purple-600" />
                   <span>Período de asignación:</span>
@@ -731,12 +731,12 @@ export default function ClientesPage() {
                     value={assignmentStartDate}
                     onChange={(e) => setAssignmentStartDate(e.target.value)}
                     required
-                    className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none cursor-pointer"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none cursor-pointer"
                   />
                 </div>
 
                 {/* Checkbox Período Definido */}
-                <div className="pt-1">
+                <div className="pt-0.5">
                   <label className="inline-flex items-center gap-2 cursor-pointer select-none">
                     <input
                       type="checkbox"
@@ -765,7 +765,7 @@ export default function ClientesPage() {
                       min={assignmentStartDate || undefined}
                       onChange={(e) => setAssignmentEndDate(e.target.value)}
                       required={hasDefinedPeriod}
-                      className={`w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border rounded-xl text-gray-800 dark:text-gray-200 outline-none transition-all cursor-pointer ${isEndDateInvalid
+                      className={`w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border rounded-xl text-gray-800 dark:text-gray-200 outline-none transition-all cursor-pointer ${isEndDateInvalid
                           ? 'border-rose-500 focus:ring-2 focus:ring-rose-500/20'
                           : 'border-gray-200 dark:border-white/10 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10'
                         }`}
@@ -781,11 +781,11 @@ export default function ClientesPage() {
               </div>
 
               {/* Botones de acción */}
-              <div className="flex items-center justify-end gap-2.5 pt-2">
+              <div className="flex items-center justify-end gap-2 pt-1">
                 <button
                   type="button"
                   onClick={() => setReassignModalClient(null)}
-                  className="px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
+                  className="px-3.5 py-1.5 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
@@ -796,10 +796,10 @@ export default function ClientesPage() {
                     !assignmentStartDate ||
                     (hasDefinedPeriod && (!assignmentEndDate || isEndDateInvalid))
                   }
-                  className="px-4 py-2 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                 >
                   <Check className="w-4 h-4" />
-                  Confirmar Asignación
+                  Confirmar asignación
                 </button>
               </div>
             </form>
@@ -812,16 +812,16 @@ export default function ClientesPage() {
       {/* ========================================================================= */}
       {selectedClientDetail && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-purple-200 dark:border-white/10 max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-purple-200 dark:border-white/10 max-w-4xl w-full max-h-[95vh] overflow-y-auto shadow-2xl p-5 space-y-3.5 animate-in fade-in zoom-in-95 duration-200">
             {/* Encabezado Ficha 360 */}
-            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-4">
+            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-3">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white font-extrabold text-base flex items-center justify-center shadow-sm">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white font-extrabold text-base flex items-center justify-center shadow-sm">
                   {selectedClientDetail.nombreFantasia.slice(0, 2).toUpperCase()}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
                       {selectedClientDetail.razonSocial}
                     </h2>
                     {renderEstadoBadge(selectedClientDetail.estado, selectedClientDetail.mesesInactivo)}
@@ -841,12 +841,12 @@ export default function ClientesPage() {
             </div>
 
             {/* Grid 3 Columnas: Info General, Cuenta Corriente, Ejecutivo */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {/* Columna 1: Contacto Principal */}
-              <div className="p-4 bg-purple-50/50 dark:bg-slate-800/50 rounded-xl border border-purple-100/70 dark:border-white/5 space-y-2">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 dark:text-purple-300 uppercase tracking-wider">
-                  <Briefcase className="w-4 h-4 text-purple-600" />
-                  Contacto Principal
+              <div className="p-3 bg-purple-50/50 dark:bg-slate-800/50 rounded-xl border border-purple-100/70 dark:border-white/5 space-y-1.5">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 dark:text-purple-300">
+                  <Briefcase className="w-3.5 h-3.5 text-purple-600" />
+                  Contacto principal
                 </div>
                 <div className="text-xs">
                   <p className="font-bold text-gray-900 dark:text-white">
@@ -867,11 +867,11 @@ export default function ClientesPage() {
               </div>
 
               {/* Columna 2: Cuenta Corriente Comercial */}
-              <div className="p-4 bg-purple-50/50 dark:bg-slate-800/50 rounded-xl border border-purple-100/70 dark:border-white/5 space-y-2">
+              <div className="p-3 bg-purple-50/50 dark:bg-slate-800/50 rounded-xl border border-purple-100/70 dark:border-white/5 space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 dark:text-purple-300 uppercase tracking-wider">
-                    <CreditCard className="w-4 h-4 text-purple-600" />
-                    Cuenta Corriente
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 dark:text-purple-300">
+                    <CreditCard className="w-3.5 h-3.5 text-purple-600" />
+                    Cuenta corriente
                   </div>
                   <button
                     onClick={() => {
@@ -885,7 +885,7 @@ export default function ClientesPage() {
                     Cambiar
                   </button>
                 </div>
-                <div className="text-xs space-y-1">
+                <div className="text-xs space-y-0.5">
                   <div className="font-mono font-bold text-gray-900 dark:text-white flex items-center justify-between">
                     <span>{selectedClientDetail.cuentaCorriente.numero}</span>
                     <span className="text-[10px] font-sans font-normal text-gray-500">
@@ -898,7 +898,7 @@ export default function ClientesPage() {
                       ? 'cuenta disponible'
                       : 'cuentas disponibles'}
                   </div>
-                  <div className="pt-1 text-[11px] flex justify-between">
+                  <div className="pt-0.5 text-[11px] flex justify-between">
                     <span className="text-gray-500">Línea de crédito:</span>
                     <span className="font-semibold text-gray-800 dark:text-gray-200">
                       {formatCurrency(selectedClientDetail.cuentaCorriente.lineaCredito)}
@@ -914,10 +914,10 @@ export default function ClientesPage() {
               </div>
 
               {/* Columna 3: Ejecutivo Responsable */}
-              <div className="p-4 bg-purple-50/50 dark:bg-slate-800/50 rounded-xl border border-purple-100/70 dark:border-white/5 space-y-2">
+              <div className="p-3 bg-purple-50/50 dark:bg-slate-800/50 rounded-xl border border-purple-100/70 dark:border-white/5 space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 dark:text-purple-300 uppercase tracking-wider">
-                    <UserCheck className="w-4 h-4 text-purple-600" />
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 dark:text-purple-300">
+                    <UserCheck className="w-3.5 h-3.5 text-purple-600" />
                     Ejecutivo
                   </div>
                   <button
@@ -933,10 +933,10 @@ export default function ClientesPage() {
                       {selectedClientDetail.ejecutivoNombre}
                     </p>
                     <p className="text-gray-500 text-[11px]">
-                      Ejecutivo de Facturación Especial
+                      Ejecutivo de facturación especial
                     </p>
-                    <div className="mt-2 text-[10px] px-2 py-0.5 bg-purple-100 text-purple-800 dark:bg-purple-950/70 dark:text-purple-300 rounded inline-block font-semibold">
-                      Asignación Activa
+                    <div className="mt-1.5 text-[10px] px-2 py-0.5 bg-purple-100 text-purple-800 dark:bg-purple-950/70 dark:text-purple-300 rounded inline-block font-semibold">
+                      Asignación activa
                     </div>
                   </div>
                 ) : (
@@ -948,14 +948,14 @@ export default function ClientesPage() {
             </div>
 
             {/* Condiciones Comerciales Vigentes */}
-            <div className="p-4 bg-gray-50 dark:bg-slate-800/60 rounded-xl border border-gray-200/80 dark:border-white/5 space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider">
-                <Tag className="w-4 h-4 text-purple-600" />
-                Condiciones Comerciales Asociadas
+            <div className="p-3 bg-gray-50 dark:bg-slate-800/60 rounded-xl border border-gray-200/80 dark:border-white/5 space-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-gray-800 dark:text-gray-200">
+                <Tag className="w-3.5 h-3.5 text-purple-600" />
+                Condiciones comerciales asociadas
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                 <div>
-                  <span className="text-gray-500 text-[11px] block">Tipo de Acuerdo:</span>
+                  <span className="text-gray-500 text-[11px] block">Tipo de acuerdo:</span>
                   <strong className="text-gray-900 dark:text-white">
                     {selectedClientDetail.condicionesComerciales.tipo}
                   </strong>
@@ -974,7 +974,7 @@ export default function ClientesPage() {
                 </div>
               </div>
               {selectedClientDetail.condicionesComerciales.observaciones && (
-                <p className="text-[11px] text-gray-600 dark:text-gray-400 italic bg-white dark:bg-slate-900 p-2 rounded-lg border border-gray-100 dark:border-white/5">
+                <p className="text-[11px] text-gray-600 dark:text-gray-400 italic bg-white dark:bg-slate-900 p-1.5 rounded-lg border border-gray-100 dark:border-white/5">
                   Obs: {selectedClientDetail.condicionesComerciales.observaciones}
                 </p>
               )}
@@ -982,29 +982,29 @@ export default function ClientesPage() {
 
             {/* KPIs Históricos del Cliente (Punto 7 Requerimiento Jira) */}
             <div>
-              <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">
+              <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
                 Desempeño y comportamiento histórico de proformas
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="p-3 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+                <div className="p-2.5 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
                   <div className="text-[10px] text-gray-500">Proformas generadas</div>
                   <div className="text-base font-bold text-gray-900 dark:text-white">
                     {selectedClientDetail.kpis.proformasTotales}
                   </div>
                 </div>
-                <div className="p-3 bg-emerald-50/40 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 rounded-xl text-center">
+                <div className="p-2.5 bg-emerald-50/40 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 rounded-xl text-center">
                   <div className="text-[10px] text-emerald-700 dark:text-emerald-400">Tasa de aprobación</div>
                   <div className="text-base font-bold text-emerald-600 dark:text-emerald-300">
                     {selectedClientDetail.kpis.tasaAprobacion}%
                   </div>
                 </div>
-                <div className="p-3 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
+                <div className="p-2.5 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
                   <div className="text-[10px] text-gray-500">Promedio de versiones</div>
                   <div className="text-base font-bold text-purple-700 dark:text-purple-300">
                     {selectedClientDetail.kpis.promedioVersiones} v
                   </div>
                 </div>
-                <div className="p-3 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
+                <div className="p-2.5 bg-purple-50/40 dark:bg-slate-800/40 border border-purple-100 dark:border-white/5 rounded-xl text-center">
                   <div className="text-[10px] text-gray-500">Tiempo de aprobación</div>
                   <div className="text-base font-bold text-gray-900 dark:text-white">
                     {selectedClientDetail.kpis.tiempoPromedioAprobacionDias} días
@@ -1015,24 +1015,24 @@ export default function ClientesPage() {
 
             {/* Historial de Modificaciones y Trazabilidad */}
             <div>
-              <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <History className="w-4 h-4 text-purple-600" />
+              <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1.5">
+                <History className="w-3.5 h-3.5 text-purple-600" />
                 Historial de modificaciones de la ficha
               </h3>
-              <div className="space-y-2 max-h-40 overflow-y-auto">
+              <div className="space-y-1.5 max-h-28 overflow-y-auto pr-0.5">
                 {selectedClientDetail.historialModificaciones.length === 0 ? (
-                  <p className="text-xs text-gray-400 italic py-2">
+                  <p className="text-xs text-gray-400 italic py-1">
                     Sin modificaciones registradas en esta ficha.
                   </p>
                 ) : (
                   selectedClientDetail.historialModificaciones.map((h) => (
                     <div
                       key={h.id}
-                      className="p-2.5 rounded-xl bg-gray-50 dark:bg-slate-800/60 border border-gray-100 dark:border-white/5 text-xs flex items-start justify-between gap-3"
+                      className="p-2 rounded-xl bg-gray-50 dark:bg-slate-800/60 border border-gray-100 dark:border-white/5 text-xs flex items-start justify-between gap-3"
                     >
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-purple-700 dark:text-purple-300">
+                          <span className="font-semibold text-purple-700 dark:text-purple-300 text-[11px]">
                             {h.tipoModificacion}
                           </span>
                           <span className="text-[10px] text-gray-500">
@@ -1053,10 +1053,10 @@ export default function ClientesPage() {
             </div>
 
             {/* Botón de Cierre */}
-            <div className="pt-2 flex justify-end">
+            <div className="pt-1 flex justify-end">
               <button
                 onClick={() => setSelectedClientDetail(null)}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+                className="px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
               >
                 Cerrar
               </button>
@@ -1069,17 +1069,17 @@ export default function ClientesPage() {
       {/* ========================================================================= */}
       {accountModalClient && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-purple-200 dark:border-white/10 p-6 max-w-lg w-full shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-3">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-purple-200 dark:border-white/10 p-5 max-w-lg w-full max-h-[95vh] overflow-y-auto shadow-2xl space-y-3.5 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
-                  <CreditCard className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
+                  <CreditCard className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-gray-900 dark:text-white">
-                    Cambiar Cuenta Corriente
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white">
+                    Cambiar cuenta corriente
                   </h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-[11px] text-gray-500">
                     Selecciona entre las cuentas corrientes disponibles del cliente.
                   </p>
                 </div>
@@ -1093,11 +1093,11 @@ export default function ClientesPage() {
             </div>
 
             {/* Datos del Cliente */}
-            <div className="p-3 bg-purple-50/60 dark:bg-purple-950/30 rounded-xl border border-purple-100 dark:border-purple-900/30 text-xs space-y-1">
+            <div className="p-2.5 bg-purple-50/60 dark:bg-purple-950/30 rounded-xl border border-purple-100 dark:border-purple-900/30 text-xs space-y-0.5">
               <div className="font-bold text-gray-900 dark:text-white">
                 {accountModalClient.razonSocial}
               </div>
-              <div className="flex items-center justify-between text-gray-600 dark:text-gray-400">
+              <div className="flex items-center justify-between text-gray-600 dark:text-gray-400 text-[11px]">
                 <span>RUT: <strong className="font-mono">{accountModalClient.rut}</strong></span>
                 <span className="font-medium text-purple-700 dark:text-purple-300">
                   {accountModalClient.cuentasCorrientes?.length || 1}{' '}
@@ -1106,13 +1106,13 @@ export default function ClientesPage() {
               </div>
             </div>
 
-            <form onSubmit={handleConfirmAccountChange} className="space-y-4">
+            <form onSubmit={handleConfirmAccountChange} className="space-y-3">
               {/* Lista de Cuentas Corrientes Disponibles */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300">
                   Seleccionar cuenta activa para facturación: *
                 </label>
-                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
                   {(accountModalClient.cuentasCorrientes || [accountModalClient.cuentaCorriente]).map((acc) => {
                     const isSelected = selectedAccountId === acc.id;
                     const isCurrent = accountModalClient.cuentaCorriente.id === acc.id;
@@ -1120,7 +1120,7 @@ export default function ClientesPage() {
                       <div
                         key={acc.id}
                         onClick={() => setSelectedAccountId(acc.id)}
-                        className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${isSelected
+                        className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${isSelected
                           ? 'bg-purple-50/90 dark:bg-purple-950/60 border-purple-500 dark:border-purple-500 shadow-xs ring-1 ring-purple-500'
                           : 'bg-white dark:bg-slate-800/80 border-gray-200 dark:border-white/10 hover:border-purple-300'
                           }`}
@@ -1152,7 +1152,7 @@ export default function ClientesPage() {
                                 {acc.alias}
                               </p>
                             )}
-                            <div className="flex items-center gap-3 text-[10px] text-gray-500 mt-1">
+                            <div className="flex items-center gap-3 text-[10px] text-gray-500 mt-0.5">
                               <span>Línea: <strong className="text-gray-700 dark:text-gray-300">{formatCurrency(acc.lineaCredito)}</strong></span>
                               <span>Disponible: <strong className="text-emerald-600 dark:text-emerald-400">{formatCurrency(acc.saldoDisponible)}</strong></span>
                             </div>
@@ -1166,7 +1166,7 @@ export default function ClientesPage() {
 
               {/* Motivo de cambio de cuenta */}
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
                   Motivo o referencia del cambio (opcional):
                 </label>
                 <input
@@ -1174,26 +1174,26 @@ export default function ClientesPage() {
                   value={accountChangeReason}
                   onChange={(e) => setAccountChangeReason(e.target.value)}
                   placeholder="Ej: Solicitud de cliente, cambio de centro de costos, convenio específico..."
-                  className="w-full px-3.5 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none"
+                  className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none"
                 />
               </div>
 
               {/* Botones de acción */}
-              <div className="flex items-center justify-end gap-2.5 pt-2">
+              <div className="flex items-center justify-end gap-2 pt-1">
                 <button
                   type="button"
                   onClick={() => setAccountModalClient(null)}
-                  className="px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
+                  className="px-3.5 py-1.5 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={!selectedAccountId}
-                  className="px-4 py-2 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                 >
                   <Check className="w-4 h-4" />
-                  Confirmar Cambio
+                  Confirmar cambio
                 </button>
               </div>
             </form>

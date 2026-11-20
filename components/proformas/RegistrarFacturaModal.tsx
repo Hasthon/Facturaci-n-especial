@@ -103,27 +103,27 @@ export function RegistrarFacturaModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-white/10 shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-white/10 shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
         
         {/* Cabecera */}
-        <div className="p-5 bg-gradient-to-r from-purple-700 to-indigo-800 text-white relative">
+        <div className="p-4 bg-gradient-to-r from-purple-700 to-indigo-800 text-white relative">
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-4 right-4 text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+            className="absolute top-3.5 right-3.5 text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
           
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center backdrop-blur-xs shadow-inner">
+            <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center backdrop-blur-xs shadow-inner">
               <Receipt className="w-5 h-5 text-white" />
             </div>
             <div>
-              <span className="text-[11px] font-bold tracking-wider uppercase text-purple-200 block">
+              <span className="text-[10px] font-bold tracking-wider uppercase text-purple-200 block">
                 Cierre del ciclo comercial
               </span>
-              <h2 className="text-lg font-bold leading-tight">
+              <h2 className="text-base font-bold leading-tight">
                 Registrar factura emitida
               </h2>
             </div>
@@ -131,7 +131,7 @@ export function RegistrarFacturaModal({
         </div>
 
         {/* Resumen Proforma */}
-        <div className="px-5 py-3 bg-purple-50/60 dark:bg-purple-950/20 border-b border-purple-100 dark:border-purple-900/30 flex items-center justify-between text-xs">
+        <div className="px-4 py-2.5 bg-purple-50/60 dark:bg-purple-950/20 border-b border-purple-100 dark:border-purple-900/30 flex items-center justify-between text-xs">
           <div className="space-y-0.5">
             <div className="flex items-center gap-1.5 font-bold text-gray-900 dark:text-gray-100">
               <Building2 className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
@@ -150,9 +150,9 @@ export function RegistrarFacturaModal({
         </div>
 
         {/* Formulario */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto">
+        <form onSubmit={handleSubmit} className="p-4 space-y-3 overflow-y-auto">
           {errorMsg && (
-            <div className="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 rounded-xl flex items-center gap-2.5 text-xs text-rose-700 dark:text-rose-300">
+            <div className="p-2.5 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 rounded-xl flex items-center gap-2 text-xs text-rose-700 dark:text-rose-300">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{errorMsg}</span>
             </div>
@@ -160,7 +160,7 @@ export function RegistrarFacturaModal({
 
           {/* Número de Factura */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
               Número de factura oficial <span className="text-rose-500">*</span>
             </label>
             <div className="relative flex items-center">
@@ -173,26 +173,26 @@ export function RegistrarFacturaModal({
                   if (errorMsg) setErrorMsg('');
                 }}
                 placeholder="Ej: FAC-894210 o 1092834"
-                className="w-full h-10 pl-9 pr-3 text-xs font-mono font-bold bg-gray-50 dark:bg-slate-800 border border-gray-300 dark:border-white/10 rounded-xl text-gray-900 dark:text-gray-100 outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 transition-all"
+                className="w-full h-9 pl-9 pr-3 text-xs font-mono font-bold bg-gray-50 dark:bg-slate-800 border border-gray-300 dark:border-white/10 rounded-xl text-gray-900 dark:text-gray-100 outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 transition-all"
                 required
               />
             </div>
-            <span className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 block">
+            <span className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 block">
               Ingresa el folio o número correlativo generado en el sistema de facturación.
             </span>
           </div>
 
           {/* Adjuntar Documento de Respaldo */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-              Documento de Factura (PDF / Imagen) <span className="text-rose-500">*</span>
+            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+              Documento de factura (PDF / imagen) <span className="text-rose-500">*</span>
             </label>
             
             {archivoFactura || archivoNombreDemo ? (
-              <div className="p-3 bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 rounded-xl flex items-center justify-between">
-                <div className="flex items-center gap-2.5 overflow-hidden">
-                  <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0">
-                    <FileText className="w-4 h-4" />
+              <div className="p-2.5 bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 rounded-xl flex items-center justify-between">
+                <div className="flex items-center gap-2 overflow-hidden">
+                  <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0">
+                    <FileText className="w-3.5 h-3.5" />
                   </div>
                   <div className="truncate">
                     <span className="text-xs font-bold text-purple-950 dark:text-purple-200 block truncate">
@@ -209,16 +209,16 @@ export function RegistrarFacturaModal({
                     setArchivoFactura(null);
                     setArchivoNombreDemo(null);
                   }}
-                  className="p-1.5 text-gray-400 hover:text-rose-600 rounded-lg transition-colors cursor-pointer"
+                  className="p-1 text-gray-400 hover:text-rose-600 rounded-lg transition-colors cursor-pointer"
                   title="Eliminar archivo"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             ) : (
-              <div className="space-y-2">
-                <label className="border-2 border-dashed border-gray-300 dark:border-white/10 hover:border-purple-400 dark:hover:border-purple-500 rounded-xl p-4 flex flex-col items-center justify-center gap-1.5 cursor-pointer bg-gray-50/50 dark:bg-slate-800/40 transition-colors">
-                  <Upload className="w-5 h-5 text-gray-400 group-hover:text-purple-600" />
+              <div className="space-y-1.5">
+                <label className="border-2 border-dashed border-gray-300 dark:border-white/10 hover:border-purple-400 dark:hover:border-purple-500 rounded-xl p-3 flex flex-col items-center justify-center gap-1 cursor-pointer bg-gray-50/50 dark:bg-slate-800/40 transition-colors">
+                  <Upload className="w-4 h-4 text-gray-400 group-hover:text-purple-600" />
                   <span className="text-xs font-bold text-gray-700 dark:text-gray-300 text-center">
                     Haz clic para subir o arrastra el documento de la factura
                   </span>
@@ -235,7 +235,7 @@ export function RegistrarFacturaModal({
                   <button
                     type="button"
                     onClick={handleSimularArchivo}
-                    className="text-[11px] font-semibold text-purple-700 dark:text-purple-400 hover:text-purple-800 hover:underline cursor-pointer inline-flex items-center gap-1"
+                    className="text-[10px] font-semibold text-purple-700 dark:text-purple-400 hover:text-purple-800 hover:underline cursor-pointer inline-flex items-center gap-1"
                   >
                     <span>⚡ Simular documento de factura automática</span>
                   </button>
@@ -246,31 +246,31 @@ export function RegistrarFacturaModal({
 
           {/* Observaciones Opcionales */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1.5">
-              Observaciones / comentarios adicionales (opcional)
+            <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
+              Observaciones / comentarios adicionales (opcional):
             </label>
             <textarea
               value={observaciones}
               onChange={(e) => setObservaciones(e.target.value)}
               placeholder="Ej: Factura enviada a tesorería y cliente notificado..."
               rows={2}
-              className="w-full p-2.5 text-xs bg-gray-50 dark:bg-slate-800 border border-gray-300 dark:border-white/10 rounded-xl text-gray-900 dark:text-gray-100 outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 transition-all resize-none"
+              className="w-full p-2 text-xs bg-gray-50 dark:bg-slate-800 border border-gray-300 dark:border-white/10 rounded-xl text-gray-900 dark:text-gray-100 outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 transition-all resize-none"
             />
           </div>
 
           {/* Footer de Acciones */}
-          <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-gray-100 dark:border-white/10">
+          <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 rounded-xl transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 rounded-xl transition-colors cursor-pointer"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2.5 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white rounded-xl text-xs font-extrabold shadow-md shadow-purple-700/20 transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 disabled:opacity-50"
+              className="px-4 py-1.5 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white rounded-xl text-xs font-extrabold shadow-md shadow-purple-700/20 transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 disabled:opacity-50"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>{isSubmitting ? 'Guardando...' : 'Finalizar'}</span>

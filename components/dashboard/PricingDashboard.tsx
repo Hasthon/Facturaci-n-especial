@@ -4120,17 +4120,17 @@ export function PricingDashboard() {
       {/* ========================================================================= */}
       {selectedProformaDiff && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-purple-200 dark:border-white/10 max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-purple-200 dark:border-white/10 max-w-5xl w-full max-h-[95vh] overflow-y-auto shadow-2xl p-5 space-y-3.5 animate-in fade-in zoom-in-95 duration-200">
             {/* Header Modal Diff */}
-            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-4">
-              <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0">
-                  <GitCompare className="w-6 h-6" />
+            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-2.5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0">
+                  <GitCompare className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Comparador de Versiones: {selectedProformaDiff.id}
+                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                      Comparador de versiones: {selectedProformaDiff.id}
                     </h2>
                     <span className="px-2 py-0.5 rounded text-xs font-bold bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300 font-mono">
                       v1 ➔ v2
@@ -4144,52 +4144,52 @@ export function PricingDashboard() {
 
               <button
                 onClick={() => setSelectedProformaDiff(null)}
-                className="p-2 rounded-xl text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="p-1.5 rounded-xl text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Comparación de Encabezado / Totales */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {/* Versión 1 (Original / Rechazada) */}
-              <div className="p-4 bg-red-50/50 dark:bg-red-950/20 border border-red-200/70 dark:border-red-900/40 rounded-xl space-y-2">
+              <div className="p-3 bg-red-50/50 dark:bg-red-950/20 border border-red-200/70 dark:border-red-900/40 rounded-xl space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-red-800 dark:text-red-300 uppercase tracking-wider">
-                    VERSIÓN 1 (RECHAZADA POR CLIENTE)
+                  <span className="text-xs font-bold text-red-800 dark:text-red-300">
+                    Versión 1 (rechazada por cliente)
                   </span>
-                  <span className="text-xs font-mono text-gray-500">
+                  <span className="text-[11px] font-mono text-gray-500">
                     24/08/2026 10:15
                   </span>
                 </div>
-                <div className="text-2xl font-black text-red-900 dark:text-red-200">
+                <div className="text-xl font-black text-red-900 dark:text-red-200">
                   {formatCurrency(6800000)}
                 </div>
                 <div className="text-xs text-red-800/90 dark:text-red-300/90">
                   <strong>Motivo de rechazo:</strong> {selectedProformaDiff.motivoRechazoPrincipal || 'Diferencia en recubitaje / medidas de SKUs volumétricos'}
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 italic">
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 italic">
                   Obs: El cliente indica que 14 bultos fueron clasificados como Sobredimensión cuando correspondía Tarifa Estándar.
                 </p>
               </div>
 
               {/* Versión 2 (Ajustada por Facturación / Pricing) */}
-              <div className="p-4 bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/70 dark:border-emerald-900/40 rounded-xl space-y-2">
+              <div className="p-3 bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/70 dark:border-emerald-900/40 rounded-xl space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">
-                    VERSIÓN 2 (NUEVA VERSIÓN AJUSTADA)
+                  <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300">
+                    Versión 2 (nueva versión ajustada)
                   </span>
-                  <span className="text-xs font-mono text-gray-500">
+                  <span className="text-[11px] font-mono text-gray-500">
                     25/08/2026 09:30
                   </span>
                 </div>
-                <div className="text-2xl font-black text-emerald-900 dark:text-emerald-200">
+                <div className="text-xl font-black text-emerald-900 dark:text-emerald-200">
                   {formatCurrency(selectedProformaDiff.monto || 6540000)}
                 </div>
                 <div className="text-xs text-emerald-800/90 dark:text-emerald-300/90">
                   <strong>Ajuste realizado:</strong> Recálculo con factor volumétrico estándar y corrección de sobredimensión
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 italic">
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 italic">
                   Obs: Se re-clasificaron los 14 bultos a Tarifa Estándar según contrato comercial.
                 </p>
               </div>
@@ -4197,74 +4197,74 @@ export function PricingDashboard() {
 
             {/* Comparador de Cambios por Ítem (Diff Tabla) */}
             <div>
-              <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <Layers className="w-4 h-4 text-purple-600" />
-                Desglose de Ítems y Modificaciones entre Versiones
+              <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-purple-600" />
+                Desglose de ítems y modificaciones entre versiones
               </h3>
 
-              <div className="border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden text-xs">
+              <div className="border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden text-xs max-h-56 overflow-y-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-gray-100/70 dark:bg-slate-800/70 text-[11px] font-bold text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-white/10">
-                      <th className="py-2.5 px-3">Código & Concepto</th>
-                      <th className="py-2.5 px-3 text-right">Cant.</th>
-                      <th className="py-2.5 px-3 text-right">Tarifa v1</th>
-                      <th className="py-2.5 px-3 text-right">Tarifa v2 (Nueva)</th>
-                      <th className="py-2.5 px-3 text-right">Total v1</th>
-                      <th className="py-2.5 px-3 text-right">Total v2</th>
-                      <th className="py-2.5 px-3 text-center">Variación</th>
+                    <tr className="bg-gray-100/70 dark:bg-slate-800/70 text-[11px] font-bold text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-white/10 sticky top-0 z-10 backdrop-blur-sm">
+                      <th className="py-2 px-3">Código & Concepto</th>
+                      <th className="py-2 px-3 text-right">Cant.</th>
+                      <th className="py-2 px-3 text-right">Tarifa v1</th>
+                      <th className="py-2 px-3 text-right">Tarifa v2 (nueva)</th>
+                      <th className="py-2 px-3 text-right">Total v1</th>
+                      <th className="py-2 px-3 text-right">Total v2</th>
+                      <th className="py-2 px-3 text-center">Variación</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100 dark:divide-white/5">
                     <tr>
-                      <td className="py-2.5 px-3 font-medium">
+                      <td className="py-2 px-3 font-medium">
                         <span className="font-mono text-purple-700 dark:text-purple-300 mr-1.5 font-bold">
                           SRV-STK-01
                         </span>
                         Flete Express RM a Regiones
                       </td>
-                      <td className="py-2.5 px-3 text-right font-mono">450</td>
-                      <td className="py-2.5 px-3 text-right font-mono text-gray-500">$8.500 (10%)</td>
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$8.500 (10%)</td>
-                      <td className="py-2.5 px-3 text-right font-mono text-gray-500">$3.442.500</td>
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$3.442.500</td>
-                      <td className="py-2.5 px-3 text-center text-gray-400 font-mono">—</td>
+                      <td className="py-2 px-3 text-right font-mono">450</td>
+                      <td className="py-2 px-3 text-right font-mono text-gray-500">$8.500 (10%)</td>
+                      <td className="py-2 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$8.500 (10%)</td>
+                      <td className="py-2 px-3 text-right font-mono text-gray-500">$3.442.500</td>
+                      <td className="py-2 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$3.442.500</td>
+                      <td className="py-2 px-3 text-center text-gray-400 font-mono">—</td>
                     </tr>
                     <tr className="bg-amber-50/40 dark:bg-amber-950/20">
-                      <td className="py-2.5 px-3 font-medium">
+                      <td className="py-2 px-3 font-medium">
                         <span className="font-mono text-purple-700 dark:text-purple-300 mr-1.5 font-bold">
                           SRV-VOL-02
                         </span>
                         Recargo Volumétrico Sobredimensión
-                        <span className="ml-2 px-1.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded">
+                        <span className="ml-2 px-1.5 py-0.2 bg-amber-100 text-amber-800 text-[10px] font-bold rounded">
                           Modificado
                         </span>
                       </td>
-                      <td className="py-2.5 px-3 text-right font-mono">106</td>
-                      <td className="py-2.5 px-3 text-right font-mono text-gray-500">$15.000 (5%)</td>
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$15.000 (5%)</td>
-                      <td className="py-2.5 px-3 text-right font-mono text-gray-500">$1.710.000</td>
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$1.510.500</td>
-                      <td className="py-2.5 px-3 text-center font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                      <td className="py-2 px-3 text-right font-mono">106</td>
+                      <td className="py-2 px-3 text-right font-mono text-gray-500">$15.000 (5%)</td>
+                      <td className="py-2 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$15.000 (5%)</td>
+                      <td className="py-2 px-3 text-right font-mono text-gray-500">$1.710.000</td>
+                      <td className="py-2 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$1.510.500</td>
+                      <td className="py-2 px-3 text-center font-bold text-emerald-600 dark:text-emerald-400 font-mono">
                         $-199.500
                       </td>
                     </tr>
                     <tr className="bg-amber-50/40 dark:bg-amber-950/20">
-                      <td className="py-2.5 px-3 font-medium">
+                      <td className="py-2 px-3 font-medium">
                         <span className="font-mono text-purple-700 dark:text-purple-300 mr-1.5 font-bold">
                           SRV-EXT-03
                         </span>
                         Despacho Zona Extrema (Aysén / Magallanes)
-                        <span className="ml-2 px-1.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded">
+                        <span className="ml-2 px-1.5 py-0.2 bg-amber-100 text-amber-800 text-[10px] font-bold rounded">
                           Modificado
                         </span>
                       </td>
-                      <td className="py-2.5 px-3 text-right font-mono">65</td>
-                      <td className="py-2.5 px-3 text-right font-mono text-gray-500">$28.000 (10%)</td>
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$27.000 (10%)</td>
-                      <td className="py-2.5 px-3 text-right font-mono text-gray-500">$1.638.000</td>
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$1.587.000</td>
-                      <td className="py-2.5 px-3 text-center font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                      <td className="py-2 px-3 text-right font-mono">65</td>
+                      <td className="py-2 px-3 text-right font-mono text-gray-500">$28.000 (10%)</td>
+                      <td className="py-2 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$27.000 (10%)</td>
+                      <td className="py-2 px-3 text-right font-mono text-gray-500">$1.638.000</td>
+                      <td className="py-2 px-3 text-right font-mono font-bold text-gray-900 dark:text-white">$1.587.000</td>
+                      <td className="py-2 px-3 text-center font-bold text-emerald-600 dark:text-emerald-400 font-mono">
                         $-51.000
                       </td>
                     </tr>
@@ -4274,12 +4274,12 @@ export function PricingDashboard() {
             </div>
 
             {/* Botones de Acción desde el Modal */}
-            <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-white/10">
+            <div className="flex items-center justify-between pt-2.5 border-t border-gray-100 dark:border-white/10">
               <button
                 onClick={() => setSelectedProformaDiff(null)}
-                className="px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
+                className="px-3.5 py-1.5 text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
               >
-                Cerrar Comparador
+                Cerrar comparador
               </button>
 
               <button
@@ -4288,9 +4288,9 @@ export function PricingDashboard() {
                   setSelectedProformaDiff(null);
                   setSelectedProformaResolucion(pf);
                 }}
-                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
+                className="px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
               >
-                <span>Proceder a Resolver</span>
+                <span>Proceder a resolver</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -4303,16 +4303,16 @@ export function PricingDashboard() {
       {/* ========================================================================= */}
       {selectedProformaResolucion && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-xl w-full border border-purple-200 dark:border-white/10 shadow-2xl p-6 sm:p-7 space-y-5 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-xl w-full border border-purple-200 dark:border-white/10 shadow-2xl p-5 space-y-3.5 max-h-[95vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
             {/* Header Modal */}
-            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-4">
+            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0">
-                  <Scale className="w-6 h-6" />
+                <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0">
+                  <Scale className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                    Dictamen y Resolución de Pricing
+                  <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                    Dictamen y resolución de pricing
                   </h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {selectedProformaResolucion.id} • <strong className="text-gray-700 dark:text-gray-300">{selectedProformaResolucion.cliente}</strong> (RUT: {selectedProformaResolucion.rut})
@@ -4328,14 +4328,14 @@ export function PricingDashboard() {
               </button>
             </div>
 
-            <div className="space-y-4 text-xs">
+            <div className="space-y-3 text-xs">
               {/* Motivo del Rechazo */}
-              <div className="p-3.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 rounded-xl space-y-1">
+              <div className="p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 rounded-xl space-y-1">
                 <div className="flex items-center gap-1.5 text-xs font-bold text-rose-800 dark:text-rose-300">
                   <AlertOctagon className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
                   <span>Motivo del rechazo registrado:</span>
                 </div>
-                <p className="text-xs text-rose-950 dark:text-rose-200 pl-5.5 font-medium">
+                <p className="text-xs text-rose-950 dark:text-rose-200 pl-5 font-medium">
                   {selectedProformaResolucion.motivoRechazoPrincipal ||
                     selectedProformaResolucion.motivoRechazoPricing ||
                     selectedProformaResolucion.historialVersiones?.[0]?.motivo ||
@@ -4344,10 +4344,10 @@ export function PricingDashboard() {
               </div>
 
               <div>
-                <label className="font-bold text-gray-700 dark:text-gray-200 block mb-2">
-                  Acción de resolución de pricing
+                <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1.5">
+                  Acción de resolución de pricing:
                 </label>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-2 gap-2">
                   {[
                     { id: 'Validada', label: 'Validar condición tarifaria', desc: 'Aprueba tarifas y libera emisión' },
                     { id: 'Corregida', label: 'Solicitar corrección a FE', desc: 'Devuelve con notas al ejecutivo' },
@@ -4358,7 +4358,7 @@ export function PricingDashboard() {
                       key={act.id}
                       type="button"
                       onClick={() => setResolucionAccion(act.id as any)}
-                      className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                      className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                         resolucionAccion === act.id
                           ? 'bg-purple-50 dark:bg-purple-950/80 border-purple-600 text-purple-900 dark:text-purple-200 ring-2 ring-purple-600/30 font-semibold'
                           : 'bg-gray-50 dark:bg-slate-800 border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-purple-50/40'
@@ -4373,30 +4373,30 @@ export function PricingDashboard() {
 
               <div>
                 <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1">
-                  Observaciones & Justificación Técnica de Pricing *
+                  Observaciones y justificación técnica de pricing: *
                 </label>
                 <textarea
-                  rows={4}
+                  rows={3}
                   value={resolucionObservaciones}
                   onChange={(e) => setResolucionObservaciones(e.target.value)}
                   placeholder="Describe la condición tarifaria autorizada, referencia de addendum o motivo de la decisión..."
-                  className="w-full p-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-800 dark:text-gray-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                  className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-800 dark:text-gray-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                 />
               </div>
             </div>
 
-            <div className="pt-3 border-t border-gray-100 dark:border-white/10 flex items-center justify-end gap-2.5">
+            <div className="pt-2.5 border-t border-gray-100 dark:border-white/10 flex items-center justify-end gap-2">
               <button
                 onClick={() => setSelectedProformaResolucion(null)}
-                className="px-4 py-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 font-semibold text-xs cursor-pointer transition-colors"
+                className="px-3.5 py-1.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 font-semibold text-xs cursor-pointer transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleGuardarResolucion}
-                className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs transition-colors"
+                className="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs transition-colors"
               >
-                Confirmar Resolución
+                Confirmar resolución
               </button>
             </div>
           </div>
@@ -4408,17 +4408,17 @@ export function PricingDashboard() {
       {/* ========================================================================= */}
       {selectedExcepcion && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full border border-purple-200 dark:border-white/10 shadow-2xl p-6 sm:p-7 space-y-4 animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full border border-purple-200 dark:border-white/10 shadow-2xl p-5 space-y-3.5 animate-in fade-in zoom-in-95 duration-200 max-h-[95vh] overflow-y-auto">
             {/* Header Modal: Identificación de la Excepción */}
-            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-3">
+            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold shrink-0 shadow-2xs">
-                  <Scale className="w-6 h-6" />
+                <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold shrink-0 shadow-2xs">
+                  <Scale className="w-5 h-5" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                      Dictamen de Excepción Tarifaria
+                    <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                      Dictamen de excepción tarifaria
                     </h3>
                     <span className="font-mono text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-950/70 px-2 py-0.5 rounded-md">
                       {selectedExcepcion.id}
@@ -4439,7 +4439,7 @@ export function PricingDashboard() {
             </div>
 
             {/* 1. Tarjeta Resumen: Identificar Excepción y Condiciones Solicitadas */}
-            <div className="p-3.5 bg-purple-50/70 dark:bg-slate-800/80 rounded-xl border border-purple-100 dark:border-white/10 space-y-2 text-xs">
+            <div className="p-3 bg-purple-50/70 dark:bg-slate-800/80 rounded-xl border border-purple-100 dark:border-white/10 space-y-1.5 text-xs">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div>
                   <span className="text-[10px] text-gray-500 block">Tarifa estándar</span>
@@ -4466,30 +4466,30 @@ export function PricingDashboard() {
               </div>
             </div>
 
-            <div className="space-y-3.5 text-xs">
+            <div className="space-y-3 text-xs">
               {/* 2. Indicar si la condición tarifaria es válida (Decisión formal) */}
               <div>
-                <label className="font-bold text-gray-800 dark:text-gray-200 block mb-1.5 flex items-center justify-between">
+                <label className="font-bold text-gray-800 dark:text-gray-200 block mb-1 flex items-center justify-between">
                   <span>Dictamen y validación de condición tarifaria:</span>
                   <span className="text-[10px] text-purple-600 font-semibold">Selecciona la resolución correspondiente</span>
                 </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {/* Opción 1: Condición Válida */}
                   <button
                     type="button"
                     onClick={() => setExcepcionDecision('Aprobada')}
-                    className={`p-3 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
+                    className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
                       excepcionDecision === 'Aprobada'
-                        ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-600 text-emerald-900 dark:text-emerald-200 ring-2 ring-emerald-600/30 shadow-xs scale-[1.01]'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-600 text-emerald-900 dark:text-emerald-200 ring-2 ring-emerald-600/30 shadow-xs'
                         : 'bg-gray-50 dark:bg-slate-800/80 border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-emerald-50/40 hover:border-emerald-300'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
                       excepcionDecision === 'Aprobada'
                         ? 'bg-emerald-600 text-white shadow-2xs'
                         : 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-400'
                     }`}>
-                      <CheckCircle2 className="w-4.5 h-4.5" />
+                      <CheckCircle2 className="w-4 h-4" />
                     </div>
                     <span className="font-bold text-xs leading-tight">Condición válida</span>
                     <span className={`text-[10px] font-medium leading-tight ${
@@ -4503,18 +4503,18 @@ export function PricingDashboard() {
                   <button
                     type="button"
                     onClick={() => setExcepcionDecision('Rechazada')}
-                    className={`p-3 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
+                    className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
                       excepcionDecision === 'Rechazada'
-                        ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-600 text-rose-900 dark:text-rose-200 ring-2 ring-rose-600/30 shadow-xs scale-[1.01]'
+                        ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-600 text-rose-900 dark:text-rose-200 ring-2 ring-rose-600/30 shadow-xs'
                         : 'bg-gray-50 dark:bg-slate-800/80 border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-rose-50/40 hover:border-rose-300'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
                       excepcionDecision === 'Rechazada'
                         ? 'bg-rose-600 text-white shadow-2xs'
                         : 'bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-400'
                     }`}>
-                      <XCircle className="w-4.5 h-4.5" />
+                      <XCircle className="w-4 h-4" />
                     </div>
                     <span className="font-bold text-xs leading-tight">Condición no válida</span>
                     <span className={`text-[10px] font-medium leading-tight ${
@@ -4528,18 +4528,18 @@ export function PricingDashboard() {
                   <button
                     type="button"
                     onClick={() => setExcepcionDecision('Solicitar_Modificacion')}
-                    className={`p-3 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
+                    className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
                       excepcionDecision === 'Solicitar_Modificacion'
-                        ? 'bg-amber-50 dark:bg-amber-950/60 border-amber-600 text-amber-950 dark:text-amber-200 ring-2 ring-amber-600/30 shadow-xs scale-[1.01]'
+                        ? 'bg-amber-50 dark:bg-amber-950/60 border-amber-600 text-amber-950 dark:text-amber-200 ring-2 ring-amber-600/30 shadow-xs'
                         : 'bg-gray-50 dark:bg-slate-800/80 border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-amber-50/40 hover:border-amber-300'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
                       excepcionDecision === 'Solicitar_Modificacion'
                         ? 'bg-amber-600 text-white shadow-2xs'
                         : 'bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-400'
                     }`}>
-                      <RotateCcw className="w-4.5 h-4.5" />
+                      <RotateCcw className="w-4 h-4" />
                     </div>
                     <span className="font-bold text-xs leading-tight">Modificar proforma</span>
                     <span className={`text-[10px] font-medium leading-tight ${
@@ -4553,24 +4553,24 @@ export function PricingDashboard() {
                   <button
                     type="button"
                     onClick={() => setExcepcionDecision('Solicitud_KAM')}
-                    className={`p-3 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
+                    className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
                       excepcionDecision === 'Solicitud_KAM'
-                        ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-600 text-indigo-950 dark:text-indigo-200 ring-2 ring-indigo-600/30 shadow-xs scale-[1.01]'
+                        ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-600 text-indigo-950 dark:text-indigo-200 ring-2 ring-indigo-600/30 shadow-xs'
                         : 'bg-gray-50 dark:bg-slate-800/80 border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-indigo-50/40 hover:border-indigo-300'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
                       excepcionDecision === 'Solicitud_KAM'
                         ? 'bg-indigo-600 text-white shadow-2xs'
                         : 'bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-400'
                     }`}>
-                      <MessageSquare className="w-4.5 h-4.5" />
+                      <MessageSquare className="w-4 h-4" />
                     </div>
                     <span className="font-bold text-xs leading-tight">Revisión con KAM</span>
                     <span className={`text-[10px] font-medium leading-tight ${
                       excepcionDecision === 'Solicitud_KAM' ? 'text-indigo-700 dark:text-indigo-300' : 'text-gray-500'
                     }`}>
-                      (Solicitar Adenda)
+                      (Solicitar adenda)
                     </span>
                   </button>
                 </div>
@@ -4579,33 +4579,33 @@ export function PricingDashboard() {
               {/* 3. Registrar Análisis de Pricing */}
               <div>
                 <label className="font-bold text-gray-800 dark:text-gray-200 block mb-1">
-                  Registrar Análisis de Pricing (Evaluación de margen, volumen y estructura de costo):
+                  Registrar análisis de pricing (evaluación de margen, volumen y estructura de costo):
                 </label>
                 <textarea
                   rows={2}
                   value={excepcionAnalisis}
                   onChange={(e) => setExcepcionAnalisis(e.target.value)}
                   placeholder="Ej: Margen de contribución proyectado en 22.4%. Volumen comprometido compensa diferencial de tarifa tramo troncal..."
-                  className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-800 dark:text-gray-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 font-sans"
+                  className="w-full p-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-800 dark:text-gray-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 font-sans"
                 />
               </div>
 
               {/* 4. Registrar Observaciones Formales */}
               <div>
                 <label className="font-bold text-gray-800 dark:text-gray-200 block mb-1">
-                  Registrar Observaciones y Condiciones Formales (Dictamen vinculante para Facturación/KAM):
+                  Registrar observaciones y condiciones formales (dictamen vinculante para facturación/KAM):
                 </label>
                 <textarea
                   rows={2}
                   value={excepcionObservaciones}
                   onChange={(e) => setExcepcionObservaciones(e.target.value)}
                   placeholder="Ej: Autorizable exclusivamente sujeta a cumplimiento de métrica de volumen mínimo mensual acordada en preventa..."
-                  className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-800 dark:text-gray-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 font-sans"
+                  className="w-full p-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-800 dark:text-gray-200 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 font-sans"
                 />
               </div>
 
               {/* 5. Trazabilidad: Usuario y Fecha de Resolución */}
-              <div className="p-2.5 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/60 dark:border-purple-800/40 text-[11px] text-purple-900 dark:text-purple-300 flex flex-wrap items-center justify-between gap-2">
+              <div className="p-2 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/60 dark:border-purple-800/40 text-[11px] text-purple-900 dark:text-purple-300 flex flex-wrap items-center justify-between gap-2">
                 <span className="font-semibold flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
                   Resolutor: <strong>Rodrigo Palma (Encargado de Pricing)</strong>
@@ -4616,16 +4616,16 @@ export function PricingDashboard() {
               </div>
             </div>
 
-            <div className="pt-3 border-t border-gray-100 dark:border-white/10 flex items-center justify-end gap-2.5">
+            <div className="pt-2.5 border-t border-gray-100 dark:border-white/10 flex items-center justify-end gap-2">
               <button
                 onClick={() => setSelectedExcepcion(null)}
-                className="px-4 py-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 font-semibold text-xs cursor-pointer transition-colors"
+                className="px-3.5 py-1.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 font-semibold text-xs cursor-pointer transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleGuardarExcepcion}
-                className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
+                className="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
               >
                 <Check className="w-4 h-4" />
                 <span>Guardar dictamen y registrar trazabilidad</span>
@@ -4640,16 +4640,16 @@ export function PricingDashboard() {
       {/* ========================================================================= */}
       {nuevoMensajeOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full border border-purple-200 dark:border-white/10 shadow-2xl p-6 sm:p-7 space-y-5 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full border border-purple-200 dark:border-white/10 shadow-2xl p-5 space-y-3.5 max-h-[95vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
             {/* Header Modal */}
-            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-4">
+            <div className="flex items-start justify-between gap-4 border-b border-gray-100 dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0">
-                  <Share2 className="w-6 h-6" />
+                <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0">
+                  <Share2 className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                    Registrar Observación / Requerimiento de Pricing
+                  <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                    Registrar observación / requerimiento de pricing
                   </h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Trazabilidad formal con KAM y sincronización en Salesforce CRM
@@ -4665,16 +4665,16 @@ export function PricingDashboard() {
               </button>
             </div>
 
-            <form onSubmit={handleEnviarMensajeKAM} className="space-y-3.5 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+            <form onSubmit={handleEnviarMensajeKAM} className="space-y-3 text-xs">
+              <div className="grid grid-cols-2 gap-2.5">
                 <div>
                   <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1">
-                    KAM Destinatario
+                    KAM destinatario:
                   </label>
                   <select
                     value={nuevoMensajeKam}
                     onChange={(e) => setNuevoMensajeKam(e.target.value)}
-                    className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-medium"
+                    className="w-full p-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-medium"
                   >
                     {MOCK_KAMS.map((k) => (
                       <option key={k.id} value={k.nombre}>
@@ -4686,14 +4686,14 @@ export function PricingDashboard() {
 
                 <div>
                   <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1">
-                    Prioridad
+                    Prioridad:
                   </label>
                   <select
                     value={nuevoMensajePrioridad}
                     onChange={(e) => setNuevoMensajePrioridad(e.target.value as any)}
-                    className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-medium"
+                    className="w-full p-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-medium"
                   >
-                    <option value="Alta">Alta (Urgente cierre)</option>
+                    <option value="Alta">Alta (urgente cierre)</option>
                     <option value="Media">Media</option>
                     <option value="Baja">Baja</option>
                   </select>
@@ -4702,62 +4702,62 @@ export function PricingDashboard() {
 
               <div>
                 <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1">
-                  Cliente Comercial
+                  Cliente comercial:
                 </label>
                 <input
                   type="text"
                   value={nuevoMensajeCliente}
                   onChange={(e) => setNuevoMensajeCliente(e.target.value)}
-                  className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-semibold"
+                  className="w-full p-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-semibold"
                   required
                 />
               </div>
 
               <div>
                 <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1">
-                  Asunto de la Observación / Consulta
+                  Asunto de la observación / consulta:
                 </label>
                 <input
                   type="text"
                   placeholder="Ej: Observación tarifaria para campaña Q3 / Verificación de addendum en Salesforce"
                   value={nuevoMensajeAsunto}
                   onChange={(e) => setNuevoMensajeAsunto(e.target.value)}
-                  className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500"
+                  className="w-full p-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500"
                   required
                 />
               </div>
 
               <div>
                 <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1">
-                  Registrar Observaciones Técnicas y Condiciones de Pricing *
+                  Registrar observaciones técnicas y condiciones de pricing: *
                 </label>
                 <textarea
-                  rows={4}
+                  rows={3}
                   placeholder="Detalla las observaciones tarifarias, márgenes exigidos, addendum solicitado o condiciones de autorización..."
                   value={nuevoMensajeCuerpo}
                   onChange={(e) => setNuevoMensajeCuerpo(e.target.value)}
-                  className="w-full p-3 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-sans"
+                  className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-sans"
                   required
                 />
               </div>
 
               {/* Metadata de Trazabilidad */}
-              <div className="p-2.5 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/60 dark:border-purple-800/40 text-[11px] text-purple-900 dark:text-purple-300 flex items-center justify-between">
+              <div className="p-2 rounded-xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/60 dark:border-purple-800/40 text-[11px] text-purple-900 dark:text-purple-300 flex items-center justify-between">
                 <span className="font-semibold">👤 Resolutor: Rodrigo Palma (Pricing)</span>
                 <span className="font-mono text-[10px] text-gray-500">📅 {new Date().toLocaleDateString('es-CL')}</span>
               </div>
 
-              <div className="pt-3 border-t border-gray-100 dark:border-white/10 flex justify-end gap-2.5">
+              <div className="pt-2.5 border-t border-gray-100 dark:border-white/10 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setNuevoMensajeOpen(false)}
-                  className="px-4 py-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 font-semibold text-xs cursor-pointer transition-colors"
+                  className="px-3.5 py-1.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 font-semibold text-xs cursor-pointer transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Guardar y registrar observación de pricing</span>
@@ -4770,9 +4770,9 @@ export function PricingDashboard() {
       {/* MODAL: DETALLE 360° E INCIDENCIAS DEL KAM */}
       {selectedKamModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-purple-200 dark:border-white/10 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
+          <div className="bg-white dark:bg-slate-900 border border-purple-200 dark:border-white/10 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 max-h-[95vh] flex flex-col">
             {/* Header del Modal */}
-            <div className="p-5 border-b border-purple-100 dark:border-white/10 flex items-center justify-between bg-purple-50/50 dark:bg-purple-950/30">
+            <div className="p-4 border-b border-purple-100 dark:border-white/10 flex items-center justify-between bg-purple-50/50 dark:bg-purple-950/30">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-indigo-700 text-white font-bold flex items-center justify-center text-sm shadow-xs">
                   {selectedKamModal.avatar}
@@ -4802,36 +4802,36 @@ export function PricingDashboard() {
             </div>
 
             {/* Contenido con Scroll */}
-            <div className="p-5 overflow-y-auto space-y-4">
+            <div className="p-4 overflow-y-auto space-y-3.5">
               {/* Grid de los 11 Indicadores de Desempeño */}
               <div>
-                <h4 className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                <h4 className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1.5">
                   <Briefcase className="w-3.5 h-3.5 text-purple-600" />
                   <span>Desempeño tarifario y métricas consolidadas</span>
                 </h4>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
                     <span className="text-[10px] text-gray-500 block font-medium">1. Cartera clientes</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       {selectedKamModal.carteraClientesCount} cuentas
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
                     <span className="text-[10px] text-gray-500 block font-medium">2. Proformas totales</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       {selectedKamModal.proformasTotales} proformas
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
                     <span className="text-[10px] text-gray-500 block font-medium">3. Rechazos tarifa</span>
                     <span className="text-sm font-bold text-rose-600 dark:text-rose-400 mt-0.5 block">
                       {selectedKamModal.proformasRechazadasTarifa} casos
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
                     <span className="text-[10px] text-gray-500 block font-medium">4. Tasa rechazo %</span>
                     <span
                       className={`text-sm font-black mt-0.5 block ${
@@ -4844,42 +4844,42 @@ export function PricingDashboard() {
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
-                    <span className="text-[10px] text-gray-500 block font-medium">5. Excep. Solicitadas</span>
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
+                    <span className="text-[10px] text-gray-500 block font-medium">5. Excep. solicitadas</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       {selectedKamModal.excepcionesSolicitadas}
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
-                    <span className="text-[10px] text-gray-500 block font-medium">6. Excep. Aprob/Rech</span>
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
+                    <span className="text-[10px] text-gray-500 block font-medium">6. Excep. aprob/rech</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       <span className="text-emerald-600 font-bold">{selectedKamModal.excepcionesAprobadas}✓</span> / <span className="text-rose-600 font-bold">{selectedKamModal.excepcionesRechazadas}✗</span>
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
                     <span className="text-[10px] text-gray-500 block font-medium">7. Reprocesos</span>
                     <span className="text-sm font-bold text-amber-600 dark:text-amber-400 mt-0.5 block">
                       {selectedKamModal.cantidadReprocesos} versiones
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5">
                     <span className="text-[10px] text-gray-500 block font-medium">8. Tiempo resol.</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       {selectedKamModal.tiempoPromedioResolucionDias} días
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5 col-span-2">
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5 col-span-2">
                     <span className="text-[10px] text-gray-500 block font-medium">10. Descuento promedio cartera</span>
                     <span className="text-sm font-bold text-purple-700 dark:text-purple-300 mt-0.5 block">
                       {selectedKamModal.descuentoPromedioCarteraPct}% descuento comercial
                     </span>
                   </div>
 
-                  <div className="p-2.5 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5 col-span-2">
+                  <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200/60 dark:border-white/5 col-span-2">
                     <span className="text-[10px] text-gray-500 block font-medium">11. Variación vs tarifa estándar</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white mt-0.5 block">
                       +{selectedKamModal.variacionPromedioTarifaPct}% respecto a tarifa base configurada
@@ -4889,9 +4889,9 @@ export function PricingDashboard() {
               </div>
 
               {/* 9. Clientes con Mayor Cantidad de Incidencias Tarifarias */}
-              <div className="p-4 bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-800/40 rounded-xl space-y-2">
+              <div className="p-3 bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-800/40 rounded-xl space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-bold text-rose-900 dark:text-rose-300 flex items-center gap-1.5 uppercase tracking-wider">
+                  <h4 className="text-xs font-bold text-rose-900 dark:text-rose-300 flex items-center gap-1.5">
                     <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
                     <span>9. Clientes con mayor cantidad de incidencias tarifarias</span>
                   </h4>
@@ -4902,11 +4902,11 @@ export function PricingDashboard() {
                 <p className="text-[11px] text-rose-800/90 dark:text-rose-300/90">
                   Cuentas de la cartera de este KAM que han presentado mayor frecuencia de rechazos por tarifa o solicitudes de excepción:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
                   {selectedKamModal.clientesMayorIncidencia.map((cliente, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 bg-white dark:bg-slate-900 rounded-lg border border-rose-200 dark:border-rose-900/40 flex items-center justify-between"
+                      className="p-2 bg-white dark:bg-slate-900 rounded-lg border border-rose-200 dark:border-rose-900/40 flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2">
                         <Building2 className="w-3.5 h-3.5 text-rose-600 shrink-0" />
@@ -4924,11 +4924,11 @@ export function PricingDashboard() {
             </div>
 
             {/* Footer de Acciones */}
-            <div className="p-4 border-t border-gray-100 dark:border-white/10 bg-gray-50/80 dark:bg-slate-950/50 flex flex-wrap items-center justify-between gap-2">
+            <div className="p-3.5 border-t border-gray-100 dark:border-white/10 bg-gray-50/80 dark:bg-slate-950/50 flex flex-wrap items-center justify-between gap-2">
               <button
                 type="button"
                 onClick={() => setSelectedKamModal(null)}
-                className="px-4 py-2 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-200/60 dark:hover:bg-slate-800 font-semibold text-xs transition-colors cursor-pointer"
+                className="px-3.5 py-1.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-200/60 dark:hover:bg-slate-800 font-semibold text-xs transition-colors cursor-pointer"
               >
                 Cerrar
               </button>
@@ -4942,7 +4942,7 @@ export function PricingDashboard() {
                     setRechazosSearchTerm(kamName);
                     router.push('/?tab=rechazos');
                   }}
-                  className="px-3.5 py-2 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-800 dark:bg-purple-950 dark:hover:bg-purple-900 dark:text-purple-300 font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                  className="px-3 py-1.5 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-800 dark:bg-purple-950 dark:hover:bg-purple-900 dark:text-purple-300 font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                 >
                   <Search className="w-3.5 h-3.5" />
                   <span>Ver proformas rechazadas</span>
@@ -4959,7 +4959,7 @@ export function PricingDashboard() {
                     setNuevoMensajeAsunto(`Gestión tarifaria con KAM - ${kamName}`);
                     setNuevoMensajeOpen(true);
                   }}
-                  className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
+                  className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Registrar requerimiento / gestión con KAM</span>

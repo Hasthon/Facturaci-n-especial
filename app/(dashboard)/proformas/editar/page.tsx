@@ -1558,17 +1558,17 @@ function EditarProformaContent() {
       {/* ─── MODAL 1: REVISAR / MODIFICAR SUGERENCIA IA (TIER 2) ─── */}
       {editingIaItem && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 p-6 space-y-4 text-left">
-            <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
+          <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 p-5 space-y-3.5 text-left max-h-[95vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-2.5 border-b border-gray-100 dark:border-white/10">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 flex items-center justify-center">
                   <Bot className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="font-mono text-micro font-bold text-purple-700 dark:text-purple-400">
                     {editingIaItem.sku}
                   </span>
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">
+                  <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 leading-tight">
                     Ajustar medidas del SKU (sobrescribir IA)
                   </h3>
                 </div>
@@ -1584,7 +1584,7 @@ function EditarProformaContent() {
             </div>
 
             {/* Aviso de Auditoría y Trazabilidad */}
-            <div className="p-3 bg-amber-50/80 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-800/40 text-caption flex items-start gap-2.5 text-amber-900 dark:text-amber-200">
+            <div className="p-2.5 bg-amber-50/80 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-800/40 text-caption flex items-start gap-2.5 text-amber-900 dark:text-amber-200">
               <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
               <div className="text-micro leading-relaxed">
                 <span className="font-bold block text-amber-950 dark:text-amber-100">Registro de cambio manual:</span>
@@ -1593,7 +1593,7 @@ function EditarProformaContent() {
             </div>
 
             {/* Ficha técnica web encontrada por IA */}
-            <div className="p-3 bg-purple-50/60 dark:bg-purple-950/20 rounded-xl border border-purple-200 dark:border-purple-800/30 text-caption space-y-1">
+            <div className="p-2.5 bg-purple-50/60 dark:bg-purple-950/20 rounded-xl border border-purple-200 dark:border-purple-800/30 text-caption space-y-1">
               <span className="font-bold text-purple-950 dark:text-purple-200 block text-micro">
                 Fuente web encontrada por IA:
               </span>
@@ -1613,14 +1613,14 @@ function EditarProformaContent() {
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
                 Nuevas medidas definitivas (ajuste manual)
               </label>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div>
-                  <label className="text-micro font-medium text-gray-500 block mb-1">Peso (kg)</label>
+                  <label className="text-micro font-medium text-gray-500 block mb-0.5">Peso (kg)</label>
                   <input
                     type="number"
                     step="0.1"
@@ -1631,7 +1631,7 @@ function EditarProformaContent() {
                 </div>
 
                 <div>
-                  <label className="text-micro font-medium text-gray-500 block mb-1">Largo (cm)</label>
+                  <label className="text-micro font-medium text-gray-500 block mb-0.5">Largo (cm)</label>
                   <input
                     type="number"
                     value={iaFormLargo}
@@ -1641,7 +1641,7 @@ function EditarProformaContent() {
                 </div>
 
                 <div>
-                  <label className="text-micro font-medium text-gray-500 block mb-1">Ancho (cm)</label>
+                  <label className="text-micro font-medium text-gray-500 block mb-0.5">Ancho (cm)</label>
                   <input
                     type="number"
                     value={iaFormAncho}
@@ -1651,7 +1651,7 @@ function EditarProformaContent() {
                 </div>
 
                 <div>
-                  <label className="text-micro font-medium text-gray-500 block mb-1">Alto (cm)</label>
+                  <label className="text-micro font-medium text-gray-500 block mb-0.5">Alto (cm)</label>
                   <input
                     type="number"
                     value={iaFormAlto}
@@ -1662,18 +1662,18 @@ function EditarProformaContent() {
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-gray-100 dark:border-white/10">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-white/10">
               <button
                 type="button"
                 onClick={() => setEditingIaItem(null)}
-                className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 font-bold text-caption rounded-xl cursor-pointer"
+                className="px-3.5 py-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 font-bold text-caption rounded-xl cursor-pointer"
               >
                 Cancelar
               </button>
               <button
                 type="button"
                 onClick={handleSaveEditedIa}
-                className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold text-caption rounded-xl transition-all shadow-sm cursor-pointer inline-flex items-center gap-1.5"
+                className="px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-caption rounded-xl transition-all shadow-sm cursor-pointer inline-flex items-center gap-1.5"
               >
                 <Check className="w-4 h-4" />
                 <span>Guardar</span>
@@ -1686,18 +1686,18 @@ function EditarProformaContent() {
       {/* ─── MODAL 2: ADJUNTAR EVIDENCIA MANUAL O ACEPTAR OBJECIÓN (TIER 3) ─── */}
       {manualEvidenceItem && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 p-6 space-y-4 text-left max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-slate-800 border border-purple-900/10 dark:border-white/10 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 p-5 space-y-3.5 text-left max-h-[95vh] overflow-y-auto">
             {/* Header del Modal */}
-            <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
+            <div className="flex items-center justify-between pb-2.5 border-b border-gray-100 dark:border-white/10">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center">
                   <Globe className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="font-mono text-micro font-bold text-amber-700 dark:text-amber-400">
                     {manualEvidenceItem.sku}
                   </span>
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">
+                  <h3 className="text-base font-bold text-gray-900 dark:text-gray-100 leading-tight">
                     Gestión de SKU manual ({manualEvidenceItem.totalOfs} OFs)
                   </h3>
                 </div>
@@ -1721,7 +1721,7 @@ function EditarProformaContent() {
 
             {/* Campos de Evidencia Web (URL y Captura) - Ocultos si no se encontró evidencia */}
             {!sinEvidenciaEncontrada && (
-              <div className="space-y-3 animate-in fade-in duration-200">
+              <div className="space-y-2.5 animate-in fade-in duration-200">
                 {/* Campo 1: URL de la página del proveedor */}
                 <div className="space-y-1">
                   <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
@@ -1732,18 +1732,18 @@ function EditarProformaContent() {
                     value={manualUrl}
                     onChange={(e) => setManualUrl(e.target.value)}
                     placeholder="https://tienda.cl/producto/sku-ejemplo"
-                    className="w-full p-2.5 bg-white dark:bg-slate-900 border border-gray-300 dark:border-white/10 rounded-xl font-mono text-caption text-gray-900 dark:text-gray-100 outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-500/20 transition-all"
+                    className="w-full p-2 bg-white dark:bg-slate-900 border border-gray-300 dark:border-white/10 rounded-xl font-mono text-caption text-gray-900 dark:text-gray-100 outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-500/20 transition-all"
                   />
                 </div>
 
                 {/* Campo 2: Screenshot / Captura de Pantalla */}
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
                     Captura / pantallazo de respaldo <span className="text-rose-500">*</span>
                   </label>
 
                   {manualFilePreview || manualFile ? (
-                    <div className="p-2.5 bg-purple-50/50 dark:bg-purple-900/10 border border-purple-200 dark:border-white/10 rounded-xl flex items-center justify-between gap-3">
+                    <div className="p-2 bg-purple-50/50 dark:bg-purple-900/10 border border-purple-200 dark:border-white/10 rounded-xl flex items-center justify-between gap-3">
                       <div className="flex items-center gap-2 min-w-0">
                         <FileImage className="w-4 h-4 text-purple-600 shrink-0" />
                         <span className="text-caption font-bold text-gray-800 dark:text-gray-200 truncate">
@@ -1762,7 +1762,7 @@ function EditarProformaContent() {
                       </button>
                     </div>
                   ) : (
-                    <div className="border border-dashed border-gray-300 dark:border-white/15 rounded-xl p-3 bg-gray-50/50 dark:bg-white/5 text-center">
+                    <div className="border border-dashed border-gray-300 dark:border-white/15 rounded-xl p-2.5 bg-gray-50/50 dark:bg-white/5 text-center">
                       <input
                         type="file"
                         accept="image/*,.pdf"
@@ -1775,7 +1775,7 @@ function EditarProformaContent() {
                         className="hidden"
                         id="manual-evidence-file"
                       />
-                      <div className="flex flex-col items-center gap-1.5">
+                      <div className="flex flex-col items-center gap-1">
                         <Upload className="w-4 h-4 text-purple-600" />
                         <p className="text-caption font-bold text-gray-800 dark:text-gray-200">
                           Arrastra tu pantallazo de la ficha web
@@ -1807,12 +1807,12 @@ function EditarProformaContent() {
 
             {/* SECCIÓN / CHECKBOX: SIN EVIDENCIA ENCONTRADA */}
             <div
-              className={`p-3 rounded-xl border transition-all ${sinEvidenciaEncontrada
+              className={`p-2.5 rounded-xl border transition-all ${sinEvidenciaEncontrada
                   ? 'bg-amber-50/80 dark:bg-amber-500/10 border-amber-300 dark:border-amber-500/30'
                   : 'bg-gray-50/60 dark:bg-white/5 border-gray-200 dark:border-white/10 hover:border-gray-300'
                 }`}
             >
-              <label className="flex items-center gap-2.5 cursor-pointer select-none">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={sinEvidenciaEncontrada}
@@ -1832,9 +1832,9 @@ function EditarProformaContent() {
 
               {/* Campo de justificación al marcar el checkbox */}
               {sinEvidenciaEncontrada && (
-                <div className="mt-2.5 pt-2.5 border-t border-amber-200/70 dark:border-white/10 space-y-1 animate-in fade-in duration-150">
+                <div className="mt-2 pt-2 border-t border-amber-200/70 dark:border-white/10 space-y-1 animate-in fade-in duration-150">
                   <label className="text-micro font-bold text-amber-950 dark:text-amber-200 block">
-                    Observación / Justificación del Ejecutivo:
+                    Observación / justificación del ejecutivo:
                   </label>
                   <input
                     type="text"
@@ -1848,10 +1848,10 @@ function EditarProformaContent() {
             </div>
 
             {/* Campo 3: Medidas a Aplicar */}
-            <div className="space-y-2 pt-1 border-t border-gray-100 dark:border-white/10">
+            <div className="space-y-1.5 pt-1 border-t border-gray-100 dark:border-white/10">
               <div className="flex items-center justify-between">
                 <label className="text-caption font-bold text-gray-700 dark:text-gray-300 block">
-                  {sinEvidenciaEncontrada ? 'Medidas a Aplicar (Objeción del Cliente):' : 'Medidas Confirmadas de la Ficha Técnica:'}
+                  {sinEvidenciaEncontrada ? 'Medidas a aplicar (objeción del cliente):' : 'Medidas confirmadas de la ficha técnica:'}
                 </label>
                 <button
                   type="button"
@@ -1864,9 +1864,9 @@ function EditarProformaContent() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div>
-                  <label className="text-micro font-medium text-gray-500 block mb-1">Peso (kg)</label>
+                  <label className="text-micro font-medium text-gray-500 block mb-0.5">Peso (kg)</label>
                   <input
                     type="number"
                     step="0.1"
@@ -1876,7 +1876,7 @@ function EditarProformaContent() {
                   />
                 </div>
                 <div>
-                  <label className="text-micro font-medium text-gray-500 block mb-1">Largo (cm)</label>
+                  <label className="text-micro font-medium text-gray-500 block mb-0.5">Largo (cm)</label>
                   <input
                     type="number"
                     value={manualFormLargo}
@@ -1885,7 +1885,7 @@ function EditarProformaContent() {
                   />
                 </div>
                 <div>
-                  <label className="text-micro font-medium text-gray-500 block mb-1">Ancho (cm)</label>
+                  <label className="text-micro font-medium text-gray-500 block mb-0.5">Ancho (cm)</label>
                   <input
                     type="number"
                     value={manualFormAncho}
@@ -1894,7 +1894,7 @@ function EditarProformaContent() {
                   />
                 </div>
                 <div>
-                  <label className="text-micro font-medium text-gray-500 block mb-1">Alto (cm)</label>
+                  <label className="text-micro font-medium text-gray-500 block mb-0.5">Alto (cm)</label>
                   <input
                     type="number"
                     value={manualFormAlto}
@@ -1906,18 +1906,18 @@ function EditarProformaContent() {
             </div>
 
             {/* Footer con Botones */}
-            <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100 dark:border-white/10">
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-white/10">
               <button
                 type="button"
                 onClick={() => setManualEvidenceItem(null)}
-                className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 font-bold text-caption rounded-xl cursor-pointer"
+                className="px-3.5 py-1.5 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 font-bold text-caption rounded-xl cursor-pointer"
               >
                 Cancelar
               </button>
               <button
                 type="button"
                 onClick={handleSaveManualEvidence}
-                className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-caption font-extrabold shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-caption font-extrabold shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
               >
                 <Check className="w-4 h-4" />
                 <span>Guardar</span>
