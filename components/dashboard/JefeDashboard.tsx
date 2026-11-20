@@ -45,6 +45,7 @@ import { formatCurrency, cn } from '@/lib/utils';
 import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/context/toast-context';
 import { Tooltip } from '@/components/ui/tooltip';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 type DashboardTab = 'comercial' | 'ejecutivos' | 'analistas' | 'clientes';
 type JefeKpiFilterType = 'todos' | 'aprobadas' | 'revision' | 'rechazadas' | 'facturadas';
@@ -215,18 +216,19 @@ function DashboardFiltersPanel({
                     <Calendar className="w-3 h-3 text-purple-600" />
                     <span>Período</span>
                   </label>
-                  <select
+                  <CustomSelect
                     value={filters.periodo}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
-                  >
-                    <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                    <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta semana</option>
-                    <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este mes</option>
-                    <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer trimestre (Q3)</option>
-                    <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el historial</option>
-                  </select>
+                    onChange={(val) => setFilters((prev) => ({ ...prev, periodo: val as any }))}
+                    placeholder=""
+                    options={[
+                      { value: 'hoy', label: 'Hoy' },
+                      { value: 'semana', label: 'Esta semana' },
+                      { value: 'mes', label: 'Este mes' },
+                      { value: 'trimestre', label: 'Tercer trimestre (Q3)' },
+                      { value: 'ano', label: 'Año 2026' },
+                      { value: 'todos', label: 'Todo el historial' },
+                    ]}
+                  />
                 </div>
 
                 {/* 2. Ejecutivo */}
@@ -235,18 +237,15 @@ function DashboardFiltersPanel({
                     <Users className="w-3 h-3 text-purple-600" />
                     <span>Ejecutivo</span>
                   </label>
-                  <select
+                  <CustomSelect
                     value={filters.ejecutivoId}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, ejecutivoId: e.target.value }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                  >
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los ejecutivos</option>
-                    {MOCK_EXECUTIVES.map((exe) => (
-                      <option key={exe.id} value={exe.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                        {exe.nombre}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setFilters((prev) => ({ ...prev, ejecutivoId: val }))}
+                    placeholder=""
+                    options={[
+                      { value: 'todos', label: 'Todos los ejecutivos' },
+                      ...MOCK_EXECUTIVES.map((exe) => ({ value: exe.id, label: exe.nombre })),
+                    ]}
+                  />
                 </div>
 
                 {/* 3. Cliente */}
@@ -255,18 +254,15 @@ function DashboardFiltersPanel({
                     <Building2 className="w-3 h-3 text-purple-600" />
                     <span>Cliente</span>
                   </label>
-                  <select
+                  <CustomSelect
                     value={filters.clienteId || 'todos'}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                  >
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
-                    {MOCK_CLIENTS.map((cli) => (
-                      <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                        {cli.razonSocial}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setFilters((prev) => ({ ...prev, clienteId: val }))}
+                    placeholder=""
+                    options={[
+                      { value: 'todos', label: 'Todos los clientes' },
+                      ...MOCK_CLIENTS.map((cli) => ({ value: cli.id, label: cli.razonSocial })),
+                    ]}
+                  />
                 </div>
 
                 {/* 4. Estado Proforma */}
@@ -275,19 +271,20 @@ function DashboardFiltersPanel({
                     <FileText className="w-3 h-3 text-purple-600" />
                     <span>Estado proforma</span>
                   </label>
-                  <select
+                  <CustomSelect
                     value={filters.estadoProforma}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, estadoProforma: e.target.value }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                  >
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los estados</option>
-                    <option value="Pendiente" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Pendiente</option>
-                    <option value="Pendiente de validación" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Pendiente de validación V°B°</option>
-                    <option value="Aprobada por Cliente" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Aprobada por cliente</option>
-                    <option value="Facturado" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Facturado</option>
-                    <option value="Rechazada v1" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Rechazada v1</option>
-                    <option value="Derivada a KAM" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Derivada a KAM</option>
-                  </select>
+                    onChange={(val) => setFilters((prev) => ({ ...prev, estadoProforma: val }))}
+                    placeholder=""
+                    options={[
+                      { value: 'todos', label: 'Todos los estados' },
+                      { value: 'Pendiente', label: 'Pendiente' },
+                      { value: 'Pendiente de validación', label: 'Pendiente de validación V°B°' },
+                      { value: 'Aprobada por Cliente', label: 'Aprobada por cliente' },
+                      { value: 'Facturado', label: 'Facturado' },
+                      { value: 'Rechazada v1', label: 'Rechazada v1' },
+                      { value: 'Derivada a KAM', label: 'Derivada a KAM' },
+                    ]}
+                  />
                 </div>
 
                 {/* 5. Versión */}
@@ -296,16 +293,17 @@ function DashboardFiltersPanel({
                     <Layers className="w-3 h-3 text-purple-600" />
                     <span>Versión</span>
                   </label>
-                  <select
+                  <CustomSelect
                     value={filters.version}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, version: e.target.value }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
-                  >
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todas las versiones</option>
-                    <option value="v1" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v1 (Original)</option>
-                    <option value="v2" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v2 (Ajustada)</option>
-                    <option value="v3" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">v3 (Crítica)</option>
-                  </select>
+                    onChange={(val) => setFilters((prev) => ({ ...prev, version: val }))}
+                    placeholder=""
+                    options={[
+                      { value: 'todos', label: 'Todas las versiones' },
+                      { value: 'v1', label: 'v1 (Original)' },
+                      { value: 'v2', label: 'v2 (Ajustada)' },
+                      { value: 'v3', label: 'v3 (Crítica)' },
+                    ]}
+                  />
                 </div>
 
                 {/* 6. Motivo de Rechazo */}
@@ -314,16 +312,17 @@ function DashboardFiltersPanel({
                     <AlertTriangle className="w-3 h-3 text-purple-600" />
                     <span>Motivo de rechazo</span>
                   </label>
-                  <select
+                  <CustomSelect
                     value={filters.motivoRechazo}
-                    onChange={(e) => setFilters((prev) => ({ ...prev, motivoRechazo: e.target.value }))}
-                    className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                  >
-                    <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los motivos</option>
-                    <option value="Diferencia en recubitaje / medidas de SKUs" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Diferencia en recubitaje</option>
-                    <option value="Inconsistencia en Tarifas / Descuentos negociados" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Inconsistencia en tarifas</option>
-                    <option value="Discrepancia comercial no resuelta en V3" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Discrepancia en V3</option>
-                  </select>
+                    onChange={(val) => setFilters((prev) => ({ ...prev, motivoRechazo: val }))}
+                    placeholder=""
+                    options={[
+                      { value: 'todos', label: 'Todos los motivos' },
+                      { value: 'Diferencia en recubitaje / medidas de SKUs', label: 'Diferencia en recubitaje' },
+                      { value: 'Inconsistencia en Tarifas / Descuentos negociados', label: 'Inconsistencia en tarifas' },
+                      { value: 'Discrepancia comercial no resuelta en V3', label: 'Discrepancia en V3' },
+                    ]}
+                  />
                 </div>
               </div>
 
@@ -360,18 +359,19 @@ function DashboardFiltersPanel({
                   <Calendar className="w-3 h-3 text-purple-600" />
                   <span>Período</span>
                 </label>
-                <select
+                <CustomSelect
                   value={filters.periodo}
-                  onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
-                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
-                >
-                  <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                  <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta semana</option>
-                  <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este mes</option>
-                  <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer trimestre (Q3)</option>
-                  <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el historial</option>
-                </select>
+                  onChange={(val) => setFilters((prev) => ({ ...prev, periodo: val as any }))}
+                  placeholder=""
+                  options={[
+                    { value: 'hoy', label: 'Hoy' },
+                    { value: 'semana', label: 'Esta semana' },
+                    { value: 'mes', label: 'Este mes' },
+                    { value: 'trimestre', label: 'Tercer trimestre (Q3)' },
+                    { value: 'ano', label: 'Año 2026' },
+                    { value: 'todos', label: 'Todo el historial' },
+                  ]}
+                />
               </div>
 
               {/* 2. Cliente */}
@@ -380,18 +380,15 @@ function DashboardFiltersPanel({
                   <Building2 className="w-3 h-3 text-purple-600" />
                   <span>Cliente</span>
                 </label>
-                <select
+                <CustomSelect
                   value={filters.clienteId || 'todos'}
-                  onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
-                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                >
-                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
-                  {MOCK_CLIENTS.map((cli) => (
-                    <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                      {cli.razonSocial}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(val) => setFilters((prev) => ({ ...prev, clienteId: val }))}
+                  placeholder=""
+                  options={[
+                    { value: 'todos', label: 'Todos los clientes' },
+                    ...MOCK_CLIENTS.map((cli) => ({ value: cli.id, label: cli.razonSocial })),
+                  ]}
+                />
               </div>
 
               {/* 3. Ejecutivo */}
@@ -400,18 +397,15 @@ function DashboardFiltersPanel({
                   <Users className="w-3 h-3 text-purple-600" />
                   <span>Ejecutivo</span>
                 </label>
-                <select
+                <CustomSelect
                   value={filters.ejecutivoId}
-                  onChange={(e) => setFilters((prev) => ({ ...prev, ejecutivoId: e.target.value }))}
-                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                >
-                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los ejecutivos</option>
-                  {MOCK_EXECUTIVES.map((exe) => (
-                    <option key={exe.id} value={exe.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                      {exe.nombre}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(val) => setFilters((prev) => ({ ...prev, ejecutivoId: val }))}
+                  placeholder=""
+                  options={[
+                    { value: 'todos', label: 'Todos los ejecutivos' },
+                    ...MOCK_EXECUTIVES.map((exe) => ({ value: exe.id, label: exe.nombre })),
+                  ]}
+                />
               </div>
             </div>
           )}
@@ -425,18 +419,19 @@ function DashboardFiltersPanel({
                   <Calendar className="w-3 h-3 text-purple-600" />
                   <span>Período</span>
                 </label>
-                <select
+                <CustomSelect
                   value={filters.periodo}
-                  onChange={(e) => setFilters((prev) => ({ ...prev, periodo: e.target.value as any }))}
-                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer"
-                >
-                  <option value="hoy" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Hoy</option>
-                  <option value="semana" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Esta semana</option>
-                  <option value="mes" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Este mes</option>
-                  <option value="trimestre" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Tercer trimestre (Q3)</option>
-                  <option value="ano" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Año 2026</option>
-                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todo el historial</option>
-                </select>
+                  onChange={(val) => setFilters((prev) => ({ ...prev, periodo: val as any }))}
+                  placeholder=""
+                  options={[
+                    { value: 'hoy', label: 'Hoy' },
+                    { value: 'semana', label: 'Esta semana' },
+                    { value: 'mes', label: 'Este mes' },
+                    { value: 'trimestre', label: 'Tercer trimestre (Q3)' },
+                    { value: 'ano', label: 'Año 2026' },
+                    { value: 'todos', label: 'Todo el historial' },
+                  ]}
+                />
               </div>
 
               {/* 2. Cliente */}
@@ -445,18 +440,15 @@ function DashboardFiltersPanel({
                   <Building2 className="w-3 h-3 text-purple-600" />
                   <span>Cliente</span>
                 </label>
-                <select
+                <CustomSelect
                   value={filters.clienteId || 'todos'}
-                  onChange={(e) => setFilters((prev) => ({ ...prev, clienteId: e.target.value }))}
-                  className="w-full px-2.5 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border border-purple-200/80 dark:border-white/10 rounded-xl font-normal text-gray-500 dark:text-gray-400 outline-none focus:border-purple-500 shadow-2xs cursor-pointer truncate"
-                >
-                  <option value="todos" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">Todos los clientes</option>
-                  {MOCK_CLIENTS.map((cli) => (
-                    <option key={cli.id} value={cli.id} className="text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-900">
-                      {cli.razonSocial}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(val) => setFilters((prev) => ({ ...prev, clienteId: val }))}
+                  placeholder=""
+                  options={[
+                    { value: 'todos', label: 'Todos los clientes' },
+                    ...MOCK_CLIENTS.map((cli) => ({ value: cli.id, label: cli.razonSocial })),
+                  ]}
+                />
               </div>
             </div>
           )}
@@ -2527,19 +2519,20 @@ export function JefeDashboard() {
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
                   Motivo de rechazo / corrección: *
                 </label>
-                <select
+                <CustomSelect
                   value={rejectionReason}
-                  onChange={(e) => setRejectionReason(e.target.value)}
+                  onChange={(val) => setRejectionReason(val)}
+                  placeholder="-- Seleccionar motivo --"
                   required
-                  className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none cursor-pointer font-medium"
-                >
-                  <option value="Inconsistencia en tarifas / descuentos">Inconsistencia en tarifas / descuentos</option>
-                  <option value="Diferencia en recubitaje / medidas de SKUs">Diferencia en recubitaje / medidas de SKUs</option>
-                  <option value="Error en la selección de cuentas corrientes">Error en la selección de cuentas corrientes</option>
-                  <option value="Falta de respaldo de orden de compra">Falta de respaldo de orden de compra</option>
-                  <option value="Requiere derivación a negociación KAM">Requiere derivación a negociación KAM</option>
-                  <option value="Otro motivo operacional">Otro motivo operacional</option>
-                </select>
+                  options={[
+                    'Inconsistencia en tarifas / descuentos',
+                    'Diferencia en recubitaje / medidas de SKUs',
+                    'Error en la selección de cuentas corrientes',
+                    'Falta de respaldo de orden de compra',
+                    'Requiere derivación a negociación KAM',
+                    'Otro motivo operacional',
+                  ]}
+                />
               </div>
 
               {/* Observaciones Obligatorias */}

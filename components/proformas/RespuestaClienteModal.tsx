@@ -337,12 +337,12 @@ export function RespuestaClienteModal({
                                 setMotivoSelectOpen(false);
                               }}
                               className={`w-full p-2.5 text-left text-body rounded-lg transition-colors flex items-center justify-between cursor-pointer ${isSelected
-                                ? 'bg-purple-50 dark:bg-purple-500/20 text-purple-950 dark:text-purple-200 font-bold'
-                                : 'text-gray-700 dark:text-gray-300 hover:bg-purple-50/60 dark:hover:bg-white/5 font-medium'
+                                ? 'bg-purple-600 text-white font-bold shadow-xs'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-purple-600 hover:text-white font-medium'
                                 }`}
                             >
                               <span className="truncate">{motivo}</span>
-                              {isSelected && <Check className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 ml-2" />}
+                              {isSelected && <Check className="w-4 h-4 text-white shrink-0 ml-2" />}
                             </button>
                           );
                         })}

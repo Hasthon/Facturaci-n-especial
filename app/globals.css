@@ -233,6 +233,28 @@ select {
   background-size: 1rem 1rem !important;
 }
 
+/* ==========================================================================
+   BARRAS SELECTORAS DE DROPDOWNS: Color morado institucional (#7C3AED)
+   ========================================================================== */
+select option {
+  padding: 8px 12px;
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+.dark select option {
+  background-color: #1e293b;
+  color: #f1f5f9;
+}
+
+select option:checked,
+select option:hover,
+select option:focus {
+  background-color: #7C3AED !important;
+  color: #ffffff !important;
+  background: linear-gradient(0deg, #7C3AED 0%, #7C3AED 100%) !important;
+}
+
 /* Estilo global de focus para todos los inputs según el tema activo */
 input:focus,
 textarea:focus,

@@ -33,6 +33,7 @@ import {
 import { useToast } from '@/context/toast-context';
 import { MOCK_AUDIT, MOCK_CLIENTS, MOCK_PROFORMAS } from '@/lib/mock-data';
 import { AuditLog, Proforma, VersionHistoryItem } from '@/lib/types';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 import { formatCurrency } from '@/lib/utils';
 
 export default function AuditoriaPage() {
@@ -462,52 +463,55 @@ export default function AuditoriaPage() {
             </div>
 
             <div className="md:col-span-3">
-              <select
+              <CustomSelect
                 value={actionFilter}
-                onChange={(e) => setActionFilter(e.target.value)}
-                className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-200 focus:border-purple-600 outline-none cursor-pointer"
-              >
-                <option value="todos">Todas las acciones</option>
-                <option value="Aprobación">Aprobación de V°B°</option>
-                <option value="Rechazo">Rechazo de versión</option>
-                <option value="Validación Tarifa">Validación de tarifa (Pricing)</option>
-                <option value="Excepción Aprobada">Excepción aprobada</option>
-                <option value="Excepción Rechazada">Excepción rechazada</option>
-                <option value="Solicitud a KAM">Solicitud a KAM</option>
-                <option value="Sincronización Salesforce">Sincronización Salesforce</option>
-                <option value="Reasignación de Ejecutivo">Reasignación de ejecutivo</option>
-                <option value="Creación Nueva Versión">Creación de nueva versión</option>
-                <option value="Cambio Condiciones Comerciales">Cambio de condiciones comerciales</option>
-                <option value="Envío Proforma">Envío de proforma</option>
-                <option value="Facturación">Facturación</option>
-              </select>
+                onChange={(val) => setActionFilter(val)}
+                placeholder=""
+                options={[
+                  { value: 'todos', label: 'Todas las acciones' },
+                  { value: 'Aprobación', label: 'Aprobación de V°B°' },
+                  { value: 'Rechazo', label: 'Rechazo de versión' },
+                  { value: 'Validación Tarifa', label: 'Validación de tarifa (Pricing)' },
+                  { value: 'Excepción Aprobada', label: 'Excepción aprobada' },
+                  { value: 'Excepción Rechazada', label: 'Excepción rechazada' },
+                  { value: 'Solicitud a KAM', label: 'Solicitud a KAM' },
+                  { value: 'Sincronización Salesforce', label: 'Sincronización Salesforce' },
+                  { value: 'Reasignación de Ejecutivo', label: 'Reasignación de ejecutivo' },
+                  { value: 'Creación Nueva Versión', label: 'Creación de nueva versión' },
+                  { value: 'Cambio Condiciones Comerciales', label: 'Cambio de condiciones comerciales' },
+                  { value: 'Envío Proforma', label: 'Envío de proforma' },
+                  { value: 'Facturación', label: 'Facturación' },
+                ]}
+              />
             </div>
 
             <div className="md:col-span-2">
-              <select
+              <CustomSelect
                 value={roleFilter}
-                onChange={(e) => setRoleFilter(e.target.value)}
-                className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-200 focus:border-purple-600 outline-none cursor-pointer"
-              >
-                <option value="todos">Todos los roles</option>
-                <option value="Pricing">Pricing</option>
-                <option value="Jefatura">Jefatura</option>
-                <option value="Ejecutivo">Ejecutivo</option>
-                <option value="Administrador">Administrador</option>
-              </select>
+                onChange={(val) => setRoleFilter(val)}
+                placeholder=""
+                options={[
+                  { value: 'todos', label: 'Todos los roles' },
+                  { value: 'Pricing', label: 'Pricing' },
+                  { value: 'Jefatura', label: 'Jefatura' },
+                  { value: 'Ejecutivo', label: 'Ejecutivo' },
+                  { value: 'Administrador', label: 'Administrador' },
+                ]}
+              />
             </div>
 
             <div className="md:col-span-2">
-              <select
+              <CustomSelect
                 value={timeFilter}
-                onChange={(e) => setTimeFilter(e.target.value)}
-                className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-200 focus:border-purple-600 outline-none cursor-pointer"
-              >
-                <option value="todos">Todo el historial</option>
-                <option value="hoy">Hoy</option>
-                <option value="semana">Últimos 7 días</option>
-                <option value="mes">Últimos 30 días</option>
-              </select>
+                onChange={(val) => setTimeFilter(val)}
+                placeholder=""
+                options={[
+                  { value: 'todos', label: 'Todo el historial' },
+                  { value: 'hoy', label: 'Hoy' },
+                  { value: 'semana', label: 'Últimos 7 días' },
+                  { value: 'mes', label: 'Últimos 30 días' },
+                ]}
+              />
             </div>
           </div>
 

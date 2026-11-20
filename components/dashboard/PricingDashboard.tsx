@@ -47,6 +47,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/context/toast-context';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 import {
   MOCK_PROFORMAS,
   MOCK_CLIENTS,
@@ -4671,32 +4672,31 @@ export function PricingDashboard() {
                   <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1">
                     KAM destinatario:
                   </label>
-                  <select
+                  <CustomSelect
                     value={nuevoMensajeKam}
-                    onChange={(e) => setNuevoMensajeKam(e.target.value)}
-                    className="w-full p-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-medium"
-                  >
-                    {MOCK_KAMS.map((k) => (
-                      <option key={k.id} value={k.nombre}>
-                        {k.nombre} ({k.email})
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setNuevoMensajeKam(val)}
+                    placeholder="-- Seleccionar KAM --"
+                    options={MOCK_KAMS.map((k) => ({
+                      value: k.nombre,
+                      label: `${k.nombre} (${k.email})`,
+                    }))}
+                  />
                 </div>
 
                 <div>
                   <label className="font-bold text-gray-700 dark:text-gray-200 block mb-1">
                     Prioridad:
                   </label>
-                  <select
+                  <CustomSelect
                     value={nuevoMensajePrioridad}
-                    onChange={(e) => setNuevoMensajePrioridad(e.target.value as any)}
-                    className="w-full p-2 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-xs outline-none focus:border-purple-500 font-medium"
-                  >
-                    <option value="Alta">Alta (urgente cierre)</option>
-                    <option value="Media">Media</option>
-                    <option value="Baja">Baja</option>
-                  </select>
+                    onChange={(val) => setNuevoMensajePrioridad(val as any)}
+                    placeholder="-- Seleccionar prioridad --"
+                    options={[
+                      { value: 'Alta', label: 'Alta (urgente cierre)' },
+                      { value: 'Media', label: 'Media' },
+                      { value: 'Baja', label: 'Baja' },
+                    ]}
+                  />
                 </div>
               </div>
 

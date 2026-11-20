@@ -38,6 +38,7 @@ import { useToast } from '@/context/toast-context';
 import { MOCK_CLIENTS, MOCK_EXECUTIVES, MOCK_AUDIT } from '@/lib/mock-data';
 import { Client, Executive, HistorialModificacionCliente, EstadoCliente } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 type FilterTab = 'asignados' | 'sin_asignar' | 'inactivos';
 
@@ -699,19 +700,16 @@ export default function ClientesPage() {
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
                   Seleccionar ejecutivo de facturación especial: *
                 </label>
-                <select
+                <CustomSelect
                   value={targetExecutiveId}
-                  onChange={(e) => setTargetExecutiveId(e.target.value)}
+                  onChange={(val) => setTargetExecutiveId(val)}
+                  placeholder="-- Seleccionar un ejecutivo --"
                   required
-                  className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none cursor-pointer font-medium"
-                >
-                  <option value="">-- Seleccionar un ejecutivo --</option>
-                  {executives.map((exe) => (
-                    <option key={exe.id} value={exe.id}>
-                      {exe.nombre} ({exe.clientesAsignadosCount} clientes asignados • Tasa aprobación: {exe.tasaAprobacion}%)
-                    </option>
-                  ))}
-                </select>
+                  options={executives.map((exe) => ({
+                    value: exe.id,
+                    label: `${exe.nombre} (${exe.clientesAsignadosCount} clientes asignados • Tasa aprobación: ${exe.tasaAprobacion}%)`,
+                  }))}
+                />
               </div>
 
               {/* Período de asignación */}

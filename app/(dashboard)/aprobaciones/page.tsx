@@ -35,6 +35,7 @@ import { useToast } from '@/context/toast-context';
 import { MOCK_PROFORMAS, MOCK_AUDIT, MOCK_EXECUTIVES } from '@/lib/mock-data';
 import { Proforma } from '@/lib/types';
 import { formatCurrency, cn } from '@/lib/utils';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 type FilterTab = 'pendientes' | 'autorizadas' | 'devueltas';
 
@@ -1103,19 +1104,20 @@ export default function AprobacionesPage() {
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">
                   Motivo de rechazo / corrección: *
                 </label>
-                <select
+                <CustomSelect
                   value={rejectionReason}
-                  onChange={(e) => setRejectionReason(e.target.value)}
+                  onChange={(val) => setRejectionReason(val)}
+                  placeholder="-- Seleccionar motivo --"
                   required
-                  className="w-full px-3 py-2 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 outline-none cursor-pointer font-medium"
-                >
-                  <option value="Inconsistencia en tarifas / descuentos">Inconsistencia en tarifas / descuentos</option>
-                  <option value="Diferencia en recubitaje / medidas de SKUs">Diferencia en recubitaje / medidas de SKUs</option>
-                  <option value="Error en la selección de cuentas corrientes">Error en la selección de cuentas corrientes</option>
-                  <option value="Falta de respaldo de orden de compra">Falta de respaldo de orden de compra</option>
-                  <option value="Requiere derivación a negociación KAM">Requiere derivación a negociación KAM</option>
-                  <option value="Otro motivo operacional">Otro motivo operacional</option>
-                </select>
+                  options={[
+                    'Inconsistencia en tarifas / descuentos',
+                    'Diferencia en recubitaje / medidas de SKUs',
+                    'Error en la selección de cuentas corrientes',
+                    'Falta de respaldo de orden de compra',
+                    'Requiere derivación a negociación KAM',
+                    'Otro motivo operacional',
+                  ]}
+                />
               </div>
 
               {/* Observaciones Obligatorias */}
