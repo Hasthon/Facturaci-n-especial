@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronDown, Check } from 'lucide-react';
 
 export interface CustomSelectOption {
@@ -39,7 +40,20 @@ export function CustomSelect({
   size = 'sm',
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  const [coords, setCoords] = useState<{ top: number; left: number; width: number; openUp: boolean }>({
+    top: 0,
+    left: 0,
+    width: 0,
+    openUp: false,
+  });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Normalizar opciones
   const normalizedOptions: CustomSelectOption[] = options.map((opt) =>
@@ -48,10 +62,49 @@ export function CustomSelect({
 
   const selectedOption = normalizedOptions.find((opt) => opt.value === value);
 
-  // Cerrar al hacer clic fuera
+  // Calcular posición fixed para que flote por sobre cualquier modal o contenedor
+  const updateCoords = () => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const dropdownHeight = 240;
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const openUp = spaceBelow < dropdownHeight && rect.top > dropdownHeight;
+
+    const top = openUp ? rect.top - 6 : rect.bottom + 6;
+    let left = rect.left;
+    const width = Math.max(rect.width, 200);
+
+    if (left + width > window.innerWidth - 16) {
+      left = window.innerWidth - width - 16;
+    }
+    if (left < 16) {
+      left = 16;
+    }
+
+    setCoords({ top, left, width, openUp });
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    updateCoords();
+    window.addEventListener('resize', updateCoords);
+    window.addEventListener('scroll', updateCoords, true);
+    return () => {
+      window.removeEventListener('resize', updateCoords);
+      window.removeEventListener('scroll', updateCoords, true);
+    };
+  }, [isOpen]);
+
+  // Cerrar al hacer clic fuera (tanto del botón como del menú flotante)
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        popoverRef.current &&
+        !popoverRef.current.contains(target)
+      ) {
         setIsOpen(false);
       }
     }
@@ -87,87 +140,98 @@ export function CustomSelect({
         type="button"
         id={id}
         disabled={disabled}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`w-full ${paddingY} bg-white dark:bg-slate-800 border rounded-xl text-left outline-none transition-all flex items-center justify-between cursor-pointer font-medium shadow-2xs ${
-          isOpen
+        onClick={() => {
+          if (!disabled) {
+            updateCoords();
+            setIsOpen(!isOpen);
+          }
+        }}
+        className={`w-full ${paddingY} bg-white dark:bg-slate-800 border rounded-xl text-left outline-none transition-all flex items-center justify-between cursor-pointer font-medium shadow-2xs ${isOpen
             ? 'border-purple-600 ring-2 ring-purple-600/15'
             : 'border-gray-200 dark:border-white/10 hover:border-purple-400'
-        } ${disabled ? 'opacity-50 cursor-not-allowed bg-gray-100 dark:bg-slate-900' : ''} ${buttonClassName}`}
+          } ${disabled ? 'opacity-50 cursor-not-allowed bg-gray-100 dark:bg-slate-900' : ''} ${buttonClassName}`}
       >
         <span
-          className={`truncate pr-2 ${
-            selectedOption ? 'text-gray-900 dark:text-gray-100 font-semibold' : 'text-gray-400 dark:text-gray-500 font-normal'
-          }`}
+          className={`truncate pr-2 ${selectedOption ? 'text-gray-900 dark:text-gray-100 font-semibold' : 'text-gray-400 dark:text-gray-500 font-normal'
+            }`}
         >
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <ChevronDown
-          className={`w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
+          className={`w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+            }`}
         />
       </button>
 
       {/* Input oculto para formularios HTML estándar */}
       {name && <input type="hidden" name={name} value={value} required={required} />}
 
-      {/* Menú Desplegable con Barra Selectora Morada */}
-      {isOpen && (
-        <div
-          className={`absolute left-0 right-0 top-full mt-1.5 z-50 bg-white dark:bg-slate-800 border border-purple-200 dark:border-white/10 rounded-xl shadow-xl p-1.5 max-h-60 overflow-y-auto space-y-1 animate-in fade-in duration-150 ${dropdownClassName}`}
-        >
-          {placeholder && (
-            <button
-              type="button"
-              onClick={() => {
-                onChange('');
-                setIsOpen(false);
-              }}
-              className={`w-full px-3 py-2 text-left text-xs rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
-                value === ''
-                  ? 'bg-purple-600 text-white font-bold shadow-xs'
-                  : 'text-gray-500 dark:text-gray-400 hover:bg-purple-600 hover:text-white font-normal'
-              }`}
-            >
-              <span className="truncate">{placeholder}</span>
-              {value === '' && <Check className="w-4 h-4 text-white shrink-0 ml-2" />}
-            </button>
-          )}
-
-          {normalizedOptions.map((opt) => {
-            const isSelected = opt.value === value;
-            return (
+      {/* Menú Desplegable con Barra Selectora Morada — Renderizado en Portal para no cortarse con ningún modal */}
+      {isOpen &&
+        mounted &&
+        createPortal(
+          <div
+            ref={popoverRef}
+            style={{
+              position: 'fixed',
+              top: coords.top,
+              left: coords.left,
+              width: coords.width,
+              transform: coords.openUp ? 'translateY(-100%)' : 'none',
+              zIndex: 9999,
+            }}
+            className={`bg-white dark:bg-slate-800 border border-purple-200 dark:border-white/10 rounded-xl shadow-2xl p-1.5 max-h-60 overflow-y-auto space-y-1 animate-in fade-in duration-150 ${dropdownClassName}`}
+          >
+            {placeholder && (
               <button
-                key={opt.value}
                 type="button"
                 onClick={() => {
-                  onChange(opt.value);
+                  onChange('');
                   setIsOpen(false);
                 }}
-                className={`w-full px-3 py-2 text-left text-xs rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
-                  isSelected
+                className={`w-full px-3 py-2 text-left text-xs rounded-lg transition-colors flex items-center justify-between cursor-pointer ${value === ''
                     ? 'bg-purple-600 text-white font-bold shadow-xs'
-                    : 'text-gray-700 dark:text-gray-200 hover:bg-purple-600 hover:text-white font-medium'
-                }`}
+                    : 'text-gray-500 dark:text-gray-400 hover:bg-purple-600 hover:text-white font-normal'
+                  }`}
               >
-                <div className="truncate min-w-0 pr-2">
-                  <span className="block truncate">{opt.label}</span>
-                  {opt.sublabel && (
-                    <span
-                      className={`text-[10px] block truncate ${
-                        isSelected ? 'text-purple-100' : 'text-gray-400 dark:text-gray-400'
-                      }`}
-                    >
-                      {opt.sublabel}
-                    </span>
-                  )}
-                </div>
-                {isSelected && <Check className="w-4 h-4 text-white shrink-0 ml-1.5" />}
+                <span className="truncate">{placeholder}</span>
+                {value === '' && <Check className="w-4 h-4 text-white shrink-0 ml-2" />}
               </button>
-            );
-          })}
-        </div>
-      )}
+            )}
+
+            {normalizedOptions.map((opt) => {
+              const isSelected = opt.value === value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    onChange(opt.value);
+                    setIsOpen(false);
+                  }}
+                  className={`w-full px-3 py-2 text-left text-xs rounded-lg transition-colors flex items-center justify-between cursor-pointer ${isSelected
+                      ? 'bg-purple-600 text-white font-bold shadow-xs'
+                      : 'text-gray-700 dark:text-gray-200 hover:bg-purple-600 hover:text-white font-medium'
+                    }`}
+                >
+                  <div className="truncate min-w-0 pr-2">
+                    <span className="block truncate">{opt.label}</span>
+                    {opt.sublabel && (
+                      <span
+                        className={`text-[10px] block truncate ${isSelected ? 'text-purple-100' : 'text-gray-400 dark:text-gray-400'
+                          }`}
+                      >
+                        {opt.sublabel}
+                      </span>
+                    )}
+                  </div>
+                  {isSelected && <Check className="w-4 h-4 text-white shrink-0 ml-1.5" />}
+                </button>
+              );
+            })}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

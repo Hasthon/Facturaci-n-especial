@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 interface CustomDatePickerProps {
@@ -48,7 +49,19 @@ export function CustomDatePicker({
   name,
 }: CustomDatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  const [coords, setCoords] = useState<{ top: number; left: number; openUp: boolean }>({
+    top: 0,
+    left: 0,
+    openUp: false,
+  });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Parsear fecha seleccionada actual
   const parsedDate = useMemo(() => {
@@ -78,10 +91,51 @@ export function CustomDatePicker({
     }
   }, [value]);
 
-  // Cerrar al hacer clic fuera
+  // Calcular posición fixed para el portal por sobre cualquier modal o contenedor
+  const updateCoords = () => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const calendarHeight = 340;
+    const calendarWidth = 288;
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const openUp = spaceBelow < calendarHeight && rect.top > calendarHeight;
+
+    let top = openUp ? rect.top - 6 : rect.bottom + 6;
+    let left = rect.left;
+
+    // Asegurar que no se salga a la derecha de la ventana
+    if (left + calendarWidth > window.innerWidth - 16) {
+      left = window.innerWidth - calendarWidth - 16;
+    }
+    // Asegurar que no se salga a la izquierda
+    if (left < 16) {
+      left = 16;
+    }
+
+    setCoords({ top, left, openUp });
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    updateCoords();
+    window.addEventListener('resize', updateCoords);
+    window.addEventListener('scroll', updateCoords, true);
+    return () => {
+      window.removeEventListener('resize', updateCoords);
+      window.removeEventListener('scroll', updateCoords, true);
+    };
+  }, [isOpen]);
+
+  // Cerrar al hacer clic fuera (tanto del container como del popover en el portal)
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        popoverRef.current &&
+        !popoverRef.current.contains(target)
+      ) {
         setIsOpen(false);
       }
     }
@@ -233,17 +287,20 @@ export function CustomDatePicker({
         type="button"
         id={id}
         disabled={disabled}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`w-full ${paddingClasses} bg-white dark:bg-slate-800 border rounded-xl text-left outline-none transition-all flex items-center justify-between cursor-pointer font-medium shadow-2xs ${
-          isOpen
+        onClick={() => {
+          if (!disabled) {
+            updateCoords();
+            setIsOpen(!isOpen);
+          }
+        }}
+        className={`w-full ${paddingClasses} bg-white dark:bg-slate-800 border rounded-xl text-left outline-none transition-all flex items-center justify-between cursor-pointer font-medium shadow-2xs ${isOpen
             ? 'border-purple-600 ring-2 ring-purple-600/15'
             : 'border-gray-200 dark:border-white/10 hover:border-purple-400'
-        } ${disabled ? 'opacity-50 cursor-not-allowed bg-gray-100 dark:bg-slate-900' : ''}`}
+          } ${disabled ? 'opacity-50 cursor-not-allowed bg-gray-100 dark:bg-slate-900' : ''}`}
       >
         <span
-          className={`font-mono ${
-            displayValue ? 'text-gray-900 dark:text-gray-100 font-semibold' : 'text-gray-400 dark:text-gray-500 font-normal'
-          }`}
+          className={`font-mono ${displayValue ? 'text-gray-900 dark:text-gray-100 font-semibold' : 'text-gray-400 dark:text-gray-500 font-normal'
+            }`}
         >
           {displayValue || placeholder}
         </span>
@@ -253,88 +310,100 @@ export function CustomDatePicker({
       {/* Input hidden para formularios estándar */}
       {name && <input type="hidden" name={name} value={value} required={required} />}
 
-      {/* Popover del Calendario con Recuadro Morado Institucional */}
-      {isOpen && (
-        <div className="absolute left-0 top-full mt-1.5 z-50 bg-white dark:bg-slate-900 border border-purple-200/90 dark:border-white/10 rounded-2xl shadow-2xl p-4 w-72 animate-in fade-in zoom-in-95 duration-150 select-none">
-          {/* Header del Calendario: Mes y Año + Flechas */}
-          <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
-            <div className="capitalize font-bold text-sm text-gray-900 dark:text-gray-100">
-              {MONTH_NAMES[viewMonth]} de {viewYear}
-            </div>
-
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={handlePrevMonth}
-                title="Mes anterior"
-                className="p-1.5 rounded-lg text-gray-500 hover:text-purple-700 hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-colors cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={handleNextMonth}
-                title="Mes siguiente"
-                className="p-1.5 rounded-lg text-gray-500 hover:text-purple-700 hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-colors cursor-pointer"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Días de la semana */}
-          <div className="grid grid-cols-7 gap-1 pt-3 pb-1 text-center">
-            {DAY_NAMES.map((name) => (
-              <div key={name} className="text-[11px] font-bold text-gray-400 dark:text-gray-500 lowercase">
-                {name}
+      {/* Popover del Calendario — RENDERIZADO EN PORTAL DIRECTO EN DOCUMENT.BODY (Nunca se corta por el modal) */}
+      {isOpen &&
+        mounted &&
+        createPortal(
+          <div
+            ref={popoverRef}
+            style={{
+              position: 'fixed',
+              top: coords.top,
+              left: coords.left,
+              transform: coords.openUp ? 'translateY(-100%)' : 'none',
+              zIndex: 9999,
+            }}
+            className="bg-white dark:bg-slate-900 border border-purple-200/90 dark:border-white/10 rounded-2xl shadow-2xl p-4 w-72 animate-in fade-in zoom-in-95 duration-150 select-none"
+          >
+            {/* Header del Calendario: Mes y Año + Flechas */}
+            <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-white/10">
+              <div className="font-bold text-sm text-gray-900 dark:text-gray-100">
+                {MONTH_NAMES[viewMonth].charAt(0).toUpperCase() + MONTH_NAMES[viewMonth].slice(1)} de {viewYear}
               </div>
-            ))}
-          </div>
 
-          {/* Grilla de Días con Recuadro Morado en el Día Seleccionado */}
-          <div className="grid grid-cols-7 gap-1 text-center">
-            {calendarDays.map((cd, index) => {
-              return (
+              <div className="flex items-center gap-1">
                 <button
-                  key={index}
                   type="button"
-                  disabled={cd.isDisabled}
-                  onClick={() => handleSelectDay(cd.dateString, cd.isDisabled)}
-                  className={`w-8 h-8 rounded-lg text-xs font-medium flex items-center justify-center transition-all cursor-pointer ${
-                    cd.isSelected
-                      ? 'bg-purple-600 text-white font-extrabold shadow-md ring-2 ring-purple-600/30'
-                      : cd.isToday
-                      ? 'border border-purple-500 text-purple-700 dark:text-purple-400 font-bold hover:bg-purple-50 dark:hover:bg-purple-950/40'
-                      : cd.isCurrentMonth
-                      ? 'text-gray-800 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-purple-950/40 hover:text-purple-700 dark:hover:text-purple-300'
-                      : 'text-gray-300 dark:text-gray-600 hover:bg-gray-50 dark:hover:bg-white/5'
-                  } ${cd.isDisabled ? 'opacity-30 cursor-not-allowed pointer-events-none' : ''}`}
+                  onClick={handlePrevMonth}
+                  title="Mes anterior"
+                  className="p-1.5 rounded-lg text-gray-500 hover:text-purple-700 hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-colors cursor-pointer"
                 >
-                  {cd.dayNumber}
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
-              );
-            })}
-          </div>
+                <button
+                  type="button"
+                  onClick={handleNextMonth}
+                  title="Mes siguiente"
+                  className="p-1.5 rounded-lg text-gray-500 hover:text-purple-700 hover:bg-purple-50 dark:hover:bg-purple-950/40 transition-colors cursor-pointer"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
 
-          {/* Footer de Acciones Rápidas (Borrar y Hoy) */}
-          <div className="flex items-center justify-between pt-3 mt-2 border-t border-gray-100 dark:border-white/10 text-xs">
-            <button
-              type="button"
-              onClick={handleClear}
-              className="text-gray-500 hover:text-rose-600 dark:text-gray-400 dark:hover:text-rose-400 font-medium cursor-pointer transition-colors"
-            >
-              Borrar
-            </button>
-            <button
-              type="button"
-              onClick={handleSelectToday}
-              className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-bold cursor-pointer transition-colors"
-            >
-              Hoy
-            </button>
-          </div>
-        </div>
-      )}
+            {/* Días de la semana */}
+            <div className="grid grid-cols-7 gap-1 pt-3 pb-1 text-center">
+              {DAY_NAMES.map((name) => (
+                <div key={name} className="text-[11px] font-bold text-gray-400 dark:text-gray-500 lowercase">
+                  {name}
+                </div>
+              ))}
+            </div>
+
+            {/* Grilla de Días con Recuadro Morado en el Día Seleccionado */}
+            <div className="grid grid-cols-7 gap-1 text-center">
+              {calendarDays.map((cd, index) => {
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    disabled={cd.isDisabled}
+                    onClick={() => handleSelectDay(cd.dateString, cd.isDisabled)}
+                    className={`w-8 h-8 rounded-lg text-xs font-medium flex items-center justify-center transition-all cursor-pointer ${cd.isSelected
+                        ? 'bg-purple-600 text-white font-extrabold shadow-md ring-2 ring-purple-600/30'
+                        : cd.isToday
+                          ? 'border border-purple-500 text-purple-700 dark:text-purple-400 font-bold hover:bg-purple-50 dark:hover:bg-purple-950/40'
+                          : cd.isCurrentMonth
+                            ? 'text-gray-800 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-purple-950/40 hover:text-purple-700 dark:hover:text-purple-300'
+                            : 'text-gray-300 dark:text-gray-600 hover:bg-gray-50 dark:hover:bg-white/5'
+                      } ${cd.isDisabled ? 'opacity-30 cursor-not-allowed pointer-events-none' : ''}`}
+                  >
+                    {cd.dayNumber}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Footer de Acciones Rápidas (Borrar y Hoy) */}
+            <div className="flex items-center justify-between pt-3 mt-2 border-t border-gray-100 dark:border-white/10 text-xs">
+              <button
+                type="button"
+                onClick={handleClear}
+                className="text-gray-500 hover:text-rose-600 dark:text-gray-400 dark:hover:text-rose-400 font-medium cursor-pointer transition-colors"
+              >
+                Borrar
+              </button>
+              <button
+                type="button"
+                onClick={handleSelectToday}
+                className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-bold cursor-pointer transition-colors"
+              >
+                Hoy
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 }
