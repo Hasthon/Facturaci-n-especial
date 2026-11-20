@@ -1859,19 +1859,14 @@ export function JefeDashboard() {
               <div className="border-t border-gray-200 dark:border-white/10" />
 
               {/* Sección Inferior: Header de Tabla de Resultados */}
-              <div className="p-4 border-b border-gray-100 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-purple-50/30 dark:bg-purple-950/10">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                    Resultados de búsqueda y filtros dinámicos
-                  </h3>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Listado sincronizado en tiempo real según los filtros y términos de búsqueda seleccionados arriba.
-                  </p>
-                </div>
-                <span className="text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-3 py-1 rounded-xl border border-purple-200/60 dark:border-purple-800/40 w-fit shrink-0">
-                  Mostrando {dynamicFilteredProformas.length} de {periodoFilteredProformas.length} proformas
-                </span>
+              <div className="p-4 border-b border-gray-100 dark:border-white/10 bg-purple-50/30 dark:bg-purple-950/10">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                  Resultados de búsqueda y filtros dinámicos
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                  Listado sincronizado en tiempo real según los filtros y términos de búsqueda seleccionados arriba.
+                </p>
               </div>
 
               <div className="w-full overflow-x-auto">

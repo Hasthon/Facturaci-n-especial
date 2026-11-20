@@ -144,13 +144,12 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
               <div key={idx} className="relative pl-12 space-y-1.5">
                 {/* Node Icon */}
                 <div
-                  className={`absolute left-2.5 top-0 -translate-x-1/2 w-6 h-6 rounded-full border-2 flex items-center justify-center font-bold text-micro shadow-2xs ${
-                    isAprobado
-                      ? 'bg-emerald-500 border-white text-white'
-                      : isRechazado
+                  className={`absolute left-2.5 top-0 -translate-x-1/2 w-6 h-6 rounded-full border-2 flex items-center justify-center font-bold text-micro shadow-2xs ${isAprobado
+                    ? 'bg-emerald-500 border-white text-white'
+                    : isRechazado
                       ? 'bg-rose-500 border-white text-white'
                       : 'bg-purple-600 border-white text-white'
-                  }`}
+                    }`}
                 >
                   {idx + 1}
                 </div>
@@ -200,13 +199,12 @@ export function TrazabilidadModal({ proforma, onClose }: TrazabilidadModalProps)
                         <Clock className="w-3 h-3 text-purple-600" /> Fecha y hora de respuesta
                       </span>
                       <strong
-                        className={`font-mono block ${
-                          isAprobado
-                            ? 'text-emerald-700 dark:text-emerald-400'
-                            : isRechazado
+                        className={`font-mono block ${isAprobado
+                          ? 'text-emerald-700 dark:text-emerald-400'
+                          : isRechazado
                             ? 'text-rose-700 dark:text-rose-400'
                             : 'text-gray-400 italic'
-                        }`}
+                          }`}
                       >
                         {item.fechaAprobacion || item.fechaRechazo || 'Pendiente de registro'}
                       </strong>
