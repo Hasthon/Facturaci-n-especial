@@ -38,6 +38,7 @@ import { CLIENTES_STARKEN, ClienteReal, CuentaCorriente } from '@/lib/data/clien
 import { formatCurrency } from '@/lib/utils';
 import { useTheme } from '@/context/theme-context';
 import { useToast } from '@/context/toast-context';
+import { CustomDatePicker } from '@/components/ui/CustomDatePicker';
 import { pickMessage, MENSAJES_PROFORMA_CREADA } from '@/lib/messages';
 
 import { CargaValoradaSection } from '@/components/proformas/CargaValoradaSection';
@@ -886,26 +887,24 @@ export default function NuevaProformaPage() {
                       <label className="block text-eyebrow font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">
                         Fecha desde
                       </label>
-                      <input
-                        type="date"
+                      <CustomDatePicker
                         min="2026-05-20"
                         max="2026-07-20"
                         value={fechaDesde}
-                        onChange={(e) => setFechaDesde(e.target.value)}
-                        className="w-full h-10 px-3 bg-white dark:bg-slate-900/50 border border-purple-900/20 dark:border-white/10 rounded-md text-body text-gray-900 dark:text-gray-100 outline-none focus:border-purple-600"
+                        onChange={(val) => setFechaDesde(val)}
+                        size="md"
                       />
                     </div>
                     <div>
                       <label className="block text-eyebrow font-semibold text-gray-700 dark:text-gray-300 uppercase mb-1">
                         Fecha hasta
                       </label>
-                      <input
-                        type="date"
+                      <CustomDatePicker
                         min="2026-05-20"
                         max="2026-07-20"
                         value={fechaHasta}
-                        onChange={(e) => setFechaHasta(e.target.value)}
-                        className="w-full h-10 px-3 bg-white dark:bg-slate-900/50 border border-purple-900/20 dark:border-white/10 rounded-md text-body text-gray-900 dark:text-gray-100 outline-none focus:border-purple-600"
+                        onChange={(val) => setFechaHasta(val)}
+                        size="md"
                       />
                     </div>
                   </div>

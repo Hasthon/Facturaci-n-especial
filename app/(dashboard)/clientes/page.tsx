@@ -39,6 +39,7 @@ import { MOCK_CLIENTS, MOCK_EXECUTIVES, MOCK_AUDIT } from '@/lib/mock-data';
 import { Client, Executive, HistorialModificacionCliente, EstadoCliente } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
 import { CustomSelect } from '@/components/ui/CustomSelect';
+import { CustomDatePicker } from '@/components/ui/CustomDatePicker';
 
 type FilterTab = 'asignados' | 'sin_asignar' | 'inactivos';
 
@@ -724,12 +725,10 @@ export default function ClientesPage() {
                   <label className="block text-[11px] font-semibold text-gray-600 dark:text-gray-400">
                     Fecha inicial: *
                   </label>
-                  <input
-                    type="date"
+                  <CustomDatePicker
                     value={assignmentStartDate}
-                    onChange={(e) => setAssignmentStartDate(e.target.value)}
+                    onChange={(val) => setAssignmentStartDate(val)}
                     required
-                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-gray-200 dark:border-white/10 rounded-xl text-gray-800 dark:text-gray-200 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10 outline-none cursor-pointer"
                   />
                 </div>
 
@@ -757,16 +756,12 @@ export default function ClientesPage() {
                     <label className="block text-[11px] font-semibold text-gray-600 dark:text-gray-400">
                       Fecha final: *
                     </label>
-                    <input
-                      type="date"
+                    <CustomDatePicker
                       value={assignmentEndDate}
                       min={assignmentStartDate || undefined}
-                      onChange={(e) => setAssignmentEndDate(e.target.value)}
+                      onChange={(val) => setAssignmentEndDate(val)}
                       required={hasDefinedPeriod}
-                      className={`w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border rounded-xl text-gray-800 dark:text-gray-200 outline-none transition-all cursor-pointer ${isEndDateInvalid
-                          ? 'border-rose-500 focus:ring-2 focus:ring-rose-500/20'
-                          : 'border-gray-200 dark:border-white/10 focus:border-purple-600 focus:ring-2 focus:ring-purple-600/10'
-                        }`}
+                      className={isEndDateInvalid ? 'border-rose-500 ring-1 ring-rose-500' : ''}
                     />
                     {isEndDateInvalid && (
                       <p className="text-[11px] font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1 mt-1">
